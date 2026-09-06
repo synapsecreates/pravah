@@ -1,0 +1,38 @@
+# FILE: .gitignore
+# PURPOSE: Prevents build artifacts, virtual environments, database files, and secrets from Git tracking.
+# PHASE: 1 | DEPENDS ON: Git Setup | LAST TOUCHED: Phase 1
+
+# Node / Frontend dependencies & builds
+node_modules/
+dist/
+build/
+.output/
+
+# Python virtual environments & bytecode
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local databases & state
+*.db
+*.sqlite
+*.sqlite3
+pravah.db
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

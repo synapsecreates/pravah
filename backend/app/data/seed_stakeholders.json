@@ -1,0 +1,360 @@
+{
+  "districts": [
+    {
+      "id": "bilaspur",
+      "name": "Bilaspur",
+      "state": "Chhattisgarh",
+      "tier": 3,
+      "economic_focus": "Industrial & Education Hub"
+    },
+    {
+      "id": "raipur",
+      "name": "Raipur",
+      "state": "Chhattisgarh",
+      "tier": 2,
+      "economic_focus": "Capital & Technology Center"
+    },
+    {
+      "id": "bangalore",
+      "name": "Bangalore Urban",
+      "state": "Karnataka",
+      "tier": 1,
+      "economic_focus": "Tier 1 Global Tech Capital"
+    },
+    {
+      "id": "pune",
+      "name": "Pune",
+      "state": "Maharashtra",
+      "tier": 1,
+      "economic_focus": "Automotive & Enterprise Software"
+    },
+    {
+      "id": "hyderabad",
+      "name": "Hyderabad",
+      "state": "Telangana",
+      "tier": 1,
+      "economic_focus": "AI, Cloud & Biotechnology Hub"
+    }
+  ],
+  "institutions": [
+    {
+      "id": "ggv-bilaspur",
+      "name": "Guru Ghasidas Vishwavidyalaya",
+      "district_id": "bilaspur",
+      "state": "Chhattisgarh",
+      "type": "Central University"
+    },
+    {
+      "id": "nit-raipur",
+      "name": "National Institute of Technology Raipur",
+      "district_id": "raipur",
+      "state": "Chhattisgarh",
+      "type": "Institute of National Importance"
+    },
+    {
+      "id": "iiit-bangalore",
+      "name": "IIIT Bangalore",
+      "district_id": "bangalore",
+      "state": "Karnataka",
+      "type": "State University"
+    },
+    {
+      "id": "coep-pune",
+      "name": "COEP Technological University",
+      "district_id": "pune",
+      "state": "Maharashtra",
+      "type": "State University"
+    },
+    {
+      "id": "iiit-hyderabad",
+      "name": "IIIT Hyderabad",
+      "district_id": "hyderabad",
+      "state": "Telangana",
+      "type": "Autonomous University"
+    }
+  ],
+  "curriculum_courses": [
+    {
+      "id": "cs101",
+      "institution_id": "ggv-bilaspur",
+      "department": "Computer Science & Engineering",
+      "course_code": "CS301",
+      "course_name": "Object-Oriented Programming (Java/Python)",
+      "mapped_skills": [
+        "Python",
+        "Java"
+      ],
+      "status": "ALIGNED",
+      "recommended_action": "Modernize with design patterns and asynchronous programming."
+    },
+    {
+      "id": "cs102",
+      "institution_id": "ggv-bilaspur",
+      "department": "Computer Science & Engineering",
+      "course_code": "CS302",
+      "course_name": "Database Management Systems",
+      "mapped_skills": [
+        "SQL & Databases",
+        "PostgreSQL"
+      ],
+      "status": "ALIGNED",
+      "recommended_action": "Incorporate NoSQL databases and query indexing strategies."
+    },
+    {
+      "id": "cs103",
+      "institution_id": "ggv-bilaspur",
+      "department": "Computer Science & Engineering",
+      "course_code": "CS401",
+      "course_name": "Web Technologies & Application Design",
+      "mapped_skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React"
+      ],
+      "status": "ALIGNED",
+      "recommended_action": "Upgrade from jQuery to React/TypeScript and REST APIs."
+    },
+    {
+      "id": "cs104",
+      "institution_id": "ggv-bilaspur",
+      "department": "Computer Science & Engineering",
+      "course_code": "CS405",
+      "course_name": "Microprocessor Architecture & 8085 Assembly",
+      "mapped_skills": [
+        "Assembly",
+        "Microprocessors"
+      ],
+      "status": "OBSOLETE",
+      "recommended_action": "Replace 8085 legacy labs with ARM Cortex, RISC-V, or Embedded C/Linux systems."
+    },
+    {
+      "id": "cs105",
+      "institution_id": "ggv-bilaspur",
+      "department": "Computer Science & Engineering",
+      "course_code": "CS502",
+      "course_name": "Server Administration & Linux Shell",
+      "mapped_skills": [
+        "Linux Shell & Scripting",
+        "Git & Version Control",
+        "Docker"
+      ],
+      "status": "AT RISK",
+      "recommended_action": "Expand basic bash scripting to containerization with Docker and CI/CD fundamentals."
+    },
+    {
+      "id": "cs106",
+      "institution_id": "ggv-bilaspur",
+      "department": "Computer Science & Engineering",
+      "course_code": "CS504",
+      "course_name": "Introduction to Artificial Intelligence",
+      "mapped_skills": [
+        "Machine Learning",
+        "Python"
+      ],
+      "status": "AT RISK",
+      "recommended_action": "Modernize syllabus with PyTorch, neural networks, and prompt engineering foundations."
+    },
+    {
+      "id": "cs107",
+      "institution_id": "ggv-bilaspur",
+      "department": "Computer Science & Engineering",
+      "course_code": "CS603",
+      "course_name": "Distributed Systems & Cloud Computing",
+      "mapped_skills": [
+        "AWS Cloud",
+        "Docker",
+        "REST APIs"
+      ],
+      "status": "ALIGNED",
+      "recommended_action": "Incorporate hands-on cloud credits and microservice deployment labs."
+    }
+  ],
+  "district_demand": {
+    "bilaspur": {
+      "Python": {
+        "demand_level": 8.0,
+        "hiring_volume": 140,
+        "growth_yoy": "+14%"
+      },
+      "SQL & Databases": {
+        "demand_level": 8.5,
+        "hiring_volume": 180,
+        "growth_yoy": "+18%"
+      },
+      "React": {
+        "demand_level": 8.2,
+        "hiring_volume": 160,
+        "growth_yoy": "+22%"
+      },
+      "JavaScript": {
+        "demand_level": 8.5,
+        "hiring_volume": 190,
+        "growth_yoy": "+15%"
+      },
+      "Machine Learning": {
+        "demand_level": 7.5,
+        "hiring_volume": 90,
+        "growth_yoy": "+35%"
+      },
+      "AWS Cloud": {
+        "demand_level": 8.0,
+        "hiring_volume": 110,
+        "growth_yoy": "+28%"
+      },
+      "Docker": {
+        "demand_level": 7.2,
+        "hiring_volume": 85,
+        "growth_yoy": "+25%"
+      }
+    },
+    "raipur": {
+      "Python": {
+        "demand_level": 8.8,
+        "hiring_volume": 280,
+        "growth_yoy": "+24%"
+      },
+      "SQL & Databases": {
+        "demand_level": 9.0,
+        "hiring_volume": 320,
+        "growth_yoy": "+20%"
+      },
+      "React": {
+        "demand_level": 8.9,
+        "hiring_volume": 290,
+        "growth_yoy": "+30%"
+      },
+      "JavaScript": {
+        "demand_level": 9.1,
+        "hiring_volume": 340,
+        "growth_yoy": "+22%"
+      },
+      "Machine Learning": {
+        "demand_level": 8.4,
+        "hiring_volume": 180,
+        "growth_yoy": "+42%"
+      },
+      "AWS Cloud": {
+        "demand_level": 8.6,
+        "hiring_volume": 220,
+        "growth_yoy": "+38%"
+      },
+      "Docker": {
+        "demand_level": 8.0,
+        "hiring_volume": 160,
+        "growth_yoy": "+34%"
+      }
+    },
+    "bangalore": {
+      "Python": {
+        "demand_level": 9.8,
+        "hiring_volume": 3200,
+        "growth_yoy": "+45%"
+      },
+      "SQL & Databases": {
+        "demand_level": 9.5,
+        "hiring_volume": 2900,
+        "growth_yoy": "+30%"
+      },
+      "React": {
+        "demand_level": 9.6,
+        "hiring_volume": 3100,
+        "growth_yoy": "+38%"
+      },
+      "JavaScript": {
+        "demand_level": 9.5,
+        "hiring_volume": 3300,
+        "growth_yoy": "+28%"
+      },
+      "Machine Learning": {
+        "demand_level": 9.7,
+        "hiring_volume": 2400,
+        "growth_yoy": "+65%"
+      },
+      "AWS Cloud": {
+        "demand_level": 9.6,
+        "hiring_volume": 2700,
+        "growth_yoy": "+52%"
+      },
+      "Docker": {
+        "demand_level": 9.2,
+        "hiring_volume": 2100,
+        "growth_yoy": "+48%"
+      }
+    },
+    "pune": {
+      "Python": {
+        "demand_level": 9.2,
+        "hiring_volume": 1800,
+        "growth_yoy": "+32%"
+      },
+      "SQL & Databases": {
+        "demand_level": 9.1,
+        "hiring_volume": 1950,
+        "growth_yoy": "+25%"
+      },
+      "React": {
+        "demand_level": 9.0,
+        "hiring_volume": 1700,
+        "growth_yoy": "+28%"
+      },
+      "JavaScript": {
+        "demand_level": 9.0,
+        "hiring_volume": 1850,
+        "growth_yoy": "+24%"
+      },
+      "Machine Learning": {
+        "demand_level": 8.8,
+        "hiring_volume": 1200,
+        "growth_yoy": "+40%"
+      },
+      "AWS Cloud": {
+        "demand_level": 9.0,
+        "hiring_volume": 1400,
+        "growth_yoy": "+36%"
+      },
+      "Docker": {
+        "demand_level": 8.7,
+        "hiring_volume": 1150,
+        "growth_yoy": "+30%"
+      }
+    },
+    "hyderabad": {
+      "Python": {
+        "demand_level": 9.5,
+        "hiring_volume": 2600,
+        "growth_yoy": "+40%"
+      },
+      "SQL & Databases": {
+        "demand_level": 9.3,
+        "hiring_volume": 2400,
+        "growth_yoy": "+28%"
+      },
+      "React": {
+        "demand_level": 9.4,
+        "hiring_volume": 2500,
+        "growth_yoy": "+35%"
+      },
+      "JavaScript": {
+        "demand_level": 9.3,
+        "hiring_volume": 2550,
+        "growth_yoy": "+26%"
+      },
+      "Machine Learning": {
+        "demand_level": 9.5,
+        "hiring_volume": 2100,
+        "growth_yoy": "+58%"
+      },
+      "AWS Cloud": {
+        "demand_level": 9.4,
+        "hiring_volume": 2300,
+        "growth_yoy": "+48%"
+      },
+      "Docker": {
+        "demand_level": 9.0,
+        "hiring_volume": 1800,
+        "growth_yoy": "+42%"
+      }
+    }
+  }
+}

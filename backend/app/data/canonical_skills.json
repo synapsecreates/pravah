@@ -1,0 +1,574 @@
+[
+  {
+    "id": "python",
+    "name": "Python",
+    "category": "Programming",
+    "aliases": [
+      "py",
+      "python3"
+    ],
+    "default_importance": 9.0,
+    "industry_demand": 9.5
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "category": "Programming",
+    "aliases": [
+      "js",
+      "es6",
+      "vanilla js"
+    ],
+    "default_importance": 9.0,
+    "industry_demand": 9.2
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "category": "Programming",
+    "aliases": [
+      "ts"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.0
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "category": "Programming",
+    "aliases": [
+      "core java",
+      "java8",
+      "jvm"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 8.8
+  },
+  {
+    "id": "cplusplus",
+    "name": "C++",
+    "category": "Programming",
+    "aliases": [
+      "cpp",
+      "c/c++"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.2
+  },
+  {
+    "id": "csharp",
+    "name": "C#",
+    "category": "Programming",
+    "aliases": [
+      "c#/.net",
+      "csharp",
+      "dotnet"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.0
+  },
+  {
+    "id": "go",
+    "name": "Go",
+    "category": "Programming",
+    "aliases": [
+      "golang"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 8.6
+  },
+  {
+    "id": "rust",
+    "name": "Rust",
+    "category": "Programming",
+    "aliases": [
+      "rustlang"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.4
+  },
+  {
+    "id": "php",
+    "name": "PHP",
+    "category": "Programming",
+    "aliases": [
+      "php8"
+    ],
+    "default_importance": 6.5,
+    "industry_demand": 6.8
+  },
+  {
+    "id": "ruby",
+    "name": "Ruby",
+    "category": "Programming",
+    "aliases": [
+      "ruby on rails",
+      "rails"
+    ],
+    "default_importance": 6.5,
+    "industry_demand": 6.5
+  },
+  {
+    "id": "html",
+    "name": "HTML",
+    "category": "Core Web",
+    "aliases": [
+      "html5",
+      "semantic html"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.5
+  },
+  {
+    "id": "css",
+    "name": "CSS",
+    "category": "Core Web",
+    "aliases": [
+      "css3",
+      "sass",
+      "scss"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.5
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "category": "Frontend",
+    "aliases": [
+      "reactjs",
+      "react.js"
+    ],
+    "default_importance": 9.0,
+    "industry_demand": 9.4
+  },
+  {
+    "id": "nextjs",
+    "name": "Next.js",
+    "category": "Frontend",
+    "aliases": [
+      "next",
+      "next js"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 8.9
+  },
+  {
+    "id": "angular",
+    "name": "Angular",
+    "category": "Frontend",
+    "aliases": [
+      "angularjs",
+      "ng"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 7.8
+  },
+  {
+    "id": "vue",
+    "name": "Vue.js",
+    "category": "Frontend",
+    "aliases": [
+      "vue",
+      "vuejs"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 7.9
+  },
+  {
+    "id": "tailwind",
+    "name": "Tailwind CSS",
+    "category": "Frontend",
+    "aliases": [
+      "tailwindcss",
+      "tailwind"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.5
+  },
+  {
+    "id": "node",
+    "name": "Node.js",
+    "category": "Backend",
+    "aliases": [
+      "nodejs",
+      "node"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.0
+  },
+  {
+    "id": "express",
+    "name": "Express.js",
+    "category": "Backend",
+    "aliases": [
+      "express",
+      "expressjs"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.2
+  },
+  {
+    "id": "django",
+    "name": "Django",
+    "category": "Backend",
+    "aliases": [
+      "django rest framework",
+      "drf"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.3
+  },
+  {
+    "id": "fastapi",
+    "name": "FastAPI",
+    "category": "Backend",
+    "aliases": [
+      "fast-api",
+      "fastapi python"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 8.8
+  },
+  {
+    "id": "springboot",
+    "name": "Spring Boot",
+    "category": "Backend",
+    "aliases": [
+      "spring",
+      "spring framework"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 8.7
+  },
+  {
+    "id": "rest_apis",
+    "name": "REST APIs",
+    "category": "Architecture",
+    "aliases": [
+      "restful",
+      "rest api",
+      "rest"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.0
+  },
+  {
+    "id": "graphql",
+    "name": "GraphQL",
+    "category": "Architecture",
+    "aliases": [
+      "gql",
+      "apollo"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.0
+  },
+  {
+    "id": "microservices",
+    "name": "Microservices",
+    "category": "Architecture",
+    "aliases": [
+      "microservice architecture"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 8.8
+  },
+  {
+    "id": "sql",
+    "name": "SQL & Databases",
+    "category": "Databases",
+    "aliases": [
+      "sql",
+      "rdbms",
+      "relational database"
+    ],
+    "default_importance": 9.0,
+    "industry_demand": 9.2
+  },
+  {
+    "id": "postgresql",
+    "name": "PostgreSQL",
+    "category": "Databases",
+    "aliases": [
+      "postgres",
+      "pgsql"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.0
+  },
+  {
+    "id": "mysql",
+    "name": "MySQL",
+    "category": "Databases",
+    "aliases": [
+      "mariadb"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.4
+  },
+  {
+    "id": "mongodb",
+    "name": "MongoDB",
+    "category": "Databases",
+    "aliases": [
+      "mongo",
+      "nosql"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.3
+  },
+  {
+    "id": "redis",
+    "name": "Redis",
+    "category": "Databases",
+    "aliases": [
+      "redis cache",
+      "in-memory db"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.4
+  },
+  {
+    "id": "git",
+    "name": "Git & Version Control",
+    "category": "DevOps",
+    "aliases": [
+      "git",
+      "github",
+      "gitlab"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 9.2
+  },
+  {
+    "id": "docker",
+    "name": "Docker",
+    "category": "DevOps",
+    "aliases": [
+      "containerization",
+      "containers",
+      "docker-compose"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.2
+  },
+  {
+    "id": "kubernetes",
+    "name": "Kubernetes",
+    "category": "DevOps",
+    "aliases": [
+      "k8s",
+      "k8",
+      "kube"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.1
+  },
+  {
+    "id": "linux",
+    "name": "Linux Shell & Scripting",
+    "category": "Operating Systems",
+    "aliases": [
+      "linux",
+      "bash",
+      "shell scripting",
+      "unix"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.7
+  },
+  {
+    "id": "ci_cd",
+    "name": "CI/CD Pipelines",
+    "category": "DevOps",
+    "aliases": [
+      "cicd",
+      "continuous integration",
+      "github actions",
+      "jenkins"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.9
+  },
+  {
+    "id": "aws",
+    "name": "AWS Cloud",
+    "category": "Cloud Infrastructure",
+    "aliases": [
+      "aws",
+      "amazon web services",
+      "ec2",
+      "s3"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.3
+  },
+  {
+    "id": "azure",
+    "name": "Microsoft Azure",
+    "category": "Cloud Infrastructure",
+    "aliases": [
+      "azure",
+      "azure cloud"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.6
+  },
+  {
+    "id": "gcp",
+    "name": "Google Cloud Platform",
+    "category": "Cloud Infrastructure",
+    "aliases": [
+      "gcp",
+      "google cloud"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.5
+  },
+  {
+    "id": "terraform",
+    "name": "Terraform (IaC)",
+    "category": "DevOps",
+    "aliases": [
+      "terraform",
+      "iac",
+      "infrastructure as code"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.7
+  },
+  {
+    "id": "machine_learning",
+    "name": "Machine Learning",
+    "category": "AI & ML",
+    "aliases": [
+      "ml",
+      "scikit-learn",
+      "sklearn"
+    ],
+    "default_importance": 9.0,
+    "industry_demand": 9.6
+  },
+  {
+    "id": "deep_learning",
+    "name": "Deep Learning",
+    "category": "AI & ML",
+    "aliases": [
+      "neural networks",
+      "dl",
+      "ann",
+      "cnn"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.2
+  },
+  {
+    "id": "pytorch",
+    "name": "PyTorch",
+    "category": "AI & ML",
+    "aliases": [
+      "torch"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.3
+  },
+  {
+    "id": "tensorflow",
+    "name": "TensorFlow",
+    "category": "AI & ML",
+    "aliases": [
+      "tf",
+      "keras"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.8
+  },
+  {
+    "id": "nlp",
+    "name": "Natural Language Processing",
+    "category": "AI & ML",
+    "aliases": [
+      "nlp",
+      "transformers",
+      "llm",
+      "huggingface"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.4
+  },
+  {
+    "id": "data_analysis",
+    "name": "Data Analysis & Pandas",
+    "category": "Analytics",
+    "aliases": [
+      "pandas",
+      "numpy",
+      "eda"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.0
+  },
+  {
+    "id": "data_visualization",
+    "name": "Data Visualization",
+    "category": "Analytics",
+    "aliases": [
+      "power bi",
+      "tableau",
+      "matplotlib",
+      "seaborn"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.5
+  },
+  {
+    "id": "system_design",
+    "name": "System Design & Architecture",
+    "category": "Architecture",
+    "aliases": [
+      "hld",
+      "lld",
+      "software architecture"
+    ],
+    "default_importance": 8.5,
+    "industry_demand": 9.1
+  },
+  {
+    "id": "cybersecurity",
+    "name": "Cybersecurity Fundamentals",
+    "category": "Security",
+    "aliases": [
+      "infosec",
+      "network security",
+      "owasp"
+    ],
+    "default_importance": 8.0,
+    "industry_demand": 8.9
+  },
+  {
+    "id": "cryptography",
+    "name": "Cryptography & PKI",
+    "category": "Security",
+    "aliases": [
+      "crypto",
+      "ssl/tls",
+      "encryption"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.1
+  },
+  {
+    "id": "unit_testing",
+    "name": "Testing & QA Automation",
+    "category": "Testing",
+    "aliases": [
+      "pytest",
+      "jest",
+      "unit test",
+      "selenium"
+    ],
+    "default_importance": 7.5,
+    "industry_demand": 8.4
+  }
+]
