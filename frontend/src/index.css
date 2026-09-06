@@ -1,111 +1,198 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+/* FILE: src/index.css */
+/* PURPOSE: Unified design tokens, 3-theme CSS variables, 3D perspective stage, and Barba transition classes. */
+/* PHASE: 4 | DEPENDS ON: Design tokens (§6) | LAST TOUCHED: Phase 4 */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+/* 1. Theme Variables Definition */
+:root,
+[data-theme="midnight"] {
+  --bg-base: #0B1020;
+  --bg-surface: #131A30;
+  --bg-sunken: #0A0E1C;
+  --border-subtle: #232C48;
+  --border-strong: #354063;
+  --text-primary: #F1F5F9;
+  --text-secondary: #B6C0D4;
+  --text-muted: #6B7690;
+  --brand-600: #60A5FA;
+  --brand-700: #3B82F6;
+  --brand-50: rgba(30, 58, 138, 0.25);
+  --violet-accent: #A78BFA;
+  --gradient-brand: linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%);
+  --success: #4ADE80;
+  --success-bg: rgba(20, 83, 45, 0.35);
+  --warning: #FBBF24;
+  --warning-bg: rgba(120, 53, 15, 0.35);
+  --danger: #F87171;
+  --danger-bg: rgba(127, 29, 29, 0.35);
+  --info: #60A5FA;
+  --info-bg: rgba(30, 58, 138, 0.35);
+  --shadow-elevation: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-hover: 0 16px 36px rgba(0, 0, 0, 0.65);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+[data-theme="paper"] {
+  --bg-base: #F6F7FB;
+  --bg-surface: #FFFFFF;
+  --bg-sunken: #ECEEF4;
+  --border-subtle: #E3E6EE;
+  --border-strong: #C9CFDD;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #8A94A8;
+  --brand-600: #2563EB;
+  --brand-700: #1D4ED8;
+  --brand-50: #EFF6FF;
+  --violet-accent: #7C3AED;
+  --gradient-brand: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  --success: #15803D;
+  --success-bg: #F0FDF4;
+  --warning: #B45309;
+  --warning-bg: #FFFBEB;
+  --danger: #B91C1C;
+  --danger-bg: #FEF2F2;
+  --info: #1D4ED8;
+  --info-bg: #EFF6FF;
+  --shadow-elevation: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-hover: 0 16px 32px rgba(15, 23, 42, 0.14);
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+[data-theme="parchment"] {
+  --bg-base: #FBF7EE;
+  --bg-surface: #F4ECE0;
+  --bg-sunken: #EBE0CF;
+  --border-subtle: #D8C7AD;
+  --border-strong: #C2AD8F;
+  --text-primary: #2D251E;
+  --text-secondary: #4A3D31;
+  --text-muted: #736250;
+  --brand-600: #B45309;
+  --brand-700: #92400E;
+  --brand-50: #FEF3C7;
+  --violet-accent: #78350F;
+  --gradient-brand: linear-gradient(135deg, #B45309 0%, #78350F 100%);
+  --success: #2D6A4F;
+  --success-bg: #E8F4EC;
+  --warning: #B45309;
+  --warning-bg: #FFFBEB;
+  --danger: #991B1B;
+  --danger-bg: #FEF2F2;
+  --info: #92400E;
+  --info-bg: #FEF3C7;
+  --shadow-elevation: 0 8px 24px rgba(45, 37, 30, 0.08);
+  --shadow-hover: 0 16px 32px rgba(45, 37, 30, 0.16);
+}
+
+/* 2. Global Reset & Typography */
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  min-height: 100vh;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+/* 3. 3D Perspective Stage Architecture (Anti-Box Layout) */
+.stage-perspective {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.perspective-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: var(--shadow-elevation);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s ease,
+              border-color 0.22s ease;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+.perspective-card:hover {
+  transform: translateY(-4px) rotateX(1.5deg) rotateY(-0.5deg);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-strong);
+}
+
+/* 4. Tactile Micro-Interactions */
+.interactive-btn {
+  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.12s ease,
+              background-color 0.15s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.interactive-btn:active {
+  transform: scale(0.98);
+}
+
+/* 5. Barba.js Page Transition Classes */
+/* Outgoing view: 220ms ease-in */
+.barba-leave {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 220ms ease-in, transform 220ms ease-in;
+}
+
+.barba-leave-active {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+/* Incoming view: 280ms ease-out */
+.barba-enter {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 280ms ease-out, transform 280ms ease-out;
+}
+
+.barba-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger cascade children: 40ms stagger reveal */
+.stagger-item {
+  animation: staggerFadeIn 280ms ease-out forwards;
+}
+
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+/* 6. Mobile 360px Viewport Responsiveness */
+@media (max-width: 640px) {
+  .hero-headline {
+    font-size: 26px !important;
   }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  .stakeholder-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .stage-padding {
+    padding: 24px 16px !important;
+  }
 }
