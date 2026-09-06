@@ -1,122 +1,92 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+// FILE: src/App.tsx
+// PURPOSE: Root application entry rendering top judge persona switcher and clean baseline stage.
+// PHASE: 3 | DEPENDS ON: PersonaSwitcher.tsx | LAST TOUCHED: Phase 3
 
+import { useState } from "react";
+import { PersonaSwitcher, type PersonaType } from "./components/PersonaSwitcher";
+import "./App.css";
+
+// Root application component.
+// Houses the top multi-persona evaluation switcher and status indicator.
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPersona, setCurrentPersona] = useState<PersonaType>("student");
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#0b1020", color: "#f1f5f9" }}>
+      {/* Top Persona Switcher for Judges */}
+      <PersonaSwitcher
+        onPersonaChange={(persona) => {
+          setCurrentPersona(persona);
+        }}
+      />
+
+      {/* Main Stage Placeholder (Phase 3 Baseline) */}
+      <main
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "40px 20px",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "680px",
+            padding: "36px",
+            borderRadius: "16px",
+            backgroundColor: "#131a30",
+            border: "1px solid #232c48",
+            boxShadow: "0 8px 24px rgba(0, 0, 0, 0.45)",
+          }}
         >
-          Count is {count}
-        </button>
-      </section>
+          <div
+            style={{
+              display: "inline-block",
+              padding: "6px 14px",
+              borderRadius: "20px",
+              backgroundColor: "#1e3a8a33",
+              color: "#60a5fa",
+              fontSize: "13px",
+              fontWeight: 600,
+              marginBottom: "16px",
+            }}
+          >
+            PHASE 3 ACTIVE: AUTH & PERSISTENCE
+          </div>
 
-      <div className="ticks"></div>
+          <h1 style={{ fontSize: "28px", fontWeight: 700, margin: "0 0 12px 0", letterSpacing: "-0.5px" }}>
+            Pravah Multi-Stakeholder Intelligence
+          </h1>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+          <p style={{ color: "#b6c0d4", lineHeight: 1.6, fontSize: "15px", margin: "0 0 24px 0" }}>
+            Current Active Security Context:{" "}
+            <strong style={{ color: "#60a5fa", textTransform: "capitalize" }}>
+              {currentPersona}
+            </strong>
+            <br />
+            JWT tokens, database tables, and scoped permissions are active.
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "12px",
+              fontSize: "13px",
+              color: "#8a94a8",
+            }}
+          >
+            <span>• Student Profile DB Active</span>
+            <span>• DPDP Privacy Boundary Active</span>
+            <span>• Employer Blind Sourcing Active</span>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;

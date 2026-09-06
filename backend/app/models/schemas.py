@@ -83,3 +83,76 @@ class InstitutionResponse(BaseModel):
     district_id: str = Field(..., description="Associated district identifier")
     state: str = Field(..., description="State location")
     type: str = Field(default="University", description="Institution type")
+
+
+# Schema for multi-persona login requests.
+# Supports student, institution, government, and employer credentials or demo bypass.
+class LoginRequest(BaseModel):
+    persona: str = Field(..., description="User role: 'student', 'institution', 'government', or 'employer'")
+    identifier: str = Field(..., description="Email, Roll number, AISHE code, or DSDO officer code")
+    credential: str = Field(..., description="Password, OTP, or 'demo' for instant sandbox access")
+
+
+# Authenticated session token response.
+# Delivers JWT access token, assigned role, and scoped permission list.
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    role: str
+    user_id: str
+    email: str
+    permissions: List[str]
+
+
+# Payload for creating or updating a student profile.
+# Encapsulates academic foundations, region, and continuous skill proficiencies.
+class StudentProfileCreate(BaseModel):
+    full_name: str = Field(..., min_length=2, description="Student full name")
+    email: Optional[str] = Field(default=None, description="Optional contact email")
+    institution_name: str = Field(..., description="College or university name")
+    region: str = Field(..., description="Region of India (e.g. 'Central India')")
+    department: str = Field(..., description="Academic department (e.g. 'Computer Science & Engineering')")
+    degree_field: str = Field(..., description="Degree field (e.g. 'Computer Science')")
+    current_year_of_study: int = Field(default=3, ge=1, le=5, description="Year of study (1-5)")
+    graduation_year: int = Field(default=2026, ge=2024, le=2030, description="Expected graduation year")
+    career_intent: str = Field(default="Campus Placement", description="Career intent")
+    target_work_mobility: str = Field(default="Pan-India", description="Work location preference")
+    target_role_slug: str = Field(default="fullstack-developer", description="Target occupational role slug")
+    skills: Dict[str, int] = Field(default_factory=dict, description="Skill proficiency dictionary (0-100)")
+    is_demo_account: bool = Field(default=False, description="True if demo student profile")
+
+
+# Comprehensive student profile response returned by persistence layer.
+# Includes database timestamps and unique candidate identifier.
+class StudentProfileResponse(BaseModel):
+    id: str
+    user_id: Optional[str] = None
+    full_name: str
+    email: Optional[str] = None
+    institution_name: str
+    region: str
+    department: str
+    degree_field: str
+    current_year_of_study: int
+    graduation_year: int
+    career_intent: str
+    target_work_mobility: str
+    target_role_slug: str
+    skills: Dict[str, int]
+    is_demo_account: bool
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
+
+
+# Sanitized candidate record for employer and institution cohort views.
+# Enforces DPDP Act compliance: student name is masked unless an invitation is accepted.
+class CohortStudentSummary(BaseModel):
+    id: str
+    display_name: str = Field(..., description="Masked candidate pseudonym or real name if invited")
+    department: str
+    degree_field: str
+    graduation_year: int
+    institution_name: str
+    top_skills: List[str]
+    is_invited: bool = False
+

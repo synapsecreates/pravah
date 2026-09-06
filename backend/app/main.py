@@ -1,19 +1,31 @@
 # FILE: backend/app/main.py
-# PURPOSE: Root FastAPI application initialization and entrypoint for Pravah.
-# PHASE: 1 | DEPENDS ON: fastapi, config.py, router.py | LAST TOUCHED: Phase 1
+# PURPOSE: Root FastAPI application initialization and database table setup for Pravah.
+# PHASE: 3 | DEPENDS ON: fastapi, config.py, router.py, database/session.py | LAST TOUCHED: Phase 3
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.router import api_router
 from app.core.config import settings
+from app.database.session import init_db
 
-# Initialize FastAPI application instance with OpenAPI metadata
+
+# Application lifespan context manager initializing database tables on startup.
+# Guarantees all tables exist before accepting client requests.
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
+# Initialize FastAPI application instance with OpenAPI metadata and lifespan
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     docs_url=f"{settings.API_V1_STR}/docs",
     redoc_url=f"{settings.API_V1_STR}/redoc",
+    lifespan=lifespan,
 )
 
 # Configure Cross-Origin Resource Sharing (CORS) for frontend client
