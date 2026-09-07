@@ -373,4 +373,103 @@ class PlacementEligibilityResponse(BaseModel):
     top_placement_roles: List[Dict[str, str]]
 
 
+# =============================================================================
+# PHASE 7 SCHEMAS: REGIONAL PLANNING (DSDO) & INDUSTRY TALENT SEARCH
+# =============================================================================
+
+# Schema for an individual economic sector deficit item in a district.
+class SectorDeficitItem(BaseModel):
+    sector_id: str
+    sector_name: str
+    demand_volume: int
+    supply_volume: int
+    net_balance: int  # demand - supply
+    urgency_status: str  # 'HIGH DEFICIT', 'MODERATE DEFICIT', 'BALANCED'
+    yoy_growth: str
+    critical_bottleneck_skills: List[str]
+    top_employers: List[str]
+
+
+# Response schema for district supply vs demand deficit matrix.
+class DistrictDeficitMatrixResponse(BaseModel):
+    district_id: str
+    district_name: str
+    state: str
+    tier: int
+    economic_focus: str
+    total_demand: int
+    total_supply: int
+    net_regional_deficit: int
+    critical_sectors_count: int
+    sectors: List[SectorDeficitItem]
+
+
+# Schema for training subsidy allocation recommendation item.
+class SubsidyRecommendationItem(BaseModel):
+    id: str
+    sector_name: str
+    target_program: str
+    partner_institutions: List[str]
+    recommended_subsidy_amount: str
+    projected_trainees: int
+    priority_score: float
+    projected_roi: str
+
+
+# Response schema for district subsidy allocation recommendations.
+class DistrictSubsidyResponse(BaseModel):
+    district_id: str
+    total_budget_recommended: str
+    recommendations: List[SubsidyRecommendationItem]
+
+
+# Schema for an extracted skill item from unstructured job descriptions.
+class ExtractedSkillItem(BaseModel):
+    skill_name: str
+    category: str
+    tier: str  # 'critical', 'core', 'supporting', 'peripheral'
+    required_level: int
+    weight: float
+
+
+# Request schema for job description extraction.
+class JDExtractRequest(BaseModel):
+    raw_text: str = Field(..., min_length=10, description="Raw job description text pasted by employer")
+
+
+# Response schema for job description extraction.
+class JDExtractResponse(BaseModel):
+    job_title: str
+    detected_domain: str
+    experience_band: str
+    total_skills_extracted: int
+    extracted_skills: List[ExtractedSkillItem]
+    model_used: str
+    summary: str
+
+
+# Schema for blind, privacy-preserving candidate profile.
+class TalentCandidateItem(BaseModel):
+    candidate_id: str
+    degree_field: str
+    institution_name: str
+    graduation_year: int
+    target_role: str
+    match_score: float
+    national_percentile: float
+    tier_classification: str
+    top_verified_skills: Dict[str, int]
+    mobility: str
+    is_verified: bool = True
+
+
+# Response schema for vetted talent cohort search.
+class TalentSearchResponse(BaseModel):
+    total_matching_candidates: int
+    role_filter: Optional[str] = None
+    min_score_filter: float
+    candidates: List[TalentCandidateItem]
+
+
+
 

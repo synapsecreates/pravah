@@ -10,6 +10,8 @@ import { LandingPage } from "./pages/LandingPage";
 import { OnboardingPage } from "./pages/OnboardingPage";
 import { AnalysisPortal } from "./pages/AnalysisPortal";
 import { CollegePortal } from "./pages/CollegePortal";
+import { DistrictPortal } from "./pages/DistrictPortal";
+import { EmployerPortal } from "./pages/EmployerPortal";
 import { PerspectiveCard } from "./components/PerspectiveCard";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import type { RoleMatchSummary, StudentProfileData } from "./types/student";
@@ -221,6 +223,12 @@ function App() {
             ) : currentPersona === "institution" ? (
               /* Phase 6: College Portal for University Deans, HODs, and Faculty */
               <CollegePortal onBackToLanding={() => setShowLanding(true)} />
+            ) : currentPersona === "government" ? (
+              /* Phase 7: District Planning Portal for DSDO */
+              <DistrictPortal onBackToLanding={() => setShowLanding(true)} />
+            ) : currentPersona === "employer" ? (
+              /* Phase 7: Employer Portal for Talent Acquisition & Gemini JD Parsing */
+              <EmployerPortal onBackToLanding={() => setShowLanding(true)} />
             ) : (
               /* Other Personas Evaluator Context Card (Phase 7) */
               <div
@@ -261,7 +269,7 @@ function App() {
                       letterSpacing: "-0.5px",
                     }}
                   >
-                    {currentPersona.toUpperCase()} Context Loaded
+                    {String(currentPersona).toUpperCase()} Context Loaded
                   </h2>
 
                   <p

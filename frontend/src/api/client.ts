@@ -898,3 +898,215 @@ export async function getPlacementEligibility(
   }
 }
 
+// =============================================================================
+// PHASE 7 TYPES & API METHODS: DISTRICT PLANNING & EMPLOYER HIRING
+// =============================================================================
+
+export interface DistrictItem {
+  id: string;
+  name: string;
+  state: string;
+  tier: number;
+  economic_focus: string;
+}
+
+export interface SectorDeficitItem {
+  sector_id: string;
+  sector_name: string;
+  demand_volume: number;
+  supply_volume: number;
+  net_balance: number;
+  urgency_status: "HIGH DEFICIT" | "MODERATE DEFICIT" | "BALANCED";
+  yoy_growth: string;
+  critical_bottleneck_skills: string[];
+  top_employers: string[];
+}
+
+export interface DistrictDeficitMatrixData {
+  district_id: string;
+  district_name: string;
+  state: string;
+  tier: number;
+  economic_focus: string;
+  total_demand: number;
+  total_supply: number;
+  net_regional_deficit: number;
+  critical_sectors_count: number;
+  sectors: SectorDeficitItem[];
+}
+
+export interface SubsidyRecommendationItem {
+  id: string;
+  sector_name: string;
+  target_program: string;
+  partner_institutions: string[];
+  recommended_subsidy_amount: string;
+  projected_trainees: number;
+  priority_score: number;
+  projected_roi: string;
+}
+
+export interface DistrictSubsidyData {
+  district_id: string;
+  total_budget_recommended: string;
+  recommendations: SubsidyRecommendationItem[];
+}
+
+export interface ExtractedSkillItem {
+  skill_name: string;
+  category: string;
+  tier: "critical" | "core" | "supporting" | "peripheral";
+  required_level: number;
+  weight: number;
+}
+
+export interface JDExtractData {
+  job_title: string;
+  detected_domain: string;
+  experience_band: string;
+  total_skills_extracted: number;
+  extracted_skills: ExtractedSkillItem[];
+  model_used: string;
+  summary: string;
+}
+
+export interface TalentCandidateItem {
+  candidate_id: string;
+  degree_field: string;
+  institution_name: string;
+  graduation_year: number;
+  target_role: string;
+  match_score: number;
+  national_percentile: number;
+  tier_classification: string;
+  top_verified_skills: Record<string, number>;
+  mobility: string;
+  is_verified: boolean;
+}
+
+export interface TalentSearchData {
+  total_matching_candidates: number;
+  role_filter?: string;
+  min_score_filter: number;
+  candidates: TalentCandidateItem[];
+}
+
+// Retrieves list of administrative districts
+export async function getDistricts(): Promise<DistrictItem[]> {
+  try {
+    return await fetchJson<DistrictItem[]>(`${API_BASE}/district/list`);
+  } catch {
+    return [
+      { id: "bilaspur", name: "Bilaspur", state: "Chhattisgarh", tier: 3, economic_focus: "Industrial & Education Hub" },
+      { id: "raipur", name: "Raipur", state: "Chhattisgarh", tier: 2, economic_focus: "Capital & Technology Center" },
+      { id: "bangalore", name: "Bangalore Urban", state: "Karnataka", tier: 1, economic_focus: "Tier 1 Global Tech Capital" },
+      { id: "pune", name: "Pune", state: "Maharashtra", tier: 1, economic_focus: "Automotive & Enterprise Software" },
+      { id: "hyderabad", name: "Hyderabad", state: "Telangana", tier: 1, economic_focus: "AI, Cloud & Biotechnology Hub" },
+    ];
+  }
+}
+
+// Retrieves 5-sector supply vs demand deficit matrix for a district
+export async function getDistrictDeficitMatrix(districtId: string): Promise<DistrictDeficitMatrixData> {
+  try {
+    return await fetchJson<DistrictDeficitMatrixData>(`${API_BASE}/district/${districtId}/deficit-matrix`);
+  } catch {
+    return {
+      district_id: districtId,
+      district_name: districtId.charAt(0).toUpperCase() + districtId.slice(1),
+      state: "Demo State",
+      tier: 2,
+      economic_focus: "Industrial & Regional Tech Hub",
+      total_demand: 2540,
+      total_supply: 1770,
+      net_regional_deficit: 770,
+      critical_sectors_count: 2,
+      sectors: [
+        { sector_id: "it-software", sector_name: "Information Technology, Cloud & AI", demand_volume: 680, supply_volume: 410, net_balance: 270, urgency_status: "HIGH DEFICIT", yoy_growth: "+22%", critical_bottleneck_skills: ["Docker", "AWS Cloud", "React", "Python"], top_employers: ["TCS", "Wipro", "SECL IT"] },
+        { sector_id: "manufacturing", sector_name: "Advanced Manufacturing & Heavy Industries", demand_volume: 820, supply_volume: 580, net_balance: 240, urgency_status: "HIGH DEFICIT", yoy_growth: "+16%", critical_bottleneck_skills: ["PLC Automation", "AutoCAD", "CNC Operations"], top_employers: ["Jindal Steel", "SECL Bilaspur"] },
+        { sector_id: "green-energy", sector_name: "Solar, Green Energy & EV Mobility", demand_volume: 290, supply_volume: 140, net_balance: 150, urgency_status: "MODERATE DEFICIT", yoy_growth: "+45%", critical_bottleneck_skills: ["Solar PV Grid", "Battery Management"], top_employers: ["CREDA", "Tata Power Solar"] },
+        { sector_id: "healthcare", sector_name: "Healthcare Diagnostics & Biomedical Informatics", demand_volume: 340, supply_volume: 260, net_balance: 80, urgency_status: "MODERATE DEFICIT", yoy_growth: "+28%", critical_bottleneck_skills: ["Clinical Data Analysis", "Medical Imaging"], top_employers: ["Apollo", "CIMS"] },
+        { sector_id: "bfsi", sector_name: "BFSI, FinTech & Digital Accounting", demand_volume: 410, supply_volume: 380, net_balance: 30, urgency_status: "BALANCED", yoy_growth: "+12%", critical_bottleneck_skills: ["SQL Reporting", "Financial Modeling"], top_employers: ["SBI", "HDFC Bank"] },
+      ],
+    };
+  }
+}
+
+// Retrieves state training subsidy recommendations for a district
+export async function getDistrictSubsidyRecommendations(districtId: string): Promise<DistrictSubsidyData> {
+  try {
+    return await fetchJson<DistrictSubsidyData>(`${API_BASE}/district/${districtId}/subsidy-recommendations`);
+  } catch {
+    return {
+      district_id: districtId,
+      total_budget_recommended: "₹1.45 Crores",
+      recommendations: [
+        { id: "sub-01", sector_name: "Information Technology, Cloud & AI", target_program: "Cloud DevOps & Microservices Vocational Bridge", partner_institutions: ["Government ITI", "Central University"], recommended_subsidy_amount: "₹45 Lakhs", projected_trainees: 180, priority_score: 94.5, projected_roi: "85% Deficit Closed in 6 Months" },
+        { id: "sub-02", sector_name: "Solar, Green Energy & EV Mobility", target_program: "Solar PV Grid Integration & Battery Diagnostics Lab", partner_institutions: ["Government Polytechnic"], recommended_subsidy_amount: "₹35 Lakhs", projected_trainees: 120, priority_score: 89.2, projected_roi: "80% Deficit Closed in 6 Months" },
+        { id: "sub-03", sector_name: "Advanced Manufacturing & Heavy Industries", target_program: "Industrial PLC & CNC Precision Machining Apprenticeship", partner_institutions: ["Technical Training Institute"], recommended_subsidy_amount: "₹40 Lakhs", projected_trainees: 160, priority_score: 84.0, projected_roi: "75% Deficit Closed in 9 Months" },
+      ],
+    };
+  }
+}
+
+// Parses raw job description into structured 4-tier benchmark profile via Gemini AI or deterministic engine
+export async function extractJobDescription(rawText: string): Promise<JDExtractData> {
+  return await fetchJson<JDExtractData>(`${API_BASE}/employer/extract-jd`, {
+    method: "POST",
+    body: JSON.stringify({ raw_text: rawText }),
+  });
+}
+
+// Searches vetted blind candidate cohort profiles
+export async function searchTalentCohort(params: {
+  role?: string;
+  min_score?: number;
+  batch?: number;
+  region?: string;
+}): Promise<TalentSearchData> {
+  const query = new URLSearchParams();
+  if (params.role) query.append("role", params.role);
+  if (params.min_score !== undefined) query.append("min_score", String(params.min_score));
+  if (params.batch) query.append("batch", String(params.batch));
+  if (params.region) query.append("region", params.region);
+
+  try {
+    return await fetchJson<TalentSearchData>(`${API_BASE}/employer/talent-search?${query.toString()}`);
+  } catch {
+    return {
+      total_matching_candidates: 4,
+      role_filter: params.role,
+      min_score_filter: params.min_score ?? 60,
+      candidates: [
+        {
+          candidate_id: "CAND-8942",
+          degree_field: "Computer Science & Engineering",
+          institution_name: "National Institute of Technology, Raipur",
+          graduation_year: 2026,
+          target_role: "Full Stack Developer",
+          match_score: 88.5,
+          national_percentile: 96.4,
+          tier_classification: "Tier 1: National Elite",
+          top_verified_skills: { Python: 85, React: 88, "SQL & Databases": 80, Docker: 75 },
+          mobility: "Pan-India / Remote",
+          is_verified: true,
+        },
+        {
+          candidate_id: "CAND-9104",
+          degree_field: "Computer Science & Engineering",
+          institution_name: "IIIT Bangalore",
+          graduation_year: 2025,
+          target_role: "Cloud DevOps Engineer",
+          match_score: 94.2,
+          national_percentile: 99.1,
+          tier_classification: "Tier 1: National Elite",
+          top_verified_skills: { Docker: 92, Kubernetes: 88, "AWS Cloud": 90, "Linux Shell": 95 },
+          mobility: "Bangalore / Hybrid",
+          is_verified: true,
+        },
+      ],
+    };
+  }
+}
+
+
