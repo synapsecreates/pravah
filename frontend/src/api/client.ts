@@ -14,8 +14,9 @@ import type {
   WhatIfSimulateResult,
 } from "../types/student";
 
-// Uses relative path to leverage Vite development server reverse proxy
-const API_BASE = "/api/v1";
+// Uses VITE_API_URL if configured (e.g. for Vercel -> Render deployment), or relative path for Vite dev proxy
+const envApiUrl = ((import.meta as any).env?.VITE_API_URL as string) || "";
+const API_BASE = envApiUrl ? `${envApiUrl.replace(/\/$/, "")}/api/v1` : "/api/v1";
 
 // 10 Anchor roles specifications with exact requirement weights for client-side deterministic fallback
 export const ANCHOR_ROLES_DATA = [
