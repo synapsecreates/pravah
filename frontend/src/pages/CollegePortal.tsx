@@ -325,7 +325,7 @@ export const CollegePortal: React.FC<CollegePortalProps> = ({ onBackToLanding })
             {overview?.name || "Institution Intelligence Portal"}
           </h1>
           <p style={{ margin: "6px 0 0 0", color: "var(--text-secondary)", fontSize: "14px" }}>
-            Real-time cohort competency audits, syllabus modernization tracker, and predictive recruitment tier analytics.
+            Institutional cohort competency audits, syllabus modernization tracker, and predictive recruitment tier analytics.
           </p>
         </div>
 
@@ -465,7 +465,7 @@ export const CollegePortal: React.FC<CollegePortalProps> = ({ onBackToLanding })
               </span>
             </div>
             <p style={{ margin: 0, fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
-              You are exploring Pravah's institutional portal operating on <strong>calibrated benchmark seed datasets</strong> (modeled after AICTE Model Curricula and NIRF Tier-2 technical institutions). In production deployment, all departmental competency averages, curriculum gap heatmaps, and placement tier projections are <strong>formulated in real time from direct student onboarding inputs, coding submissions, and proctored diagnostic assessments</strong>.
+              You are exploring Pravah's institutional portal operating on <strong>calibrated benchmark seed datasets</strong> (modeled after AICTE Model Curricula and NIRF Tier-2 technical institutions). In production deployment, all departmental competency averages, curriculum gap heatmaps, and placement tier projections are <strong>computed directly from verified student onboarding inputs, coding submissions, and proctored diagnostic assessments</strong>.
             </p>
           </div>
         </div>

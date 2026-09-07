@@ -221,7 +221,7 @@ class WhatIfSimulateRequest(BaseModel):
     degree_discipline: str = "Computer Science"
 
 
-# Schema for simulation response with real-time gain projection.
+# Schema for simulation response with deterministic instantaneous gain projection.
 class WhatIfSimulateResponse(BaseModel):
     role_id: str
     target_skill: str

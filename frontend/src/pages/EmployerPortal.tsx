@@ -208,7 +208,7 @@ export const EmployerPortal: React.FC<EmployerPortalProps> = ({ onBackToLanding 
             AI Job Description Parser &amp; Vetted Talent Cohort Search
           </h1>
           <p style={{ margin: "6px 0 0 0", color: "var(--text-secondary)", fontSize: "14px" }}>
-            Transform unstructured job postings into structured 4-tier skill benchmarks with Gemini AI and match blind, verified student cohorts.
+            Extract structured 4-tier skill benchmarks from raw job postings via Gemini NLP (with deterministic NOS offline fallback) and match blind candidate cohorts via deterministic mathematical scoring.
           </p>
         </div>
 

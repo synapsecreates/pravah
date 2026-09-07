@@ -283,7 +283,7 @@ export const getSkillTimelinePhases = (skillName: string, totalHours: number): T
         "State management, caching strategies, and concurrency basics",
         "Unit testing frameworks with >80% automated code coverage",
       ],
-      milestone: `Develop a multi-module service implementing real-time data ingestion and processing with ${skillName}.`,
+      milestone: `Develop a multi-module service implementing high-throughput event data ingestion and processing with ${skillName}.`,
     },
     {
       phase_number: 3,

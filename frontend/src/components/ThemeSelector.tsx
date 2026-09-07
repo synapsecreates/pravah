@@ -6,7 +6,7 @@ import React from "react";
 import { useTheme } from "../context/ThemeContext";
 
 // Renders the theme switcher pill group with tactile micro-interactions.
-// Repaints all CSS custom properties across the application in real-time.
+// Repaints all CSS custom properties across the application dynamically.
 export const ThemeSelector: React.FC = () => {
   const { theme, setTheme, options } = useTheme();
 

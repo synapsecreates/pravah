@@ -4,7 +4,9 @@
 
 import { useState } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
-import { PersonaSwitcher, type PersonaType } from "./components/PersonaSwitcher";
+import type { PersonaType } from "./components/PersonaSwitcher";
+import { GlobalHeader } from "./components/GlobalHeader";
+import { GlobalFooter } from "./components/GlobalFooter";
 import { BarbaContainer } from "./components/BarbaContainer";
 import { LandingPage } from "./pages/LandingPage";
 import { OnboardingPage } from "./pages/OnboardingPage";
@@ -13,7 +15,7 @@ import { CollegePortal } from "./pages/CollegePortal";
 import { DistrictPortal } from "./pages/DistrictPortal";
 import { EmployerPortal } from "./pages/EmployerPortal";
 import { PerspectiveCard } from "./components/PerspectiveCard";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import type { RoleMatchSummary, StudentProfileData } from "./types/student";
 import { ALL_106_ROLES } from "./data/roles_taxonomy";
 import { ANCHOR_ROLES_DATA } from "./api/client";
@@ -94,80 +96,23 @@ function App() {
           transition: "background-color 0.25s ease, color 0.25s ease",
         }}
       >
-        {/* Top Persona Switcher for Evaluation Judges */}
-        <PersonaSwitcher
-          onPersonaChange={(persona) => {
-            setCurrentPersona(persona);
-            if (persona === "student") {
-              // keep current student screen
+        {/* Global Application Header with Theme Toggle & Hub-and-Spoke Portal Navigation */}
+        <GlobalHeader
+          showLanding={showLanding}
+          currentPersona={currentPersona}
+          onReturnToHub={() => setShowLanding(true)}
+          onNavigateToSection={(sectionId) => {
+            if (!showLanding) {
+              setShowLanding(true);
             }
+            setTimeout(() => {
+              const el = document.getElementById(sectionId);
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+              }
+            }, 60);
           }}
         />
-
-        {/* Top Sub-Bar for Quick Navigation Between Landing & Evaluator Sandbox */}
-        <div
-          style={{
-            padding: "8px 20px",
-            backgroundColor: "var(--bg-sunken)",
-            borderBottom: "1px solid var(--border-subtle)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            fontSize: "13px",
-            flexWrap: "wrap",
-            gap: "8px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>Pravah Platform</span>
-            <span style={{ color: "var(--border-strong)" }}>|</span>
-            <span style={{ color: "var(--text-secondary)" }}>
-              Active Persona: <strong style={{ color: "var(--brand-600)", textTransform: "capitalize" }}>{currentPersona}</strong>
-            </span>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            {showLanding ? (
-              <button
-                type="button"
-                onClick={() => setShowLanding(false)}
-                className="interactive-btn"
-                style={{
-                  padding: "4px 12px",
-                  borderRadius: "6px",
-                  backgroundColor: "var(--brand-50)",
-                  border: "1px solid var(--border-strong)",
-                  color: "var(--brand-600)",
-                  fontSize: "12px",
-                  fontWeight: 600,
-                }}
-              >
-                Enter {currentPersona.toUpperCase()} Portal
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setShowLanding(true)}
-                className="interactive-btn"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  padding: "4px 12px",
-                  borderRadius: "6px",
-                  backgroundColor: "var(--bg-surface)",
-                  border: "1px solid var(--border-strong)",
-                  color: "var(--text-primary)",
-                  fontSize: "12px",
-                  fontWeight: 600,
-                }}
-              >
-                <ArrowLeft size={14} />
-                <span>Return to Public Landing</span>
-              </button>
-            )}
-          </div>
-        </div>
 
         {/* Main Barba Transition Stage */}
         <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -176,6 +121,11 @@ function App() {
               <LandingPage
                 onSelectPersona={(persona) => {
                   setCurrentPersona(persona);
+                  setShowLanding(false);
+                }}
+                onInstantDemoStudent={() => {
+                  setCurrentPersona("student");
+                  handleInstantDemo();
                   setShowLanding(false);
                 }}
               />
@@ -306,6 +256,19 @@ function App() {
             )}
           </BarbaContainer>
         </main>
+
+        {/* Global National-Grade Platform Footer */}
+        <GlobalFooter
+          onNavigateToPersona={(persona) => {
+            setCurrentPersona(persona);
+            setShowLanding(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          onReturnToHub={() => {
+            setShowLanding(true);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
       </div>
     </ThemeProvider>
   );

@@ -453,7 +453,7 @@ def get_course_audits(
 
 
 # -----------------------------------------------------------------------------
-# ENDPOINT 5: EDIT COURSE SYLLABUS SKILLS (FLIPS STATUS IN REAL TIME)
+# ENDPOINT 5: EDIT COURSE SYLLABUS SKILLS (FLIPS STATUS DYNAMICALLY)
 # -----------------------------------------------------------------------------
 @router.post("/{institution_id}/course-audits/{course_id}/update-skills", response_model=CourseAuditItem)
 def update_course_skills(
