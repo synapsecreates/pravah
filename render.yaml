@@ -18,12 +18,10 @@ services:
       - key: BACKEND_CORS_ORIGINS
         value: '["*"]'
 
-  # 2. Vite React Frontend Static Site
+  # 2. Vite React Frontend Static Site (Served globally via Render CDN)
   - type: web
     name: pravah-frontend
     runtime: static
-    region: oregon
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
