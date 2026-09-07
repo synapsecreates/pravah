@@ -9,6 +9,7 @@ import { BarbaContainer } from "./components/BarbaContainer";
 import { LandingPage } from "./pages/LandingPage";
 import { OnboardingPage } from "./pages/OnboardingPage";
 import { AnalysisPortal } from "./pages/AnalysisPortal";
+import { CollegePortal } from "./pages/CollegePortal";
 import { PerspectiveCard } from "./components/PerspectiveCard";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import type { RoleMatchSummary, StudentProfileData } from "./types/student";
@@ -217,8 +218,11 @@ function App() {
                   }}
                 />
               )
+            ) : currentPersona === "institution" ? (
+              /* Phase 6: College Portal for University Deans, HODs, and Faculty */
+              <CollegePortal onBackToLanding={() => setShowLanding(true)} />
             ) : (
-              /* Other Personas Evaluator Context Card (Phase 6 & 7) */
+              /* Other Personas Evaluator Context Card (Phase 7) */
               <div
                 className="stage-perspective"
                 style={{

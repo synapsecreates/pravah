@@ -576,3 +576,325 @@ export async function saveStudentProfile(profile: StudentProfileData): Promise<{
     return { message: "Profile saved locally." };
   }
 }
+
+// =============================================================================
+// PHASE 6: ACADEMIC GOVERNANCE / COLLEGE PORTAL API
+// =============================================================================
+
+export interface InstitutionItem {
+  id: string;
+  name: string;
+  district_id: string;
+  state: string;
+  type: string;
+}
+
+export interface InstitutionOverviewData {
+  institution_id: string;
+  name: string;
+  aishe_code?: string;
+  district_id: string;
+  state: string;
+  type: string;
+  enrolled_students_count: number;
+  is_blended: boolean;
+  blend_label: string;
+  privacy_threshold: number;
+  placement_eligibility_rate: number;
+  average_readiness_score: number;
+  curriculum_health_index: number;
+  deficient_courses_count: number;
+  departments: string[];
+}
+
+export interface DepartmentHeatmapSkill {
+  skill_name: string;
+  category: string;
+  benchmark_level: number;
+  cohort_average: number;
+  curriculum_gap: number;
+  alignment_status: "ALIGNED" | "AT RISK" | "DEFICIENT";
+  formula_breakdown: string;
+  student_count_evaluated: number;
+}
+
+export interface DepartmentHeatmapData {
+  institution_id: string;
+  department: string;
+  target_role: string;
+  total_skills_audited: number;
+  aligned_count: number;
+  at_risk_count: number;
+  deficient_count: number;
+  is_blended: boolean;
+  blend_label: string;
+  skills: DepartmentHeatmapSkill[];
+}
+
+export interface CourseAuditData {
+  id: string;
+  institution_id: string;
+  department: string;
+  course_code: string;
+  course_name: string;
+  mapped_skills: string[];
+  status: "ALIGNED" | "AT RISK" | "OBSOLETE";
+  recommended_action: string;
+  syllabus_modernization_priority: string;
+  alignment_score: number;
+}
+
+export interface CourseAuditsData {
+  institution_id: string;
+  department: string;
+  total_courses_audited: number;
+  aligned_courses_count: number;
+  at_risk_courses_count: number;
+  obsolete_courses_count: number;
+  courses: CourseAuditData[];
+}
+
+export interface PlacementTierItem {
+  tier_name: string;
+  tier_label: string;
+  candidate_count: number;
+  percentage: number;
+  expected_ctc_band: string;
+  primary_recruiters: string;
+}
+
+export interface PlacementEligibilityData {
+  institution_id: string;
+  department: string;
+  total_evaluated: number;
+  overall_eligibility_rate: number;
+  average_readiness: number;
+  median_readiness: number;
+  is_blended: boolean;
+  tier_distribution: PlacementTierItem[];
+  top_placement_roles: Array<{ role: string; readiness: string; demand: string }>;
+}
+
+// Retrieves list of demo higher education institutions
+export async function getInstitutions(): Promise<InstitutionItem[]> {
+  try {
+    return await fetchJson<InstitutionItem[]>(`${API_BASE}/institution/list`);
+  } catch {
+    return [
+      { id: "ggv-bilaspur", name: "Guru Ghasidas Vishwavidyalaya", district_id: "bilaspur", state: "Chhattisgarh", type: "Central University" },
+      { id: "nit-raipur", name: "National Institute of Technology Raipur", district_id: "raipur", state: "Chhattisgarh", type: "Institute of National Importance" },
+      { id: "iiit-bangalore", name: "IIIT Bangalore", district_id: "bangalore", state: "Karnataka", type: "State University" },
+      { id: "coep-pune", name: "COEP Technological University", district_id: "pune", state: "Maharashtra", type: "State University" },
+      { id: "iiit-hyderabad", name: "IIIT Hyderabad", district_id: "hyderabad", state: "Telangana", type: "Autonomous University" },
+    ];
+  }
+}
+
+// Retrieves executive overview metrics with under-20 privacy blending
+export async function getInstitutionOverview(
+  institutionId: string,
+  simulatedCohortSize?: number
+): Promise<InstitutionOverviewData> {
+  const query = simulatedCohortSize !== undefined ? `?simulated_cohort_size=${simulatedCohortSize}` : "";
+  try {
+    return await fetchJson<InstitutionOverviewData>(`${API_BASE}/institution/${institutionId}/overview${query}`);
+  } catch {
+    const isBlended = (simulatedCohortSize ?? 48) < 20;
+    return {
+      institution_id: institutionId,
+      name: "Guru Ghasidas Vishwavidyalaya",
+      aishe_code: "C-49321",
+      district_id: "bilaspur",
+      state: "Chhattisgarh",
+      type: "Central University",
+      enrolled_students_count: simulatedCohortSize ?? 48,
+      is_blended: isBlended,
+      blend_label: isBlended ? `Blended Regional Cohort (Privacy Floor Protected, N = ${simulatedCohortSize ?? 19})` : `Live Institutional Cohort (N = ${simulatedCohortSize ?? 48})`,
+      privacy_threshold: 20,
+      placement_eligibility_rate: isBlended ? 61.5 : 68.4,
+      average_readiness_score: 64.2,
+      curriculum_health_index: 77.5,
+      deficient_courses_count: 2,
+      departments: ["Computer Science & Engineering", "Information Technology", "Electronics & Communication", "AI & Data Science"],
+    };
+  }
+}
+
+// Retrieves departmental competency heatmap comparing student proficiencies vs. industry benchmarks
+export async function getDepartmentHeatmap(
+  institutionId: string,
+  department: string = "Computer Science & Engineering",
+  targetRole: string = "fullstack-developer",
+  simulatedCohortSize?: number
+): Promise<DepartmentHeatmapData> {
+  const params = new URLSearchParams({ department, target_role: targetRole });
+  if (simulatedCohortSize !== undefined) params.append("simulated_cohort_size", String(simulatedCohortSize));
+  try {
+    return await fetchJson<DepartmentHeatmapData>(`${API_BASE}/institution/${institutionId}/heatmap?${params.toString()}`);
+  } catch {
+    const isBlended = (simulatedCohortSize ?? 48) < 20;
+    return {
+      institution_id: institutionId,
+      department,
+      target_role: "Full Stack Developer",
+      total_skills_audited: 8,
+      aligned_count: 3,
+      at_risk_count: 3,
+      deficient_count: 2,
+      is_blended: isBlended,
+      blend_label: isBlended ? "Blended Regional Data (Privacy Floor Protected)" : "Live Institutional Data",
+      skills: [
+        { skill_name: "Docker", category: "DevOps", benchmark_level: 70, cohort_average: 28, curriculum_gap: 42, alignment_status: "DEFICIENT", formula_breakdown: "Benchmark: 70% - Cohort: 28% = Gap: 42%", student_count_evaluated: simulatedCohortSize ?? 48 },
+        { skill_name: "AWS Cloud", category: "Cloud", benchmark_level: 65, cohort_average: 31, curriculum_gap: 34, alignment_status: "DEFICIENT", formula_breakdown: "Benchmark: 65% - Cohort: 31% = Gap: 34%", student_count_evaluated: simulatedCohortSize ?? 48 },
+        { skill_name: "React", category: "Frontend", benchmark_level: 65, cohort_average: 44, curriculum_gap: 21, alignment_status: "AT RISK", formula_breakdown: "Benchmark: 65% - Cohort: 44% = Gap: 21%", student_count_evaluated: simulatedCohortSize ?? 48 },
+        { skill_name: "Machine Learning", category: "AI", benchmark_level: 55, cohort_average: 36, curriculum_gap: 19, alignment_status: "AT RISK", formula_breakdown: "Benchmark: 55% - Cohort: 36% = Gap: 19%", student_count_evaluated: simulatedCohortSize ?? 48 },
+        { skill_name: "Linux Shell & Scripting", category: "DevOps", benchmark_level: 65, cohort_average: 54, curriculum_gap: 11, alignment_status: "AT RISK", formula_breakdown: "Benchmark: 65% - Cohort: 54% = Gap: 11%", student_count_evaluated: simulatedCohortSize ?? 48 },
+        { skill_name: "Python", category: "Backend", benchmark_level: 65, cohort_average: 62.5, curriculum_gap: 2.5, alignment_status: "ALIGNED", formula_breakdown: "Benchmark: 65% - Cohort: 62.5% = Gap: 2.5%", student_count_evaluated: simulatedCohortSize ?? 48 },
+        { skill_name: "SQL & Databases", category: "Database", benchmark_level: 60, cohort_average: 58, curriculum_gap: 2, alignment_status: "ALIGNED", formula_breakdown: "Benchmark: 60% - Cohort: 58% = Gap: 2%", student_count_evaluated: simulatedCohortSize ?? 48 },
+        { skill_name: "Git & Version Control", category: "DevOps", benchmark_level: 60, cohort_average: 62, curriculum_gap: 0, alignment_status: "ALIGNED", formula_breakdown: "Benchmark: 60% - Cohort: 62% = Gap: 0%", student_count_evaluated: simulatedCohortSize ?? 48 },
+      ],
+    };
+  }
+}
+
+// Retrieves audited course catalog categorized as ALIGNED, AT RISK, or OBSOLETE
+export async function getCourseAudits(
+  institutionId: string,
+  department: string = "Computer Science & Engineering"
+): Promise<CourseAuditsData> {
+  try {
+    return await fetchJson<CourseAuditsData>(`${API_BASE}/institution/${institutionId}/course-audits?department=${encodeURIComponent(department)}`);
+  } catch {
+    return {
+      institution_id: institutionId,
+      department,
+      total_courses_audited: 6,
+      aligned_courses_count: 3,
+      at_risk_courses_count: 2,
+      obsolete_courses_count: 1,
+      courses: [
+        {
+          id: "cs104",
+          institution_id: institutionId,
+          department,
+          course_code: "CS405",
+          course_name: "Microprocessor Architecture & 8085 Assembly",
+          mapped_skills: ["Assembly", "Microprocessors"],
+          status: "OBSOLETE",
+          recommended_action: "Replace legacy 8085 assembly with ARM Cortex, RISC-V, or Embedded C.",
+          syllabus_modernization_priority: "High",
+          alignment_score: 32.0,
+        },
+        {
+          id: "cs105",
+          institution_id: institutionId,
+          department,
+          course_code: "CS502",
+          course_name: "Server Administration & Linux Shell",
+          mapped_skills: ["Linux Shell & Scripting", "Git & Version Control"],
+          status: "AT RISK",
+          recommended_action: "Expand basic bash scripting to containerization with Docker and CI/CD fundamentals.",
+          syllabus_modernization_priority: "Medium",
+          alignment_score: 62.0,
+        },
+        {
+          id: "cs106",
+          institution_id: institutionId,
+          department,
+          course_code: "CS504",
+          course_name: "Introduction to Artificial Intelligence",
+          mapped_skills: ["Machine Learning", "Python"],
+          status: "AT RISK",
+          recommended_action: "Modernize syllabus with PyTorch, neural networks, and prompt engineering foundations.",
+          syllabus_modernization_priority: "Medium",
+          alignment_score: 65.0,
+        },
+        {
+          id: "cs101",
+          institution_id: institutionId,
+          department,
+          course_code: "CS301",
+          course_name: "Object-Oriented Programming (Java/Python)",
+          mapped_skills: ["Python", "Java"],
+          status: "ALIGNED",
+          recommended_action: "Modernize with design patterns and asynchronous programming.",
+          syllabus_modernization_priority: "Low",
+          alignment_score: 88.0,
+        },
+        {
+          id: "cs102",
+          institution_id: institutionId,
+          department,
+          course_code: "CS302",
+          course_name: "Database Management Systems",
+          mapped_skills: ["SQL & Databases", "PostgreSQL"],
+          status: "ALIGNED",
+          recommended_action: "Incorporate NoSQL databases and query indexing strategies.",
+          syllabus_modernization_priority: "Low",
+          alignment_score: 90.0,
+        },
+        {
+          id: "cs103",
+          institution_id: institutionId,
+          department,
+          course_code: "CS401",
+          course_name: "Web Technologies & Application Design",
+          mapped_skills: ["HTML", "CSS", "JavaScript", "React"],
+          status: "ALIGNED",
+          recommended_action: "Upgrade from jQuery to React/TypeScript and REST APIs.",
+          syllabus_modernization_priority: "Low",
+          alignment_score: 92.0,
+        },
+      ],
+    };
+  }
+}
+
+// Updates mapped skills for a course, dynamically flipping alignment status
+export async function updateCourseSkills(
+  institutionId: string,
+  courseId: string,
+  mappedSkills: string[]
+): Promise<CourseAuditData> {
+  return await fetchJson<CourseAuditData>(`${API_BASE}/institution/${institutionId}/course-audits/${courseId}/update-skills`, {
+    method: "POST",
+    body: JSON.stringify({ mapped_skills: mappedSkills }),
+  });
+}
+
+// Retrieves placement eligibility breakdown across 4 tiers
+export async function getPlacementEligibility(
+  institutionId: string,
+  department: string = "Computer Science & Engineering",
+  simulatedCohortSize?: number
+): Promise<PlacementEligibilityData> {
+  const query = simulatedCohortSize !== undefined ? `?simulated_cohort_size=${simulatedCohortSize}` : "";
+  try {
+    return await fetchJson<PlacementEligibilityData>(`${API_BASE}/institution/${institutionId}/placement-eligibility${query}`);
+  } catch {
+    const isBlended = (simulatedCohortSize ?? 48) < 20;
+    const n = simulatedCohortSize ?? 48;
+    return {
+      institution_id: institutionId,
+      department,
+      total_evaluated: n,
+      overall_eligibility_rate: 68.4,
+      average_readiness: 68.5,
+      median_readiness: 70.0,
+      is_blended: isBlended,
+      tier_distribution: [
+        { tier_name: "Tier 1", tier_label: "National Elite & Global R&D", candidate_count: Math.round(n * 0.12), percentage: 12.5, expected_ctc_band: "₹18 - ₹35 LPA", primary_recruiters: "Google, Microsoft, Amazon, Adobe" },
+        { tier_name: "Tier 2", tier_label: "Specialist Tech & Unicorns", candidate_count: Math.round(n * 0.38), percentage: 37.5, expected_ctc_band: "₹10 - ₹18 LPA", primary_recruiters: "Swiggy, Zomato, Razorpay, CRED" },
+        { tier_name: "Tier 3", tier_label: "Enterprise IT & Consulting", candidate_count: Math.round(n * 0.35), percentage: 35.0, expected_ctc_band: "₹5 - ₹10 LPA", primary_recruiters: "TCS Digital, Infosys Power, Accenture" },
+        { tier_name: "Tier 4", tier_label: "Remedial / Active Upskilling", candidate_count: Math.round(n * 0.15), percentage: 15.0, expected_ctc_band: "₹3.5 - ₹5 LPA", primary_recruiters: "Requires Roadmap Remediation" },
+      ],
+      top_placement_roles: [
+        { role: "Full Stack Developer", readiness: "74.2%", demand: "High" },
+        { role: "Cloud DevOps Engineer", readiness: "66.8%", demand: "Surging" },
+        { role: "AI / ML Applications Engineer", readiness: "62.4%", demand: "Very High" },
+        { role: "Backend Systems Engineer", readiness: "71.0%", demand: "High" },
+      ],
+    };
+  }
+}
+

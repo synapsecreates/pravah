@@ -271,3 +271,106 @@ class RoadmapResponse(BaseModel):
     capstone_project: Dict[str, str]
 
 
+# =============================================================================
+# PHASE 6 SCHEMAS: ACADEMIC GOVERNANCE & COLLEGE PORTAL
+# =============================================================================
+
+# Executive institutional overview schema with under-20 privacy flag.
+class InstitutionOverviewResponse(BaseModel):
+    institution_id: str
+    name: str
+    aishe_code: Optional[str] = None
+    district_id: str
+    state: str
+    type: str
+    enrolled_students_count: int
+    is_blended: bool = False
+    blend_label: str
+    privacy_threshold: int = 20
+    placement_eligibility_rate: float
+    average_readiness_score: float
+    curriculum_health_index: float
+    deficient_courses_count: int
+    departments: List[str]
+
+
+# Schema for an individual skill gap in the departmental competency heatmap.
+class DepartmentHeatmapItem(BaseModel):
+    skill_name: str
+    category: str = "Technical"
+    benchmark_level: float
+    cohort_average: float
+    curriculum_gap: float
+    alignment_status: str  # 'ALIGNED' (gap <= 5), 'AT RISK' (gap <= 25), 'DEFICIENT' (gap > 25)
+    formula_breakdown: str
+    student_count_evaluated: int = 48
+
+
+# Departmental competency heatmap response.
+class DepartmentHeatmapResponse(BaseModel):
+    institution_id: str
+    department: str
+    target_role: str
+    total_skills_audited: int
+    aligned_count: int
+    at_risk_count: int
+    deficient_count: int
+    is_blended: bool = False
+    blend_label: str
+    skills: List[DepartmentHeatmapItem]
+
+
+# Schema for course syllabus audit item.
+class CourseAuditItem(BaseModel):
+    id: str
+    institution_id: str
+    department: str
+    course_code: str
+    course_name: str
+    mapped_skills: List[str]
+    status: str  # 'ALIGNED', 'AT RISK', 'OBSOLETE'
+    recommended_action: str
+    syllabus_modernization_priority: str = "Medium"
+    alignment_score: float = 75.0
+
+
+# Course syllabus modernization audit response.
+class CourseAuditsResponse(BaseModel):
+    institution_id: str
+    department: str
+    total_courses_audited: int
+    aligned_courses_count: int
+    at_risk_courses_count: int
+    obsolete_courses_count: int
+    courses: List[CourseAuditItem]
+
+
+# Request schema for editing mapped skills of a course.
+class CourseSkillUpdateRequest(BaseModel):
+    mapped_skills: List[str] = Field(..., min_length=1, description="List of modern technical skills mapped to syllabus")
+
+
+# Schema for tier distribution in placement eligibility.
+class PlacementTierDistribution(BaseModel):
+    tier_name: str
+    tier_label: str
+    candidate_count: int
+    percentage: float
+    expected_ctc_band: str
+    primary_recruiters: str
+
+
+# Placement eligibility and batch percentiles response.
+class PlacementEligibilityResponse(BaseModel):
+    institution_id: str
+    department: str
+    total_evaluated: int
+    overall_eligibility_rate: float
+    average_readiness: float
+    median_readiness: float
+    is_blended: bool = False
+    tier_distribution: List[PlacementTierDistribution]
+    top_placement_roles: List[Dict[str, str]]
+
+
+
