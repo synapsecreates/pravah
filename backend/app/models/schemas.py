@@ -156,3 +156,118 @@ class CohortStudentSummary(BaseModel):
     top_skills: List[str]
     is_invited: bool = False
 
+
+# Schema for deterministic match calculation request.
+class MatchCalculationRequest(BaseModel):
+    role_id: str = Field(..., description="Target role ID or slug")
+    student_ratings: Dict[str, int] = Field(default_factory=dict, description="Student skill proficiencies")
+    degree_discipline: str = Field(default="Computer Science", description="Academic discipline")
+
+
+# Schema detailing the transparent mathematical inspection variables.
+class InspectMathDetails(BaseModel):
+    formula: str
+    capped_sum: float
+    required_sum: float
+    critical_skills_met: int
+    critical_skills_total: int
+    critical_penalty_factor: float
+    degree_multiplier: float
+
+
+# Schema for match calculation output with full mathematical proof.
+class MatchCalculationResponse(BaseModel):
+    role_id: str
+    role_title: str
+    raw_match_score: float
+    critical_penalty: float
+    education_factor: float
+    final_readiness_score: float
+    inspect_math: InspectMathDetails
+
+
+# Schema for an individual skill gap in the 4-tier matrix.
+class SkillGapItem(BaseModel):
+    skill_id: str
+    skill_name: str
+    category: str
+    requirement_category: str
+    tier_category: str
+    required_level: int
+    student_level: int
+    gap: int
+    severity: float
+    tier_weight: float
+    role_importance: float
+
+
+# Schema for the 4-tier gap analysis matrix.
+class GapAnalysisResponse(BaseModel):
+    role_id: str
+    role_title: str
+    critical_gaps: List[SkillGapItem]
+    core_gaps: List[SkillGapItem]
+    supporting_gaps: List[SkillGapItem]
+    strengths: List[SkillGapItem]
+    total_gaps_count: int
+
+
+# Schema for interactive what-if simulation request.
+class WhatIfSimulateRequest(BaseModel):
+    role_id: str
+    baseline_ratings: Dict[str, int]
+    target_skill: str
+    simulated_rating: int = Field(..., ge=0, le=100)
+    degree_discipline: str = "Computer Science"
+
+
+# Schema for simulation response with real-time gain projection.
+class WhatIfSimulateResponse(BaseModel):
+    role_id: str
+    target_skill: str
+    baseline_score: float
+    simulated_score: float
+    projected_gain: float
+    is_critical_skill: bool
+
+
+# Summary schema for a role match in top-10 list.
+class RoleMatchSummary(BaseModel):
+    role_id: str
+    slug: str
+    title: str
+    domain: str
+    match_percentage: float
+    industry_demand: float
+    primary_focus: str
+    why_match_rationale: str
+
+
+# Schema for top-10 role recommendations.
+class TopRolesResponse(BaseModel):
+    roles: List[RoleMatchSummary]
+
+
+# Schema for an actionable milestone in student roadmap.
+class RoadmapMilestone(BaseModel):
+    skill_id: str
+    skill_name: str
+    category: str
+    requirement_category: str
+    gap: int
+    priority_score: float
+    estimated_study_hours: int
+    pedagogical_formula: str
+    action_verb: str
+    recommended_topics: List[str]
+
+
+# Schema for complete personalized learning roadmap with capstone project.
+class RoadmapResponse(BaseModel):
+    role_id: str
+    role_title: str
+    total_estimated_hours: int
+    milestones: List[RoadmapMilestone]
+    capstone_project: Dict[str, str]
+
+

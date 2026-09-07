@@ -1,21 +1,83 @@
 // FILE: src/App.tsx
-// PURPOSE: Root application entry wiring ThemeProvider, top judge persona switcher, Barba transitions, and LandingPage.
-// PHASE: 4 | DEPENDS ON: ThemeContext.tsx, PersonaSwitcher.tsx, BarbaContainer.tsx, LandingPage.tsx | LAST TOUCHED: Phase 4
+// PURPOSE: Root application entry wiring ThemeProvider, top judge persona switcher, Barba transitions, LandingPage, OnboardingPage, and AnalysisPortal.
+// PHASE: 5 | DEPENDS ON: ThemeContext.tsx, PersonaSwitcher.tsx, BarbaContainer.tsx, LandingPage.tsx, OnboardingPage.tsx, AnalysisPortal.tsx | LAST TOUCHED: Phase 5
 
 import { useState } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
 import { PersonaSwitcher, type PersonaType } from "./components/PersonaSwitcher";
 import { BarbaContainer } from "./components/BarbaContainer";
 import { LandingPage } from "./pages/LandingPage";
+import { OnboardingPage } from "./pages/OnboardingPage";
+import { AnalysisPortal } from "./pages/AnalysisPortal";
 import { PerspectiveCard } from "./components/PerspectiveCard";
 import { ArrowLeft, Sparkles } from "lucide-react";
+import type { RoleMatchSummary, StudentProfileData } from "./types/student";
+import { ALL_106_ROLES } from "./data/roles_taxonomy";
+import { ANCHOR_ROLES_DATA } from "./api/client";
 import "./App.css";
 
-// Root application component.
-// Houses ThemeProvider, top persona switcher for evaluators, and Barba transition container.
+// Default benchmark student profile for Demo Student
+const DEFAULT_DEMO_PROFILE: StudentProfileData = {
+  full_name: "Demo Student",
+  degree_field: "Computer Science",
+  current_year_of_study: 2,
+  graduation_year: 2026,
+  institution_name: "National Institute of Technology, Raipur",
+  region: "Western Region",
+  department: "Computer Science and Engineering",
+  career_intent: "Technical Employment",
+  target_work_mobility: "Pan-India",
+  target_role_slug: "ai-ml-engineer",
+  skills: {
+    Python: 70,
+    "C++": 65,
+    JavaScript: 40,
+    React: 25,
+    SQL: 60,
+    Git: 30,
+    Statistics: 45,
+    "Machine Learning": 20,
+    "Linear Algebra": 55,
+  },
+  is_demo_account: true,
+};
+
+const DEFAULT_TARGET_ROLE: RoleMatchSummary = {
+  role_id: "backend-dev",
+  slug: "backend-developer",
+  title: "Backend Developer",
+  domain: "Software Development",
+  match_percentage: 68.5,
+  industry_demand: 9.0,
+  primary_focus: "Backend APIs & Distributed Data Access",
+  why_match_rationale: "Strong foundation in Python and SQL with high market demand.",
+};
+
+// Root application component managing active persona, view routing, and student state.
+// Coordinates smooth transition between Landing Page, Student Onboarding, and the Analysis Portal.
 function App() {
   const [currentPersona, setCurrentPersona] = useState<PersonaType>("student");
   const [showLanding, setShowLanding] = useState<boolean>(true);
+
+  // Student journey screen state: 'onboarding' | 'analysis'
+  const [studentScreen, setStudentScreen] = useState<"onboarding" | "analysis">("onboarding");
+  const [activeProfile, setActiveProfile] = useState<StudentProfileData>(DEFAULT_DEMO_PROFILE);
+  const [activeTargetRole, setActiveTargetRole] = useState<RoleMatchSummary>(DEFAULT_TARGET_ROLE);
+
+  // Handles wizard completion by persisting student profile and transitioning directly to the Analysis Portal.
+  const handleCompleteOnboarding = (profile: StudentProfileData, role: RoleMatchSummary) => {
+    setActiveProfile(profile);
+    setActiveTargetRole(role);
+    setStudentScreen("analysis");
+  };
+
+  // 1-Click Instant Demo shortcut initializing Demo Student's benchmark dataset and jumping directly to live analysis.
+  const handleInstantDemo = () => {
+    setActiveProfile(DEFAULT_DEMO_PROFILE);
+    setActiveTargetRole(DEFAULT_TARGET_ROLE);
+    setStudentScreen("analysis");
+  };
+
 
   return (
     <ThemeProvider>
@@ -33,6 +95,9 @@ function App() {
         <PersonaSwitcher
           onPersonaChange={(persona) => {
             setCurrentPersona(persona);
+            if (persona === "student") {
+              // keep current student screen
+            }
           }}
         />
 
@@ -74,7 +139,7 @@ function App() {
                   fontWeight: 600,
                 }}
               >
-                Inspect {currentPersona.toUpperCase()} Context
+                Enter {currentPersona.toUpperCase()} Portal
               </button>
             ) : (
               <button
@@ -103,7 +168,7 @@ function App() {
 
         {/* Main Barba Transition Stage */}
         <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <BarbaContainer transitionKey={showLanding ? "landing" : `persona-${currentPersona}`}>
+          <BarbaContainer transitionKey={showLanding ? "landing" : `persona-${currentPersona}-${studentScreen}`}>
             {showLanding ? (
               <LandingPage
                 onSelectPersona={(persona) => {
@@ -111,8 +176,49 @@ function App() {
                   setShowLanding(false);
                 }}
               />
+            ) : currentPersona === "student" ? (
+              studentScreen === "onboarding" ? (
+                /* Screen 1: Dedicated Student Onboarding Wizard */
+                <OnboardingPage
+                  onComplete={handleCompleteOnboarding}
+                  onInstantDemo={handleInstantDemo}
+                />
+              ) : (
+                /* Screen 2: Dedicated Separate Analysis Portal Screen */
+                <AnalysisPortal
+                  studentProfile={activeProfile}
+                  targetRole={activeTargetRole}
+                  onBackToOnboarding={() => setStudentScreen("onboarding")}
+                  onSwitchTargetRole={(newRoleSlug) => {
+                    const foundRole =
+                      ALL_106_ROLES.find((r) => r.slug === newRoleSlug) ||
+                      ANCHOR_ROLES_DATA.find((r) => r.slug === newRoleSlug);
+                    if (foundRole) {
+                      setActiveTargetRole({
+                        role_id: (foundRole as any).id || (foundRole as any).role_id || foundRole.slug,
+                        slug: foundRole.slug,
+                        title: foundRole.title,
+                        domain: foundRole.domain,
+                        match_percentage: 0,
+                        industry_demand: foundRole.industry_demand,
+                        primary_focus: foundRole.primary_focus || (foundRole as any).description || "",
+                        why_match_rationale: "Selected benchmark target from national catalog",
+                      });
+                    } else {
+                      setActiveTargetRole((prev) => ({
+                        ...prev,
+                        slug: newRoleSlug,
+                        title: newRoleSlug
+                          .split("-")
+                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                          .join(" "),
+                      }));
+                    }
+                  }}
+                />
+              )
             ) : (
-              /* Phase 3 Evaluator Context View inside 3D Perspective Card */
+              /* Other Personas Evaluator Context Card (Phase 6 & 7) */
               <div
                 className="stage-perspective"
                 style={{
@@ -139,7 +245,7 @@ function App() {
                     }}
                   >
                     <Sparkles size={14} />
-                    <span>PHASE 3 & 4 VERIFIED • DESIGN SYSTEM & AUTH ACTIVE</span>
+                    <span>AUTHENTICATED EVALUATOR CONTEXT</span>
                   </div>
 
                   <h2
@@ -166,22 +272,6 @@ function App() {
                     <br />
                     All design tokens, 3D elevation perspectives, and Barba transitions are fully operational.
                   </p>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexWrap: "wrap",
-                      gap: "12px",
-                      fontSize: "13px",
-                      color: "var(--text-muted)",
-                      marginBottom: "24px",
-                    }}
-                  >
-                    <span>• Theme Repaint Active</span>
-                    <span>• No-Boxes 3D Tilt</span>
-                    <span>• Smooth 220ms/280ms Transitions</span>
-                  </div>
 
                   <button
                     type="button"
