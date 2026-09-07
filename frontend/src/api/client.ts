@@ -1,6 +1,6 @@
 // FILE: src/api/client.ts
-// PURPOSE: Unified HTTP API client for all Pravah backend endpoints with type safety and deterministic fallback.
-// PHASE: 5 | DEPENDS ON: src/types/student.ts | LAST TOUCHED: Phase 5
+// PURPOSE: Unified HTTP API client for all Pravah backend endpoints with type safety, deterministic fallback, and real-time backend liveness tracking.
+// PHASE: 8 | DEPENDS ON: src/types/student.ts | LAST TOUCHED: Phase 8
 
 import type {
   CapstoneBrief,
@@ -20,6 +20,87 @@ if (rawApiUrl && !rawApiUrl.startsWith("http://") && !rawApiUrl.startsWith("http
   rawApiUrl = `https://${rawApiUrl}`;
 }
 const API_BASE = rawApiUrl ? `${rawApiUrl.replace(/\/$/, "")}/api/v1` : "/api/v1";
+
+// Global backend connectivity tracking state (true only when real backend responds within 8s)
+let _isLiveBackend: boolean = false;
+let _hasRunHealthCheck: boolean = false;
+const backendStatusListeners: Set<(isLive: boolean) => void> = new Set();
+
+export function getIsLiveBackend(): boolean {
+  return _isLiveBackend;
+}
+
+export function setIsLiveBackend(isLive: boolean): void {
+  if (_isLiveBackend !== isLive) {
+    _isLiveBackend = isLive;
+    backendStatusListeners.forEach((listener) => {
+      try {
+        listener(isLive);
+      } catch (err) {
+        console.error("Error in backend status listener:", err);
+      }
+    });
+  }
+}
+
+export function subscribeBackendStatus(listener: (isLive: boolean) => void): () => void {
+  backendStatusListeners.add(listener);
+  listener(_isLiveBackend);
+  return () => {
+    backendStatusListeners.delete(listener);
+  };
+}
+
+// Lightweight probe checking /health/ping on app startup with strict 8-second timeout
+export async function checkBackendHealth(timeoutMs: number = 8000): Promise<boolean> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    let isLive = false;
+    const pingUrl = `${API_BASE}/health/ping`;
+    try {
+      const res = await fetch(pingUrl, {
+        signal: controller.signal,
+        cache: "no-store",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.status === "pong") {
+          isLive = true;
+        }
+      }
+    } catch {
+      if (API_BASE.startsWith("/api")) {
+        try {
+          const res2 = await fetch(`http://127.0.0.1:8000/api/v1/health/ping`, {
+            signal: controller.signal,
+            cache: "no-store",
+          });
+          if (res2.ok) {
+            const data2 = await res2.json();
+            if (data2 && data2.status === "pong") {
+              isLive = true;
+            }
+          }
+        } catch {
+          isLive = false;
+        }
+      }
+    }
+
+    _hasRunHealthCheck = true;
+    setIsLiveBackend(isLive);
+    return isLive;
+  } catch {
+    _hasRunHealthCheck = true;
+    setIsLiveBackend(false);
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 
 // 10 Anchor roles specifications with exact requirement weights for client-side deterministic fallback
 export const ANCHOR_ROLES_DATA = [
@@ -288,22 +369,33 @@ async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
     });
 
     if (res.ok) {
+      setIsLiveBackend(true);
       return (await res.json()) as T;
     }
   } catch {
+    setIsLiveBackend(false);
     // If relative fails, attempt direct 127.0.0.1
     if (url.startsWith("/api")) {
       const fallbackUrl = `http://127.0.0.1:8000${url}`;
-      const res2 = await fetch(fallbackUrl, {
-        headers: {
-          "Content-Type": "application/json",
-          ...(options?.headers || {}),
-        },
-        ...options,
-      });
-      if (res2.ok) return (await res2.json()) as T;
+      try {
+        const res2 = await fetch(fallbackUrl, {
+          headers: {
+            "Content-Type": "application/json",
+            ...(options?.headers || {}),
+          },
+          ...options,
+        });
+        if (res2.ok) {
+          setIsLiveBackend(true);
+          return (await res2.json()) as T;
+        }
+      } catch {
+    setIsLiveBackend(false);
+        // Fallback to offline mode
+      }
     }
   }
+  setIsLiveBackend(false);
   throw new Error("Network request failed");
 }
 
@@ -323,6 +415,7 @@ export async function calculateMatch(
       }),
     });
   } catch {
+    setIsLiveBackend(false);
     // Deterministic fallback matching backend equations
     const role = ANCHOR_ROLES_DATA.find((r) => r.slug === roleId || r.role_id === roleId) || ANCHOR_ROLES_DATA[0];
     const calc = evaluateStudentLocally(role, studentRatings, degreeDiscipline);
@@ -362,6 +455,7 @@ export async function calculateGaps(
       }),
     });
   } catch {
+    setIsLiveBackend(false);
     const role = ANCHOR_ROLES_DATA.find((r) => r.slug === roleId || r.role_id === roleId) || ANCHOR_ROLES_DATA[0];
     const normRatings: Record<string, number> = {};
     for (const [k, v] of Object.entries(studentRatings)) normRatings[k.toLowerCase().trim()] = Number(v) || 0;
@@ -434,6 +528,7 @@ export async function whatIfSimulate(
       }),
     });
   } catch {
+    setIsLiveBackend(false);
     const role = ANCHOR_ROLES_DATA.find((r) => r.slug === roleId || r.role_id === roleId) || ANCHOR_ROLES_DATA[0];
     const baseCalc = evaluateStudentLocally(role, baselineRatings, degreeDiscipline);
     const bumpedRatings = { ...baselineRatings, [targetSkill]: simulatedRating };
@@ -468,6 +563,7 @@ export async function getTopRoles(
     });
     if (res.roles && res.roles.length > 0) return res.roles;
   } catch {
+    setIsLiveBackend(false);
     // Offline deterministic computation
   }
 
@@ -517,6 +613,7 @@ export async function getRoadmap(
       }),
     });
   } catch {
+    setIsLiveBackend(false);
     const role = ANCHOR_ROLES_DATA.find((r) => r.slug === roleId || r.role_id === roleId) || ANCHOR_ROLES_DATA[0];
     const normRatings: Record<string, number> = {};
     for (const [k, v] of Object.entries(studentRatings)) normRatings[k.toLowerCase().trim()] = Number(v) || 0;
@@ -576,6 +673,7 @@ export async function saveStudentProfile(profile: StudentProfileData): Promise<{
       body: JSON.stringify(profile),
     });
   } catch {
+    setIsLiveBackend(false);
     localStorage.setItem("pravah_student_profile", JSON.stringify(profile));
     return { message: "Profile saved locally." };
   }
@@ -684,6 +782,7 @@ export async function getInstitutions(): Promise<InstitutionItem[]> {
   try {
     return await fetchJson<InstitutionItem[]>(`${API_BASE}/institution/list`);
   } catch {
+    setIsLiveBackend(false);
     return [
       { id: "ggv-bilaspur", name: "Guru Ghasidas Vishwavidyalaya", district_id: "bilaspur", state: "Chhattisgarh", type: "Central University" },
       { id: "nit-raipur", name: "National Institute of Technology Raipur", district_id: "raipur", state: "Chhattisgarh", type: "Institute of National Importance" },
@@ -703,6 +802,7 @@ export async function getInstitutionOverview(
   try {
     return await fetchJson<InstitutionOverviewData>(`${API_BASE}/institution/${institutionId}/overview${query}`);
   } catch {
+    setIsLiveBackend(false);
     const isBlended = (simulatedCohortSize ?? 48) < 20;
     return {
       institution_id: institutionId,
@@ -736,6 +836,7 @@ export async function getDepartmentHeatmap(
   try {
     return await fetchJson<DepartmentHeatmapData>(`${API_BASE}/institution/${institutionId}/heatmap?${params.toString()}`);
   } catch {
+    setIsLiveBackend(false);
     const isBlended = (simulatedCohortSize ?? 48) < 20;
     return {
       institution_id: institutionId,
@@ -769,6 +870,7 @@ export async function getCourseAudits(
   try {
     return await fetchJson<CourseAuditsData>(`${API_BASE}/institution/${institutionId}/course-audits?department=${encodeURIComponent(department)}`);
   } catch {
+    setIsLiveBackend(false);
     return {
       institution_id: institutionId,
       department,
@@ -860,10 +962,26 @@ export async function updateCourseSkills(
   courseId: string,
   mappedSkills: string[]
 ): Promise<CourseAuditData> {
-  return await fetchJson<CourseAuditData>(`${API_BASE}/institution/${institutionId}/course-audits/${courseId}/update-skills`, {
-    method: "POST",
-    body: JSON.stringify({ mapped_skills: mappedSkills }),
-  });
+  try {
+    return await fetchJson<CourseAuditData>(`${API_BASE}/institution/${institutionId}/course-audits/${courseId}/update-skills`, {
+      method: "POST",
+      body: JSON.stringify({ mapped_skills: mappedSkills }),
+    });
+  } catch {
+    setIsLiveBackend(false);
+    return {
+      id: courseId,
+      institution_id: institutionId,
+      department: "Computer Science & Engineering",
+      course_code: courseId.toUpperCase(),
+      course_name: "Course Syllabus (Local State)",
+      mapped_skills: mappedSkills,
+      status: "ALIGNED",
+      recommended_action: "Syllabus dynamically aligned with industry benchmark",
+      syllabus_modernization_priority: "Normal",
+      alignment_score: 90.0,
+    };
+  }
 }
 
 // Retrieves placement eligibility breakdown across 4 tiers
@@ -876,6 +994,7 @@ export async function getPlacementEligibility(
   try {
     return await fetchJson<PlacementEligibilityData>(`${API_BASE}/institution/${institutionId}/placement-eligibility${query}`);
   } catch {
+    setIsLiveBackend(false);
     const isBlended = (simulatedCohortSize ?? 48) < 20;
     const n = simulatedCohortSize ?? 48;
     return {
@@ -1000,6 +1119,7 @@ export async function getDistricts(): Promise<DistrictItem[]> {
   try {
     return await fetchJson<DistrictItem[]>(`${API_BASE}/district/list`);
   } catch {
+    setIsLiveBackend(false);
     return [
       { id: "bilaspur", name: "Bilaspur", state: "Chhattisgarh", tier: 3, economic_focus: "Industrial & Education Hub" },
       { id: "raipur", name: "Raipur", state: "Chhattisgarh", tier: 2, economic_focus: "Capital & Technology Center" },
@@ -1015,6 +1135,7 @@ export async function getDistrictDeficitMatrix(districtId: string): Promise<Dist
   try {
     return await fetchJson<DistrictDeficitMatrixData>(`${API_BASE}/district/${districtId}/deficit-matrix`);
   } catch {
+    setIsLiveBackend(false);
     return {
       district_id: districtId,
       district_name: districtId.charAt(0).toUpperCase() + districtId.slice(1),
@@ -1041,6 +1162,7 @@ export async function getDistrictSubsidyRecommendations(districtId: string): Pro
   try {
     return await fetchJson<DistrictSubsidyData>(`${API_BASE}/district/${districtId}/subsidy-recommendations`);
   } catch {
+    setIsLiveBackend(false);
     return {
       district_id: districtId,
       total_budget_recommended: "₹1.45 Crores",
@@ -1055,10 +1177,28 @@ export async function getDistrictSubsidyRecommendations(districtId: string): Pro
 
 // Parses raw job description into structured 4-tier benchmark profile via Gemini AI or deterministic engine
 export async function extractJobDescription(rawText: string): Promise<JDExtractData> {
-  return await fetchJson<JDExtractData>(`${API_BASE}/employer/extract-jd`, {
-    method: "POST",
-    body: JSON.stringify({ raw_text: rawText }),
-  });
+  try {
+    return await fetchJson<JDExtractData>(`${API_BASE}/employer/extract-jd`, {
+      method: "POST",
+      body: JSON.stringify({ raw_text: rawText }),
+    });
+  } catch {
+    setIsLiveBackend(false);
+    return {
+      job_title: "Extracted Technical Role (Illustrative Offline Mode)",
+      detected_domain: "Software Engineering",
+      experience_band: "1-3 Years",
+      total_skills_extracted: 4,
+      model_used: "Deterministic National Taxonomy Fallback",
+      summary: "Evaluated using canonical offline taxonomy rules.",
+      extracted_skills: [
+        { skill_name: "Python", category: "Programming", tier: "critical", required_level: 80, weight: 9.0 },
+        { skill_name: "SQL", category: "Database", tier: "critical", required_level: 75, weight: 8.5 },
+        { skill_name: "Docker", category: "DevOps", tier: "core", required_level: 70, weight: 7.0 },
+        { skill_name: "Git", category: "Tools", tier: "supporting", required_level: 65, weight: 6.0 },
+      ],
+    };
+  }
 }
 
 // Searches vetted blind candidate cohort profiles
@@ -1077,6 +1217,7 @@ export async function searchTalentCohort(params: {
   try {
     return await fetchJson<TalentSearchData>(`${API_BASE}/employer/talent-search?${query.toString()}`);
   } catch {
+    setIsLiveBackend(false);
     return {
       total_matching_candidates: 4,
       role_filter: params.role,
@@ -1112,5 +1253,4 @@ export async function searchTalentCohort(params: {
     };
   }
 }
-
 

@@ -13,6 +13,11 @@ class HealthResponse(BaseModel):
     version: str = Field(default="1.0.0", description="Semantic platform version")
 
 
+# Lightweight ping response for health probing and Render keep-alive monitoring.
+class HealthPingResponse(BaseModel):
+    status: str = Field(default="pong", description="Ping acknowledgment")
+
+
 # Summary metrics confirming raw dataset counts match specification.
 # Used by verification tests to assert complete raw data availability.
 class DatasetStatsResponse(BaseModel):

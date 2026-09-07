@@ -19,6 +19,14 @@ def test_health_check_ok() -> None:
     assert data["version"] == "1.0.0"
 
 
+# Verifies that the lightweight ping endpoint responds with pong.
+def test_health_ping_ok() -> None:
+    response = client.get("/api/v1/health/ping")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "pong"
+
+
 # Asserts that all dataset entities load with exact counts specified in Phase 1:
 # exactly 50 canonical skills, 10 deep anchor roles, 106 directory roles, and 5 demo districts.
 def test_dataset_exact_counts() -> None:

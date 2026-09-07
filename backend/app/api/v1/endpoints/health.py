@@ -10,9 +10,16 @@ from app.core.dataset import (
     get_demo_districts,
     get_demo_institutions,
 )
-from app.models.schemas import DatasetStatsResponse, HealthResponse
+from app.models.schemas import DatasetStatsResponse, HealthPingResponse, HealthResponse
 
 router = APIRouter()
+
+
+# Lightweight keep-alive probe returning immediate pong acknowledgment.
+# Called by frontend startup probe and Render keep-alive cron services.
+@router.get("/health/ping", response_model=HealthPingResponse)
+def get_health_ping() -> HealthPingResponse:
+    return HealthPingResponse(status="pong")
 
 
 # Basic liveness probe returning service operational status and version.

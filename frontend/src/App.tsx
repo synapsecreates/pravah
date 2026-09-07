@@ -4,9 +4,11 @@
 
 import { useState } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
+import { BackendStatusProvider } from "./context/BackendStatusContext";
 import type { PersonaType } from "./components/PersonaSwitcher";
 import { GlobalHeader } from "./components/GlobalHeader";
 import { GlobalFooter } from "./components/GlobalFooter";
+import { BackendFallbackBanner } from "./components/BackendFallbackBanner";
 import { BarbaContainer } from "./components/BarbaContainer";
 import { LandingPage } from "./pages/LandingPage";
 import { OnboardingPage } from "./pages/OnboardingPage";
@@ -86,36 +88,40 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: "var(--bg-base)",
-          color: "var(--text-primary)",
-          transition: "background-color 0.25s ease, color 0.25s ease",
-        }}
-      >
-        {/* Global Application Header with Theme Toggle & Hub-and-Spoke Portal Navigation */}
-        <GlobalHeader
-          showLanding={showLanding}
-          currentPersona={currentPersona}
-          onReturnToHub={() => setShowLanding(true)}
-          onNavigateToSection={(sectionId) => {
-            if (!showLanding) {
-              setShowLanding(true);
-            }
-            setTimeout(() => {
-              const el = document.getElementById(sectionId);
-              if (el) {
-                el.scrollIntoView({ behavior: "smooth" });
-              }
-            }, 60);
+      <BackendStatusProvider>
+        <div
+          style={{
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: "var(--bg-base)",
+            color: "var(--text-primary)",
+            transition: "background-color 0.25s ease, color 0.25s ease",
           }}
-        />
+        >
+          {/* Global Application Header with Theme Toggle & Hub-and-Spoke Portal Navigation */}
+          <GlobalHeader
+            showLanding={showLanding}
+            currentPersona={currentPersona}
+            onReturnToHub={() => setShowLanding(true)}
+            onNavigateToSection={(sectionId) => {
+              if (!showLanding) {
+                setShowLanding(true);
+              }
+              setTimeout(() => {
+                const el = document.getElementById(sectionId);
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                }
+              }, 60);
+            }}
+          />
 
-        {/* Main Barba Transition Stage */}
-        <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          {/* Persistent, Dismissible Backend Unreachable Notification Banner */}
+          <BackendFallbackBanner />
+
+          {/* Main Barba Transition Stage */}
+          <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <BarbaContainer transitionKey={showLanding ? "landing" : `persona-${currentPersona}-${studentScreen}`}>
             {showLanding ? (
               <LandingPage
@@ -270,8 +276,9 @@ function App() {
           }}
         />
       </div>
-    </ThemeProvider>
-  );
+    </BackendStatusProvider>
+  </ThemeProvider>
+);
 }
 
 export default App;
