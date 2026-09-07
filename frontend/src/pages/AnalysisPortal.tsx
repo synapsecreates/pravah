@@ -740,56 +740,9 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
                 <h1 style={{ fontSize: "22px", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
                   {studentProfile.full_name}
                 </h1>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "4px",
-                    padding: "3px 8px",
-                    borderRadius: "20px",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    backgroundColor: "var(--success-bg)",
-                    color: "var(--success)",
-                    border: "1px solid var(--success)",
-                  }}
-                >
-                  <ShieldCheck size={13} />
-                  Verified Candidate
-                </span>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "4px",
-                    padding: "3px 8px",
-                    borderRadius: "20px",
-                    fontSize: "11px",
-                    fontWeight: 600,
-                    backgroundColor: "var(--bg-sunken)",
-                    color: "var(--text-secondary)",
-                    border: "1px solid var(--border-subtle)",
-                  }}
-                >
-                  <Building2 size={13} />
-                  {studentProfile.institution_name}
-                </span>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "4px",
-                    padding: "3px 8px",
-                    borderRadius: "20px",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    backgroundColor: "var(--brand-50)",
-                    color: "var(--brand-600)",
-                    border: "1px solid var(--brand-600)",
-                  }}
-                >
-                  <Target size={12} />
-                  Target: {activeRole.title}
+                <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", fontSize: "12px", fontWeight: 600, color: "var(--success)" }}>
+                  <ShieldCheck size={14} />
+                  Verified
                 </span>
               </div>
 
@@ -935,17 +888,7 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
           >
             <Calendar size={16} />
             <span>Learning Action Plan & Courseware</span>
-            <span
-              style={{
-                fontSize: "10px",
-                padding: "2px 6px",
-                borderRadius: "10px",
-                backgroundColor: activePortalTab === "roadmap" ? "var(--brand-600)" : "var(--bg-sunken)",
-                color: activePortalTab === "roadmap" ? "var(--bg-base)" : "var(--text-muted)",
-              }}
-            >
-              {(gapResult?.critical_gaps.length || 0) + (gapResult?.core_gaps.length || 0)} Actions
-            </span>
+            <span style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 500 }}>({(gapResult?.critical_gaps.length || 0) + (gapResult?.core_gaps.length || 0)})</span>
           </button>
 
           <button
@@ -967,17 +910,7 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
           >
             <Compass size={16} />
             <span>Specialized Roles & Pathways</span>
-            <span
-              style={{
-                fontSize: "10px",
-                padding: "2px 6px",
-                borderRadius: "10px",
-                backgroundColor: activePortalTab === "specializations" ? "var(--brand-600)" : "var(--bg-sunken)",
-                color: activePortalTab === "specializations" ? "var(--bg-base)" : "var(--text-muted)",
-              }}
-            >
-              106 Roles
-            </span>
+            <span style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 500 }}>(106)</span>
           </button>
 
           <button
@@ -999,17 +932,7 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
           >
             <Cpu size={16} />
             <span>Job Description Matcher</span>
-            <span
-              style={{
-                fontSize: "10px",
-                padding: "2px 6px",
-                borderRadius: "10px",
-                backgroundColor: activePortalTab === "parser" ? "var(--brand-600)" : "var(--bg-sunken)",
-                color: activePortalTab === "parser" ? "var(--bg-base)" : "var(--text-muted)",
-              }}
-            >
-              ATS Match
-            </span>
+            
           </button>
         </div>
       </header>
@@ -1043,20 +966,6 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
               {/* Guide Banner */}
               <div style={{ marginBottom: "18px", paddingBottom: "14px", borderBottom: "1px solid var(--border-subtle)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-                  <span
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      fontFamily: "monospace",
-                      padding: "2px 8px",
-                      borderRadius: "6px",
-                      backgroundColor: "var(--brand-50)",
-                      color: "var(--brand-600)",
-                      border: "1px solid var(--brand-600)",
-                    }}
-                  >
-                    SECTION 01
-                  </span>
                   <h2 style={{ fontSize: "16px", fontWeight: 700, margin: 0, color: "var(--text-primary)" }}>
                     Executive Diagnostic & Placement Metrics
                   </h2>
@@ -1235,20 +1144,6 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
               {/* Guide Banner */}
               <div style={{ marginBottom: "20px", paddingBottom: "14px", borderBottom: "1px solid var(--border-subtle)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-                  <span
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      fontFamily: "monospace",
-                      padding: "2px 8px",
-                      borderRadius: "6px",
-                      backgroundColor: "var(--brand-50)",
-                      color: "var(--brand-600)",
-                      border: "1px solid var(--brand-600)",
-                    }}
-                  >
-                    SECTION 02
-                  </span>
                   <h2 style={{ fontSize: "16px", fontWeight: 700, margin: 0, color: "var(--text-primary)" }}>
                     Visual Competency & Benchmark Diagnostics
                   </h2>
@@ -1428,9 +1323,7 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
                           <Award size={15} color="var(--warning)" />
                           <span>National Placement Standing & Salary Band</span>
                         </h4>
-                        <span style={{ fontSize: "10px", fontWeight: 700, padding: "2px 6px", borderRadius: "4px", backgroundColor: "var(--brand-50)", color: "var(--brand-600)" }}>
-                          AICTE NOS Standard
-                        </span>
+                        
                       </div>
 
                       <div style={{ display: "flex", alignItems: "center", gap: "16px", margin: "14px 0" }}>
@@ -1581,18 +1474,8 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
                         Learning Action Plan
                       </h3>
                     </div>
-                    <span
-                      style={{
-                        fontSize: "10px",
-                        fontWeight: 700,
-                        padding: "2px 8px",
-                        borderRadius: "4px",
-                        backgroundColor: "var(--danger-bg)",
-                        color: "var(--danger)",
-                        border: "1px solid var(--danger)",
-                      }}
-                    >
-                      {gapResult?.critical_gaps.length || 0} Critical Deficits
+                    <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--danger)" }}>
+                      {gapResult?.critical_gaps.length || 0} critical deficits
                     </span>
                   </div>
 
@@ -1693,19 +1576,7 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
                         Specialized Roles & Pathways
                       </h3>
                     </div>
-                    <span
-                      style={{
-                        fontSize: "10px",
-                        fontWeight: 700,
-                        padding: "2px 8px",
-                        borderRadius: "4px",
-                        backgroundColor: "var(--brand-50)",
-                        color: "var(--brand-600)",
-                        border: "1px solid var(--brand-600)",
-                      }}
-                    >
-                      106 Catalog
-                    </span>
+                    
                   </div>
 
                   <p style={{ fontSize: "12px", color: "var(--text-secondary)", margin: "0 0 14px 0", lineHeight: "1.5" }}>
@@ -1784,20 +1655,6 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
               {/* Guide Banner */}
               <div style={{ marginBottom: "18px", paddingBottom: "14px", borderBottom: "1px solid var(--border-subtle)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-                  <span
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      fontFamily: "monospace",
-                      padding: "2px 8px",
-                      borderRadius: "6px",
-                      backgroundColor: "var(--brand-50)",
-                      color: "var(--brand-600)",
-                      border: "1px solid var(--brand-600)",
-                    }}
-                  >
-                    SECTION 04
-                  </span>
                   <h2 style={{ fontSize: "16px", fontWeight: 700, margin: 0, color: "var(--text-primary)" }}>
                     Live Skill Bump Simulator & Comparative Experiment Log
                   </h2>
@@ -2036,18 +1893,7 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
                                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                                     <span>{entry.skill}</span>
                                     {isBest && (
-                                      <span
-                                        style={{
-                                          fontSize: "9px",
-                                          padding: "1px 5px",
-                                          borderRadius: "4px",
-                                          backgroundColor: "var(--success-bg)",
-                                          color: "var(--success)",
-                                          fontWeight: 700,
-                                        }}
-                                      >
-                                        BEST ROI
-                                      </span>
+                                      <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--success)" }}>(Highest ROI)</span>
                                     )}
                                   </div>
                                 </td>
@@ -2160,9 +2006,7 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
                   <span style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", color: "var(--text-muted)" }}>
                     Target Role Benchmark
                   </span>
-                  <span style={{ fontSize: "11px", fontWeight: 700, padding: "2px 6px", borderRadius: "4px", backgroundColor: "var(--brand-50)", color: "var(--brand-600)" }}>
-                    Active Benchmark
-                  </span>
+                  
                 </div>
                 <h3 style={{ fontSize: "18px", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
                   {activeRole.title}
@@ -2617,9 +2461,7 @@ export const AnalysisPortal: React.FC<AnalysisPortalProps> = ({
               <Award size={26} color="var(--warning)" style={{ flexShrink: 0, marginTop: "2px" }} />
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
-                  <span style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase", padding: "2px 8px", borderRadius: "4px", backgroundColor: "var(--brand-50)", color: "var(--brand-600)" }}>
-                    Capstone Deliverable
-                  </span>
+                  <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--brand-600)" }}>Capstone Deliverable</span>
                   <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>
                     Estimated Duration: {roadmapResult.capstone_project.estimated_weeks}
                   </span>

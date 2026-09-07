@@ -61,28 +61,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   const mathInvariants = [
     {
+      index: "01",
       title: "Overqualification Capping",
       formula: "min(R_i, B_i)",
       desc: "Excess points in auxiliary or over-practiced skills cannot artificially mask critical gaps in fundamental prerequisites.",
-      badge: "Invariance 1",
     },
     {
+      index: "02",
       title: "Critical Prerequisite Penalty Floor",
       formula: "P_crit = 0.50 (if missing)",
       desc: "Lacking non-negotiable core competencies (e.g. Docker for DevOps) immediately halves overall readiness, preventing misleading high scores.",
-      badge: "Invariance 2",
     },
     {
+      index: "03",
       title: "4-Tier Semantic Weights",
       formula: "W = {1.00, 0.75, 0.45, 0.20}",
       desc: "Critical (1.00), Core (0.75), Supporting (0.45), and Peripheral (0.20) competency tiers prevent soft skills from outweighing technical rigor.",
-      badge: "Invariance 3",
     },
     {
+      index: "04",
       title: "Pedagogical Study Hours Formula",
       formula: "H_i = round(Gap_i × 1.5 × μ_i)",
       desc: "Realistic remedial hours calibrated against AICTE credit frameworks, giving students realistic sprint horizons instead of arbitrary guesses.",
-      badge: "Invariance 4",
     },
   ];
 
@@ -94,39 +94,33 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       icon: <Layers size={20} color="#3b82f6" />,
     },
     {
-      value: "50",
-      label: "Canonical Competencies",
-      desc: "Industry-calibrated micro-skills with alias resolution",
-      icon: <Cpu size={20} color="#8b5cf6" />,
+      value: "0.0%",
+      label: "Hallucination Variance",
+      desc: "Closed-form deterministic linear algebraic scoring",
+      icon: <CheckCircle2 size={20} color="#10b981" />,
     },
     {
-      value: "4",
-      label: "Unified Stakeholder Portals",
-      desc: "Students, Colleges, District DSDOs, and Employers",
-      icon: <Building2 size={20} color="#10b981" />,
+      value: "N ≥ 20",
+      label: "DPDP Privacy Floor",
+      desc: "Small cohorts automatically blended with regional baselines",
+      icon: <ShieldCheck size={20} color="#8b5cf6" />,
     },
     {
-      value: "0%",
-      label: "Generative Hallucination",
-      desc: "Pure closed-form deterministic mathematics",
-      icon: <Calculator size={20} color="#f59e0b" />,
-    },
-    {
-      value: "100%",
-      label: "Offline Edge Execution",
-      desc: "Runs locally on standalone institutional infrastructure",
-      icon: <ShieldCheck size={20} color="#06b6d4" />,
+      value: "4-Way",
+      label: "Stakeholder Alignment",
+      desc: "Students, Academic Colleges, State DSDOs, and Employers",
+      icon: <TrendingUp size={20} color="#f59e0b" />,
     },
   ];
 
   return (
-    <div className="landing-stage stage-perspective" style={{ width: "100%", paddingBottom: "80px" }}>
+    <div className="landing-stage stage-perspective" style={{ width: "100%", paddingBottom: "40px" }}>
       {/* ========================================================================= */}
       {/* 1. HERO SECTION */}
       {/* ========================================================================= */}
       <section
         style={{
-          padding: "64px 24px 48px 24px",
+          padding: "56px 24px 44px 24px",
           maxWidth: "1280px",
           margin: "0 auto",
           textAlign: "center",
@@ -135,25 +129,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           alignItems: "center",
         }}
       >
-        {/* National Emblem Badge */}
+        {/* Typographic Eyebrow */}
         <div
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "6px 18px",
-            borderRadius: "30px",
-            backgroundColor: "var(--brand-50)",
-            border: "1px solid var(--border-strong)",
-            color: "var(--brand-600)",
-            fontSize: "13px",
+            fontSize: "12px",
             fontWeight: 700,
-            letterSpacing: "0.5px",
-            marginBottom: "24px",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "var(--brand-600)",
+            marginBottom: "16px",
           }}
         >
-          <Sparkles size={15} />
-          <span>भारत सरकार • NATIONAL CAREER & SKILL INTELLIGENCE GRID</span>
+          National Career &amp; Skill Intelligence Platform
         </div>
 
         {/* Headline */}
@@ -325,21 +312,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div style={{ textAlign: "center", marginBottom: "36px" }}>
           <div
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "4px 14px",
-              borderRadius: "20px",
-              backgroundColor: "var(--brand-50)",
-              color: "var(--brand-600)",
               fontSize: "12px",
               fontWeight: 700,
               textTransform: "uppercase",
-              letterSpacing: "0.5px",
-              marginBottom: "12px",
+              letterSpacing: "0.08em",
+              color: "var(--brand-600)",
+              marginBottom: "8px",
             }}
           >
-            Central Launchpad
+            Stakeholder Portals
           </div>
           <h2
             style={{
@@ -377,34 +358,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               cursor: "pointer",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(59, 130, 246, 0.12)",
-                  color: "#3b82f6",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <GraduationCap size={26} />
-              </div>
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(59, 130, 246, 0.1)",
-                  color: "#3b82f6",
-                  border: "1px solid rgba(59, 130, 246, 0.25)",
-                }}
-              >
-                Student Canvas
-              </span>
+            <div
+              style={{
+                width: "44px",
+                height: "44px",
+                borderRadius: "12px",
+                backgroundColor: "rgba(59, 130, 246, 0.12)",
+                color: "#3b82f6",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "18px",
+              }}
+            >
+              <GraduationCap size={24} />
             </div>
 
             <h3 style={{ fontSize: "20px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 8px 0" }}>
@@ -478,34 +445,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               cursor: "pointer",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(139, 92, 246, 0.12)",
-                  color: "#8b5cf6",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Building2 size={26} />
-              </div>
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(139, 92, 246, 0.1)",
-                  color: "#8b5cf6",
-                  border: "1px solid rgba(139, 92, 246, 0.25)",
-                }}
-              >
-                Colleges & Deans
-              </span>
+            <div
+              style={{
+                width: "44px",
+                height: "44px",
+                borderRadius: "12px",
+                backgroundColor: "rgba(139, 92, 246, 0.12)",
+                color: "#8b5cf6",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "18px",
+              }}
+            >
+              <Building2 size={24} />
             </div>
 
             <h3 style={{ fontSize: "20px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 8px 0" }}>
@@ -579,34 +532,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               cursor: "pointer",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(245, 158, 11, 0.12)",
-                  color: "#f59e0b",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <MapPin size={26} />
-              </div>
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(245, 158, 11, 0.1)",
-                  color: "#f59e0b",
-                  border: "1px solid rgba(245, 158, 11, 0.25)",
-                }}
-              >
-                District DSDO
-              </span>
+            <div
+              style={{
+                width: "44px",
+                height: "44px",
+                borderRadius: "12px",
+                backgroundColor: "rgba(245, 158, 11, 0.12)",
+                color: "#f59e0b",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "18px",
+              }}
+            >
+              <MapPin size={24} />
             </div>
 
             <h3 style={{ fontSize: "20px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 8px 0" }}>
@@ -680,34 +619,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               cursor: "pointer",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(16, 185, 129, 0.12)",
-                  color: "#10b981",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Briefcase size={26} />
-              </div>
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(16, 185, 129, 0.1)",
-                  color: "#10b981",
-                  border: "1px solid rgba(16, 185, 129, 0.25)",
-                }}
-              >
-                Industry Hiring
-              </span>
+            <div
+              style={{
+                width: "44px",
+                height: "44px",
+                borderRadius: "12px",
+                backgroundColor: "rgba(16, 185, 129, 0.12)",
+                color: "#10b981",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "18px",
+              }}
+            >
+              <Briefcase size={24} />
             </div>
 
             <h3 style={{ fontSize: "20px", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 8px 0" }}>
@@ -888,19 +813,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
             <div
               style={{
-                display: "inline-flex",
+                display: "flex",
                 alignItems: "center",
                 gap: "6px",
-                padding: "6px 14px",
-                borderRadius: "20px",
-                backgroundColor: "var(--brand-50)",
                 color: "var(--brand-600)",
-                fontSize: "12px",
-                fontWeight: 700,
+                fontSize: "13px",
+                fontWeight: 600,
               }}
             >
               <Calculator size={15} />
-              <span>Zero LLM Randomness · 100% Deterministic</span>
+              <span>Pure Closed-Form Linear Algebra</span>
             </div>
           </div>
 
@@ -958,8 +880,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
-                  <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--brand-600)" }}>{inv.badge}</span>
-                  <code style={{ fontSize: "12px", color: "var(--text-primary)", fontWeight: 700 }}>{inv.formula}</code>
+                  <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--brand-600)", letterSpacing: "0.05em" }}>
+                    INVARIANT {inv.index}
+                  </span>
+                  <code style={{ fontSize: "12px", color: "var(--text-primary)", fontWeight: 600 }}>{inv.formula}</code>
                 </div>
                 <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "4px" }}>
                   {inv.title}
@@ -1182,89 +1106,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </PerspectiveCard>
       </section>
-
-      {/* ========================================================================= */}
-      {/* 6. PLATFORM FOOTER */}
-      {/* ========================================================================= */}
-      <footer
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "32px 24px 0 24px",
-          borderTop: "1px solid var(--border-subtle)",
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div
-              style={{
-                width: "28px",
-                height: "28px",
-                borderRadius: "8px",
-                background: "var(--gradient-brand)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#ffffff",
-                fontWeight: 800,
-                fontSize: "14px",
-              }}
-            >
-              प्र
-            </div>
-            <span style={{ fontSize: "15px", fontWeight: 800, color: "var(--text-primary)" }}>Pravah (प्रवाह)</span>
-            <span style={{ color: "var(--border-strong)" }}>•</span>
-            <span style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
-              National Skill Intelligence Platform v1.0.0
-            </span>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap", fontSize: "13px" }}>
-            <a href="#portals" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>
-              4 Portals
-            </a>
-            <a href="#problem" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>
-              Problem Statement
-            </a>
-            <a href="#engine" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>
-              Deterministic Engine
-            </a>
-            <a href="#compliance" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>
-              DPDP Compliance
-            </a>
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "12px",
-            fontSize: "12px",
-            color: "var(--text-muted)",
-          }}
-        >
-          <div>
-            Built with deterministic mathematical foundations. Calibrated against AICTE Model Curricula &amp; National Occupational Standards (NOS-2015).
-          </div>
-          <div>
-            DPDP Act 2023 Compliant • Zero Cloud Lock-In • 100% Offline Edge Capable
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

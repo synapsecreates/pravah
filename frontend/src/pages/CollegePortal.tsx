@@ -290,23 +290,9 @@ export const CollegePortal: React.FC<CollegePortalProps> = ({ onBackToLanding })
       >
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "4px 10px",
-                borderRadius: "14px",
-                backgroundColor: "var(--brand-50)",
-                color: "var(--brand-600)",
-                fontSize: "12px",
-                fontWeight: 700,
-                letterSpacing: "0.5px",
-                textTransform: "uppercase",
-              }}
-            >
-              <School size={13} />
-              AICTE / NBA Accredit Intelligence
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 700, color: "var(--brand-600)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              <School size={14} />
+              Institutional Intelligence
             </span>
             <span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
               AISHE Code: <strong style={{ color: "var(--text-primary)" }}>{overview?.aishe_code || "C-49321"}</strong>
@@ -451,18 +437,7 @@ export const CollegePortal: React.FC<CollegePortalProps> = ({ onBackToLanding })
               >
                 AICTE / National Benchmark MVP Seed Data Active
               </span>
-              <span
-                style={{
-                  padding: "2px 8px",
-                  borderRadius: "10px",
-                  backgroundColor: "rgba(59, 130, 246, 0.15)",
-                  color: "var(--brand-600)",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                }}
-              >
-                MVP Baseline Mode
-              </span>
+              
             </div>
             <p style={{ margin: 0, fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
               You are exploring Pravah's institutional portal operating on <strong>calibrated benchmark seed datasets</strong> (modeled after AICTE Model Curricula and NIRF Tier-2 technical institutions). In production deployment, all departmental competency averages, curriculum gap heatmaps, and placement tier projections are <strong>computed directly from verified student onboarding inputs, coding submissions, and proctored diagnostic assessments</strong>.
@@ -530,17 +505,8 @@ export const CollegePortal: React.FC<CollegePortalProps> = ({ onBackToLanding })
               >
                 {simulatedCohortSize < 20 ? "DPDP Privacy Floor Active (Under-20 Blending)" : "Standard Cohort Sample Size (Unblended Live Data)"}
               </span>
-              <span
-                style={{
-                  padding: "2px 8px",
-                  borderRadius: "10px",
-                  backgroundColor: simulatedCohortSize < 20 ? "#f59e0b22" : "#10b98122",
-                  color: simulatedCohortSize < 20 ? "#b45309" : "#047857",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                }}
-              >
-                Cohort Size N = {simulatedCohortSize}
+              <span style={{ fontSize: "12px", fontWeight: 600, color: simulatedCohortSize < 20 ? "#b45309" : "#047857" }}>
+                (Sample N = {simulatedCohortSize})
               </span>
             </div>
             <p style={{ margin: 0, fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
@@ -1552,46 +1518,12 @@ export const CollegePortal: React.FC<CollegePortalProps> = ({ onBackToLanding })
             {/* Modal Header */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "18px" }}>
               <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-                  <span
-                    style={{
-                      padding: "3px 8px",
-                      borderRadius: "6px",
-                      backgroundColor: "var(--brand-50)",
-                      color: "var(--brand-600)",
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Deterministic Math Proof
-                  </span>
-                  <span
-                    style={{
-                      padding: "3px 8px",
-                      borderRadius: "6px",
-                      backgroundColor:
-                        formulaModalSkill.alignment_status === "DEFICIENT"
-                          ? "rgba(239, 68, 68, 0.15)"
-                          : formulaModalSkill.alignment_status === "AT RISK"
-                          ? "rgba(245, 158, 11, 0.15)"
-                          : "rgba(16, 185, 129, 0.15)",
-                      color:
-                        formulaModalSkill.alignment_status === "DEFICIENT"
-                          ? "#ef4444"
-                          : formulaModalSkill.alignment_status === "AT RISK"
-                          ? "#d97706"
-                          : "#059669",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                    }}
-                  >
-                    STATUS: {formulaModalSkill.alignment_status}
-                  </span>
-                </div>
-                <h3 style={{ margin: "4px 0 0 0", fontSize: "22px", fontWeight: 800, color: "var(--text-primary)" }}>
+                <h3 style={{ margin: "0 0 4px 0", fontSize: "20px", fontWeight: 800, color: "var(--text-primary)" }}>
                   {formulaModalSkill.skill_name} Competency Audit
                 </h3>
+                <div style={{ fontSize: "12px", color: formulaModalSkill.alignment_status === "DEFICIENT" ? "#ef4444" : formulaModalSkill.alignment_status === "AT RISK" ? "#d97706" : "#059669", fontWeight: 600 }}>
+                  Status: {formulaModalSkill.alignment_status}
+                </div>
               </div>
               <button
                 onClick={() => setFormulaModalSkill(null)}
@@ -1776,19 +1708,7 @@ export const CollegePortal: React.FC<CollegePortalProps> = ({ onBackToLanding })
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
-                  <span
-                    style={{
-                      padding: "3px 10px",
-                      borderRadius: "6px",
-                      backgroundColor: "var(--brand-50)",
-                      color: "var(--brand-600)",
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    AICTE / NBA Audited Framework
-                  </span>
+                  
                   <span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
                     Zero-Heuristic Closed-Form Deterministic Arithmetic
                   </span>
@@ -2118,18 +2038,7 @@ export const CollegePortal: React.FC<CollegePortalProps> = ({ onBackToLanding })
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
               <div>
-                <span
-                  style={{
-                    padding: "3px 8px",
-                    borderRadius: "6px",
-                    backgroundColor: "var(--brand-50)",
-                    color: "var(--brand-600)",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                  }}
-                >
-                  Dynamic Syllabus Modernizer
-                </span>
+                
                 <h3 style={{ margin: "6px 0 0 0", fontSize: "20px", fontWeight: 800, color: "var(--text-primary)" }}>
                   {editingCourse.course_code}: {editingCourse.course_name}
                 </h3>

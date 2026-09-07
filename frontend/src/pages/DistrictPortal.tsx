@@ -113,23 +113,9 @@ export const DistrictPortal: React.FC<DistrictPortalProps> = ({ onBackToLanding 
       >
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "4px 10px",
-                borderRadius: "14px",
-                backgroundColor: "var(--brand-50)",
-                color: "var(--brand-600)",
-                fontSize: "12px",
-                fontWeight: 700,
-                letterSpacing: "0.5px",
-                textTransform: "uppercase",
-              }}
-            >
-              <MapPin size={13} />
-              District DSDO Administration
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 700, color: "var(--brand-600)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              <MapPin size={14} />
+              District Administration
             </span>
             <span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
               Tier {deficitMatrix?.tier || 2} · State: <strong>{deficitMatrix?.state || "Chhattisgarh"}</strong>
@@ -247,18 +233,7 @@ export const DistrictPortal: React.FC<DistrictPortalProps> = ({ onBackToLanding 
               >
                 MSDE &amp; SSDM Benchmark Seed Data Active
               </span>
-              <span
-                style={{
-                  padding: "2px 8px",
-                  borderRadius: "10px",
-                  backgroundColor: "rgba(59, 130, 246, 0.15)",
-                  color: "var(--brand-600)",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                }}
-              >
-                MVP Baseline Mode
-              </span>
+              
             </div>
             <p style={{ margin: 0, fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
               You are exploring the DSDO planning portal operating on <strong>calibrated regional labor benchmark seed datasets</strong> (modeled after Ministry of Skill Development &amp; Entrepreneurship data). In production deployment, hiring demand is populated from <strong>live employer job posting scrapers / EPFO payroll feeds</strong> and supply is calculated from <strong>enrolled higher education and ITI student batches</strong>.
@@ -355,18 +330,9 @@ export const DistrictPortal: React.FC<DistrictPortalProps> = ({ onBackToLanding 
             <span style={{ fontSize: "32px", fontWeight: 800, color: "#ef4444" }}>
               +{deficitMatrix?.net_regional_deficit.toLocaleString() || "770"}
             </span>
-            <span
-              style={{
-                fontSize: "11px",
-                fontWeight: 700,
-                padding: "2px 8px",
-                borderRadius: "6px",
-                backgroundColor: "rgba(239, 68, 68, 0.15)",
-                color: "#ef4444",
-              }}
-            >
-              DEFICIT SHORTAGE
-            </span>
+            <span style={{ fontSize: "12px", color: "#ef4444", fontWeight: 600 }}>
+                Deficit Shortage
+              </span>
           </div>
           <p style={{ margin: 0, fontSize: "12px", color: "var(--text-secondary)" }}>
             Formula: <code>Net Deficit = Total Demand - Local Supply</code>
@@ -770,19 +736,6 @@ export const DistrictPortal: React.FC<DistrictPortalProps> = ({ onBackToLanding 
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
               <div>
-                <span
-                  style={{
-                    padding: "3px 8px",
-                    borderRadius: "6px",
-                    backgroundColor: "var(--brand-50)",
-                    color: "var(--brand-600)",
-                    fontSize: "11px",
-                    fontWeight: 800,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Labor Economics Proof
-                </span>
                 <h3 style={{ margin: "4px 0 0 0", fontSize: "20px", fontWeight: 800, color: "var(--text-primary)" }}>
                   {inspectedSector.sector_name}
                 </h3>
@@ -887,19 +840,6 @@ export const DistrictPortal: React.FC<DistrictPortalProps> = ({ onBackToLanding 
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
               <div>
-                <span
-                  style={{
-                    padding: "3px 8px",
-                    borderRadius: "6px",
-                    backgroundColor: "var(--brand-50)",
-                    color: "var(--brand-600)",
-                    fontSize: "11px",
-                    fontWeight: 800,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  DSDO Regional Planning Framework
-                </span>
                 <h3 style={{ margin: "4px 0 0 0", fontSize: "22px", fontWeight: 800, color: "var(--text-primary)" }}>
                   Labor Economics Mathematical Methodology
                 </h3>

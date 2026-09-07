@@ -32,100 +32,12 @@ export const GlobalFooter: React.FC<GlobalFooterProps> = ({
     <footer
       style={{
         backgroundColor: "var(--bg-sunken)",
-        borderTop: "1px solid var(--border-strong)",
+        borderTop: "1px solid var(--border-subtle)",
         color: "var(--text-primary)",
         marginTop: "auto",
         transition: "background-color 0.25s ease, border-color 0.25s ease",
       }}
     >
-      {/* 1. NATIONAL STANDARDS & COMPLIANCE BANNER */}
-      <div
-        style={{
-          borderBottom: "1px solid var(--border-subtle)",
-          padding: "16px 24px",
-          backgroundColor: "rgba(96, 165, 250, 0.04)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ fontSize: "18px" }}>🇮🇳</span>
-            <div>
-              <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-primary)" }}>
-                National Occupational &amp; Curriculum Governance Calibration
-              </div>
-              <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>
-                Benchmarked against AICTE Model Curricula, NCO-2015 &amp; NSDC National Occupational Standards.
-              </div>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-            <span
-              style={{
-                fontSize: "10px",
-                fontWeight: 700,
-                padding: "3px 9px",
-                borderRadius: "12px",
-                backgroundColor: "var(--bg-surface)",
-                border: "1px solid var(--border-subtle)",
-                color: "var(--text-secondary)",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "5px",
-              }}
-            >
-              <ShieldCheck size={12} color="#10b981" />
-              DPDP Act 2023 Compliant (N &lt; 20 Floor)
-            </span>
-
-            <span
-              style={{
-                fontSize: "10px",
-                fontWeight: 700,
-                padding: "3px 9px",
-                borderRadius: "12px",
-                backgroundColor: "var(--bg-surface)",
-                border: "1px solid var(--border-subtle)",
-                color: "var(--text-secondary)",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "5px",
-              }}
-            >
-              <Cpu size={12} color="var(--brand-600)" />
-              Zero-Hallucination Math Standard
-            </span>
-
-            <span
-              style={{
-                fontSize: "10px",
-                fontWeight: 700,
-                padding: "3px 9px",
-                borderRadius: "12px",
-                backgroundColor: "var(--bg-surface)",
-                border: "1px solid var(--border-subtle)",
-                color: "var(--text-secondary)",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "5px",
-              }}
-            >
-              <Lock size={12} color="#a78bfa" />
-              100% Offline Edge Resilient
-            </span>
-          </div>
-        </div>
-      </div>
 
       {/* 2. MAIN DIRECTORY GRID */}
       <div
@@ -180,26 +92,14 @@ export const GlobalFooter: React.FC<GlobalFooterProps> = ({
             India’s unified, deterministic intelligence platform bridging the gap between student competencies, academic curricula, regional economic labor demand, and industry recruitment.
           </p>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
-            <span
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                backgroundColor: "#10b981",
-                boxShadow: "0 0 8px #10b981",
-                display: "inline-block",
-              }}
-            />
-            <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--text-secondary)" }}>
-              Engine Status: All Systems Operational
-            </span>
+          <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+            National Career &amp; Skill Intelligence Platform
           </div>
         </div>
 
         {/* COLUMN 1: STUDENTS */}
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "var(--brand-600)", fontSize: "12px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "var(--brand-600)", fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px" }}>
             <GraduationCap size={14} />
             <span>Students &amp; Job Seekers</span>
           </div>
@@ -211,7 +111,7 @@ export const GlobalFooter: React.FC<GlobalFooterProps> = ({
                 style={{ background: "none", border: "none", padding: 0, color: "var(--text-secondary)", cursor: "pointer", textAlign: "left" }}
                 className="footer-link"
               >
-                Tactile Skill Mastery Studio
+                Skill Matrix Studio
               </button>
             </li>
             <li>
@@ -245,9 +145,8 @@ export const GlobalFooter: React.FC<GlobalFooterProps> = ({
               </button>
             </li>
             <li>
-              <span style={{ color: "var(--text-muted)", display: "inline-flex", alignItems: "center", gap: "4px" }}>
-                <span>Proctored Testing Protocol</span>
-                <span style={{ fontSize: "9px", padding: "1px 5px", borderRadius: "8px", backgroundColor: "rgba(16, 185, 129, 0.2)", color: "#10b981", fontWeight: 800 }}>SOON</span>
+              <span style={{ color: "var(--text-muted)" }}>
+                Diagnostic Testing Engine (Roadmap)
               </span>
             </li>
           </ul>

@@ -182,15 +182,13 @@ export const DOMAIN_CRITICAL_SKILLS: {
   },
 ];
 
-// Holographic Archetype Decks (Instant 1-Click Load)
+// Standardized Career Preset Decks
 const ARCHETYPE_DECKS = [
   {
     id: "fullstack",
-    name: "Full-Stack Dynamo",
-    tagline: "End-to-End Web & High-Throughput APIs",
-    icon: "🌐",
-    color: "#38bdf8",
-    badge: "High Demand",
+    name: "Full-Stack Development",
+    tagline: "Modern web applications, APIs, and databases",
+    color: "var(--brand-600)",
     skills: [
       { name: "React", level: 80 },
       { name: "TypeScript", level: 75 },
@@ -202,11 +200,9 @@ const ARCHETYPE_DECKS = [
   },
   {
     id: "aiml",
-    name: "AI & ML Pioneer",
-    tagline: "Neural Networks, LLMs & Quantitative Math",
-    icon: "🤖",
-    color: "#a78bfa",
-    badge: "Emerging Tech",
+    name: "AI & Machine Learning",
+    tagline: "Neural networks, modeling, and scientific Python",
+    color: "var(--violet-accent)",
     skills: [
       { name: "Python", level: 85 },
       { name: "Machine Learning", level: 75 },
@@ -218,11 +214,9 @@ const ARCHETYPE_DECKS = [
   },
   {
     id: "devops",
-    name: "Cloud & DevOps Architect",
-    tagline: "Containerization, CI/CD & Scale",
-    icon: "☁️",
-    color: "#fbbf24",
-    badge: "Top Compensation",
+    name: "Cloud & DevOps",
+    tagline: "Containerization, infrastructure, and CI/CD",
+    color: "#38bdf8",
     skills: [
       { name: "Docker", level: 80 },
       { name: "Kubernetes", level: 70 },
@@ -234,11 +228,9 @@ const ARCHETYPE_DECKS = [
   },
   {
     id: "data",
-    name: "Data Intelligence Specialist",
-    tagline: "Big Data Pipelines & Enterprise BI",
-    icon: "📊",
-    color: "#f472b6",
-    badge: "Enterprise Core",
+    name: "Data Intelligence",
+    tagline: "Relational pipelines, SQL transforms, and business metrics",
+    color: "#34d399",
     skills: [
       { name: "SQL", level: 85 },
       { name: "Python", level: 75 },
@@ -250,11 +242,9 @@ const ARCHETYPE_DECKS = [
   },
   {
     id: "security",
-    name: "Cyber Defense Guardian",
-    tagline: "Zero Trust, Cryptography & Pentesting",
-    icon: "🔒",
+    name: "Cyber Defense",
+    tagline: "Network security, cryptography, and systems hardening",
     color: "#f87171",
-    badge: "Mission Critical",
     skills: [
       { name: "Linux", level: 85 },
       { name: "Network Security", level: 75 },
@@ -269,9 +259,9 @@ const ARCHETYPE_DECKS = [
 // Smart Skill Synergies map
 const SKILL_SYNERGIES: Record<string, { name: string; gain: string }[]> = {
   React: [
-    { name: "TypeScript", gain: "+18% Role Fit" },
-    { name: "Next.js", gain: "+15% Stack Depth" },
-    { name: "Tailwind CSS", gain: "+12% Velocity" },
+    { name: "TypeScript", gain: "Complementary" },
+    { name: "Next.js", gain: "Complementary" },
+    { name: "Tailwind CSS", gain: "Complementary" },
   ],
   Python: [
     { name: "FastAPI", gain: "+16% API Fit" },
@@ -407,22 +397,22 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
 
     if (skills.length >= 5) {
       if (topDomain.includes("Frontend") && (scores["Backend & Systems"] || 0) > 0.4) {
-        archetype = "🌐 Full-Stack Architect";
+        archetype = "Full-Stack Architect";
       } else if (topDomain.includes("AI")) {
-        archetype = "🧠 AI Systems Specialist";
+        archetype = "AI Systems Specialist";
       } else if (topDomain.includes("Cloud")) {
-        archetype = "☁️ Cloud Platform Engineer";
+        archetype = "Cloud Platform Engineer";
       } else if (topDomain.includes("Security")) {
-        archetype = "🛡️ Cyber Defense Specialist";
+        archetype = "Cyber Defense Specialist";
       } else if (topDomain.includes("Data")) {
-        archetype = "📊 Data Intelligence Engineer";
+        archetype = "Data Intelligence Engineer";
       } else if (topDomain.includes("Backend")) {
-        archetype = "⚙️ Distributed Systems Lead";
+        archetype = "Distributed Systems Lead";
       } else {
-        archetype = "⚡ Polymath Engineer";
+        archetype = "Cross-Disciplinary Technologist";
       }
     } else if (skills.length > 0) {
-      archetype = `Aspiring ${topDomain.split(" ")[0]} Engineer`;
+      archetype = `${topDomain.split(" ")[0]} Engineer`;
     }
 
     return {
@@ -817,7 +807,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
         {/* STEP 2: AWESOME GAMIFIED SKILL MATRIX & ARCHETYPE STUDIO */}
         {step === 2 && (
           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            {/* 1. TOP PROTOCOL SHIELD BANNER */}
+            {/* 1. SECTION HEADER */}
             <div
               style={{
                 display: "flex",
@@ -825,85 +815,39 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                 justifyContent: "space-between",
                 flexWrap: "wrap",
                 gap: "14px",
-                padding: "12px 18px",
-                borderRadius: "12px",
-                backgroundColor: "var(--bg-sunken)",
-                border: "1px solid var(--border-subtle)",
+                paddingBottom: "16px",
+                borderBottom: "1px solid var(--border-subtle)",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "8px",
-                    backgroundColor: "rgba(16, 185, 129, 0.15)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#10b981",
-                  }}
-                >
-                  <ShieldCheck size={18} />
-                </div>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary)" }}>
-                      Pravah Integrity Protocol:
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "11px",
-                        fontWeight: 700,
-                        padding: "1px 8px",
-                        borderRadius: "10px",
-                        backgroundColor: "rgba(96, 165, 250, 0.15)",
-                        color: "var(--brand-600)",
-                      }}
-                    >
-                      Self-Attestation Mode Active
-                    </span>
-                  </div>
-                  <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
-                    Instant calibration mode enabled for rapid role discovery.
-                  </div>
-                </div>
+              <div>
+                <h2 style={{ fontSize: "18px", fontWeight: 700, color: "var(--text-primary)", margin: 0 }}>
+                  Skill Matrix &amp; Proficiency Assessment
+                </h2>
+                <p style={{ fontSize: "13px", color: "var(--text-secondary)", margin: "4px 0 0 0" }}>
+                  Self-attest your competencies or equip a preset to compute deterministic role affinity scores.
+                </p>
               </div>
 
-              {/* VERIFICATION TRIGGER BUTTON */}
+              {/* Verification Roadmap Link */}
               <button
                 type="button"
                 onClick={() => setShowVerificationModal(true)}
-                className="interactive-btn"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "8px",
-                  padding: "8px 16px",
-                  borderRadius: "20px",
-                  backgroundColor: "rgba(16, 185, 129, 0.12)",
-                  border: "1px solid rgba(16, 185, 129, 0.4)",
-                  color: "#10b981",
+                  gap: "6px",
+                  background: "none",
+                  border: "none",
+                  color: "var(--brand-600)",
                   fontSize: "12px",
-                  fontWeight: 800,
+                  fontWeight: 600,
                   cursor: "pointer",
+                  padding: "6px 10px",
+                  borderRadius: "6px",
                 }}
               >
                 <ShieldCheck size={15} />
-                <span>🛡️ Verify via Proctored Quiz</span>
-                <span
-                  style={{
-                    fontSize: "9px",
-                    padding: "2px 6px",
-                    borderRadius: "10px",
-                    backgroundColor: "#10b981",
-                    color: "#ffffff",
-                    fontWeight: 800,
-                    letterSpacing: "0.5px",
-                  }}
-                >
-                  ROADMAP
-                </span>
+                <span>How skill verification works (Roadmap)</span>
               </button>
             </div>
 
@@ -933,19 +877,19 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                 {/* HUD Header */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", zIndex: 2 }}>
                   <div>
-                    <span style={{ fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "1px", color: "var(--brand-600)" }}>
-                      Competency Constellation
+                    <span style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--brand-600)" }}>
+                      Skill Distribution
                     </span>
-                    <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)", margin: "2px 0 0 0" }}>
+                    <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", margin: "2px 0 0 0" }}>
                       {dominantArchetype}
                     </h3>
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "18px", fontWeight: 900, color: "var(--brand-600)", fontFamily: "monospace" }}>
-                      {totalXP} <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)" }}>/ 1000 XP</span>
+                    <div style={{ fontSize: "15px", fontWeight: 700, color: "var(--text-primary)" }}>
+                      {totalXP} <span style={{ fontSize: "12px", fontWeight: 500, color: "var(--text-muted)" }}>/ 1000</span>
                     </div>
-                    <span style={{ fontSize: "10px", fontWeight: 700, color: totalXP >= 600 ? "var(--success)" : "var(--warning)" }}>
-                      {totalXP >= 750 ? "Tier IV: Elite Ready" : totalXP >= 500 ? "Tier III: Industry Qualified" : "Tier II: Developing Core"}
+                    <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-secondary)" }}>
+                      {totalXP >= 750 ? "Advanced Standing" : totalXP >= 500 ? "Qualified" : "Developing Core"}
                     </span>
                   </div>
                 </div>
@@ -1006,7 +950,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                       points={radarPoints.polygonStr}
                       fill="url(#radarGradient)"
                       stroke="var(--brand-600)"
-                      strokeWidth="2.5"
+                      strokeWidth="2"
                       style={{ transition: "all 0.3s ease" }}
                     />
 
@@ -1016,7 +960,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                         key={idx}
                         cx={p.x}
                         cy={p.y}
-                        r="4"
+                        r="3.5"
                         fill="var(--bg-base)"
                         stroke="var(--brand-600)"
                         strokeWidth="2"
@@ -1036,7 +980,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                           x={lx}
                           y={ly}
                           fontSize="9"
-                          fontWeight="700"
+                          fontWeight="600"
                           fill="var(--text-secondary)"
                           textAnchor="middle"
                           dominantBaseline="central"
@@ -1061,26 +1005,26 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                 >
                   <div>
                     <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>Equipped</div>
-                    <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)" }}>
                       {skills.length} Skills
                     </div>
                   </div>
                   <div>
                     <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>Avg Level</div>
-                    <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--brand-600)" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--brand-600)" }}>
                       {avgProficiency}%
                     </div>
                   </div>
                   <div>
                     <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>Domains</div>
-                    <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--success)" }}>
-                      {Object.values(domainScores).filter((s) => s > 0.3).length} / 6 Active
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--success)" }}>
+                      {Object.values(domainScores).filter((s) => s > 0.3).length} / 6
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* 1-CLICK ARCHETYPE DECKS (CARDS) */}
+              {/* 1-CLICK CAREER PRESETS */}
               <div
                 style={{
                   display: "flex",
@@ -1091,11 +1035,11 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
               >
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                    <span style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.8px", color: "var(--text-muted)" }}>
-                      ⚡ Instant Archetype Decks (1-Click Equip)
+                    <span style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted)" }}>
+                      Career Presets
                     </span>
-                    <span style={{ fontSize: "11px", color: "var(--brand-600)", fontWeight: 600 }}>
-                      Pre-calibrated to NOS Standards
+                    <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                      1-click pre-configurations
                     </span>
                   </div>
 
@@ -1109,55 +1053,38 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                           className="interactive-btn"
                           style={{
                             padding: "12px 14px",
-                            borderRadius: "12px",
+                            borderRadius: "10px",
                             backgroundColor: isActive ? "var(--brand-50)" : "var(--bg-sunken)",
                             border: isActive ? `1.5px solid ${deck.color}` : "1px solid var(--border-subtle)",
                             cursor: "pointer",
-                            transition: "all 0.2s ease",
+                            transition: "all 0.15s ease",
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "space-between",
                             gap: "8px",
-                            boxShadow: isActive ? `0 4px 12px ${deck.color}25` : "none",
                           }}
                         >
                           <div>
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
-                              <span style={{ fontSize: "18px" }}>{deck.icon}</span>
-                              <span
-                                style={{
-                                  fontSize: "9px",
-                                  fontWeight: 800,
-                                  padding: "1px 6px",
-                                  borderRadius: "6px",
-                                  backgroundColor: "var(--bg-surface)",
-                                  color: deck.color,
-                                  border: `1px solid ${deck.color}40`,
-                                }}
-                              >
-                                {deck.badge}
-                              </span>
-                            </div>
-                            <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary)" }}>
+                            <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "2px" }}>
                               {deck.name}
                             </div>
-                            <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>
+                            <div style={{ fontSize: "11px", color: "var(--text-secondary)", lineHeight: 1.4 }}>
                               {deck.tagline}
                             </div>
                           </div>
 
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "6px", borderTop: "1px solid var(--border-subtle)" }}>
-                            <span style={{ fontSize: "10px", color: "var(--text-muted)" }}>
-                              {deck.skills.length} core competencies
+                            <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                              {deck.skills.length} skills
                             </span>
                             <span
                               style={{
-                                fontSize: "10px",
-                                fontWeight: 800,
+                                fontSize: "11px",
+                                fontWeight: 600,
                                 color: isActive ? deck.color : "var(--brand-600)",
                               }}
                             >
-                              {isActive ? "✓ Equipped" : "Equip Deck →"}
+                              {isActive ? "Equipped ✓" : "Equip preset →"}
                             </span>
                           </div>
                         </div>
@@ -1166,22 +1093,21 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                   </div>
                 </div>
 
-                {/* AI SYNERGY RECOMMENDATIONS STRIP */}
+                {/* COMPLEMENTARY SKILLS STRIP */}
                 {smartSynergies.length > 0 && (
                   <div
                     style={{
-                      padding: "12px 14px",
+                      padding: "10px 14px",
                       borderRadius: "10px",
                       backgroundColor: "var(--bg-sunken)",
-                      border: "1px solid var(--border-strong)",
+                      border: "1px solid var(--border-subtle)",
                       display: "flex",
                       flexDirection: "column",
-                      gap: "8px",
+                      gap: "6px",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11px", fontWeight: 800, color: "var(--violet-accent)" }}>
-                      <Sparkles size={13} />
-                      <span>RECOMMENDED SYNERGIES FOR YOUR STACK:</span>
+                    <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-secondary)" }}>
+                      Complementary skills:
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                       {smartSynergies.map((syn) => (
@@ -1193,22 +1119,19 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                           style={{
                             display: "inline-flex",
                             alignItems: "center",
-                            gap: "6px",
-                            padding: "4px 10px",
-                            borderRadius: "14px",
+                            gap: "4px",
+                            padding: "3px 9px",
+                            borderRadius: "6px",
                             backgroundColor: "var(--bg-surface)",
-                            border: "1px solid var(--violet-accent)",
+                            border: "1px solid var(--border-strong)",
                             color: "var(--text-primary)",
                             fontSize: "11px",
-                            fontWeight: 700,
+                            fontWeight: 600,
                             cursor: "pointer",
                           }}
                         >
-                          <Plus size={12} color="var(--violet-accent)" />
+                          <Plus size={11} color="var(--brand-600)" />
                           <span>{syn.name}</span>
-                          <span style={{ fontSize: "9px", color: "var(--violet-accent)", opacity: 0.9 }}>
-                            ({syn.gain})
-                          </span>
                         </button>
                       ))}
                     </div>
@@ -1453,20 +1376,8 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                 {/* Header with Clear Action */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)" }}>
-                      Active Competency Pods ({skills.length})
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "11px",
-                        fontWeight: 700,
-                        padding: "2px 8px",
-                        borderRadius: "10px",
-                        backgroundColor: "var(--brand-50)",
-                        color: "var(--brand-600)",
-                      }}
-                    >
-                      Calibrated
+                    <span style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
+                      Assessed Competencies ({skills.length})
                     </span>
                   </div>
 
@@ -1478,8 +1389,8 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                         background: "none",
                         border: "none",
                         color: "var(--danger)",
-                        fontSize: "11px",
-                        fontWeight: 700,
+                        fontSize: "12px",
+                        fontWeight: 600,
                         cursor: "pointer",
                       }}
                     >
@@ -1503,7 +1414,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                     <Compass size={32} style={{ opacity: 0.4, margin: "0 auto 12px auto", display: "block" }} />
                     <p style={{ margin: "0 0 4px 0", fontWeight: 700, fontSize: "14px" }}>No Competencies Equipped</p>
                     <p style={{ margin: 0, fontSize: "12px", color: "var(--text-muted)" }}>
-                      Equip an Archetype Deck above or select competencies from the left catalog.
+                      Equip a career preset above or select competencies from the left catalog.
                     </p>
                   </div>
                 ) : (
@@ -1518,47 +1429,42 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                     }}
                   >
                     {skills.map((skill, index) => {
-                      const tier =
+                      const tierLabel =
                         skill.level >= 85
-                          ? { label: "Master 👑", color: "#a78bfa" }
+                          ? "Advanced"
                           : skill.level >= 65
-                          ? { label: "Advanced 🚀", color: "#34d399" }
+                          ? "Proficient"
                           : skill.level >= 45
-                          ? { label: "Competent ⚡", color: "#38bdf8" }
-                          : { label: "Novice 🌱", color: "#fbbf24" };
+                          ? "Intermediate"
+                          : "Basic";
 
                       return (
                         <div
                           key={skill.name}
                           style={{
                             padding: "12px 14px",
-                            borderRadius: "12px",
+                            borderRadius: "10px",
                             backgroundColor: "var(--bg-surface)",
                             border: "1px solid var(--border-subtle)",
                             display: "flex",
                             flexDirection: "column",
-                            gap: "10px",
-                            boxShadow: "0 2px 6px rgba(0,0,0,0.04)",
+                            gap: "8px",
                           }}
                         >
                           {/* Pod Top Bar */}
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                              <span style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary)" }}>
+                              <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)" }}>
                                 {skill.name}
                               </span>
                               <span
                                 style={{
-                                  fontSize: "10px",
-                                  fontWeight: 800,
-                                  padding: "1px 7px",
-                                  borderRadius: "8px",
-                                  backgroundColor: "var(--bg-sunken)",
-                                  color: tier.color,
-                                  border: `1px solid ${tier.color}35`,
+                                  fontSize: "11px",
+                                  fontWeight: 500,
+                                  color: "var(--text-muted)",
                                 }}
                               >
-                                {tier.label}
+                                · {tierLabel}
                               </span>
                             </div>
 
@@ -1566,9 +1472,8 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                               <span
                                 style={{
                                   fontSize: "13px",
-                                  fontWeight: 900,
-                                  color: tier.color,
-                                  fontFamily: "monospace",
+                                  fontWeight: 700,
+                                  color: "var(--brand-600)",
                                 }}
                               >
                                 {skill.level}%
@@ -1590,15 +1495,14 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                             </div>
                           </div>
 
-                          {/* 4-STAGE TACTILE SEGMENTED POWER BAR */}
+                          {/* 4-STAGE SEGMENTED LEVEL BUTTONS */}
                           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "4px" }}>
                             {[
-                              { label: "Novice", pct: 25, color: "#fbbf24" },
-                              { label: "Competent", pct: 50, color: "#38bdf8" },
-                              { label: "Advanced", pct: 75, color: "#34d399" },
-                              { label: "Master", pct: 100, color: "#a78bfa" },
+                              { label: "Basic", pct: 25 },
+                              { label: "Intermediate", pct: 50 },
+                              { label: "Proficient", pct: 75 },
+                              { label: "Advanced", pct: 100 },
                             ].map((stage) => {
-                              const isActive = skill.level >= stage.pct - 15;
                               const isExact = Math.abs(skill.level - stage.pct) <= 12;
                               return (
                                 <button
@@ -1607,27 +1511,26 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                                   onClick={() => handleUpdateLevel(index, stage.pct)}
                                   className="interactive-btn"
                                   style={{
-                                    padding: "6px 4px",
+                                    padding: "5px 4px",
                                     borderRadius: "6px",
-                                    backgroundColor: isActive ? stage.color : "var(--bg-sunken)",
-                                    border: isExact ? `1.5px solid ${stage.color}` : "1px solid var(--border-subtle)",
-                                    color: isActive ? "#0B1020" : "var(--text-muted)",
-                                    fontSize: "10px",
-                                    fontWeight: 800,
+                                    backgroundColor: isExact ? "var(--brand-50)" : "var(--bg-sunken)",
+                                    border: isExact ? "1px solid var(--brand-600)" : "1px solid var(--border-subtle)",
+                                    color: isExact ? "var(--brand-600)" : "var(--text-secondary)",
+                                    fontSize: "11px",
+                                    fontWeight: isExact ? 700 : 500,
                                     cursor: "pointer",
                                     textAlign: "center",
                                     transition: "all 0.15s ease",
-                                    boxShadow: isExact ? `0 2px 8px ${stage.color}35` : "none",
                                   }}
                                 >
-                                  {stage.label} ({stage.pct}%)
+                                  {stage.label}
                                 </button>
                               );
                             })}
                           </div>
 
                           {/* MICRO FINE-TUNING SLIDER */}
-                          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px", paddingTop: "2px" }}>
                             <button
                               type="button"
                               onClick={() => handleUpdateLevel(index, skill.level - 5)}
@@ -1636,10 +1539,10 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                                 border: "1px solid var(--border-strong)",
                                 color: "var(--text-secondary)",
                                 borderRadius: "4px",
-                                width: "22px",
+                                width: "20px",
                                 height: "20px",
                                 fontSize: "11px",
-                                fontWeight: 800,
+                                fontWeight: 700,
                                 cursor: "pointer",
                               }}
                             >
@@ -1656,7 +1559,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                                 flex: 1,
                                 height: "4px",
                                 borderRadius: "2px",
-                                accentColor: tier.color,
+                                accentColor: "var(--brand-600)",
                                 cursor: "pointer",
                               }}
                             />
@@ -1668,10 +1571,10 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                                 border: "1px solid var(--border-strong)",
                                 color: "var(--text-secondary)",
                                 borderRadius: "4px",
-                                width: "22px",
+                                width: "20px",
                                 height: "20px",
                                 fontSize: "11px",
-                                fontWeight: 800,
+                                fontWeight: 700,
                                 cursor: "pointer",
                               }}
                             >
@@ -1686,13 +1589,13 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
               </div>
             </div>
 
-            {/* 4. REAL-TIME NATIONAL MARKET MAGNET HUD */}
+            {/* 4. REAL-TIME NATIONAL MARKET ALIGNMENT BAR */}
             <div
               style={{
                 padding: "16px 20px",
-                borderRadius: "14px",
+                borderRadius: "12px",
                 backgroundColor: "var(--bg-sunken)",
-                border: "1px solid var(--border-strong)",
+                border: "1px solid var(--border-subtle)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -1701,47 +1604,18 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div
-                  style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "10px",
-                    backgroundColor: "rgba(96, 165, 250, 0.15)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "var(--brand-600)",
-                  }}
-                >
-                  <TrendingUp size={20} />
-                </div>
+                <TrendingUp size={18} color="var(--brand-600)" />
                 <div>
-                  <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span>National Career Alignment Real-Time HUD</span>
-                    {localRoleRankings.length > 0 && (
-                      <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--brand-600)" }}>
-                        (Top Match: {localRoleRankings[0].role.title} · {localRoleRankings[0].score}%)
-                      </span>
-                    )}
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)" }}>
+                    {localRoleRankings.length > 0
+                      ? `Projected Alignment: ${localRoleRankings[0].role.title} (${localRoleRankings[0].score}% match)`
+                      : "Equip at least 3 competencies to predict role alignment"}
                   </div>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "4px" }}>
-                    {localRoleRankings.slice(0, 3).map((item) => (
-                      <span
-                        key={item.role.slug}
-                        style={{
-                          fontSize: "10px",
-                          fontWeight: 700,
-                          padding: "2px 8px",
-                          borderRadius: "8px",
-                          backgroundColor: "var(--bg-surface)",
-                          border: "1px solid var(--border-subtle)",
-                          color: item.score >= 70 ? "var(--success)" : "var(--text-secondary)",
-                        }}
-                      >
-                        {item.role.title}: {item.score}%
-                      </span>
-                    ))}
-                  </div>
+                  {localRoleRankings.length > 1 && (
+                    <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "2px" }}>
+                      Other potential fits: {localRoleRankings.slice(1, 3).map((r) => `${r.role.title} (${r.score}%)`).join(", ")}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -1752,12 +1626,12 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                   onClick={() => setStep(1)}
                   style={{
                     padding: "10px 18px",
-                    borderRadius: "10px",
+                    borderRadius: "8px",
                     backgroundColor: "var(--bg-surface)",
                     border: "1px solid var(--border-strong)",
                     color: "var(--text-primary)",
                     fontSize: "13px",
-                    fontWeight: 700,
+                    fontWeight: 600,
                     cursor: "pointer",
                   }}
                 >
@@ -1775,16 +1649,15 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "8px",
-                    padding: "10px 24px",
-                    borderRadius: "10px",
+                    padding: "10px 22px",
+                    borderRadius: "8px",
                     backgroundColor: "var(--brand-600)",
                     color: "#ffffff",
                     fontSize: "13px",
-                    fontWeight: 800,
+                    fontWeight: 700,
                     border: "none",
                     cursor: skills.length >= 3 ? "pointer" : "not-allowed",
                     opacity: skills.length >= 3 ? 1 : 0.45,
-                    boxShadow: skills.length >= 3 ? "0 4px 14px rgba(96, 165, 250, 0.3)" : "none",
                   }}
                 >
                   <span>Predict Top Roles</span>
@@ -2063,25 +1936,11 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                   <ShieldCheck size={26} />
                 </div>
                 <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <h3 style={{ fontSize: "17px", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
-                      Pravah Verified Candidate Protocol
-                    </h3>
-                    <span
-                      style={{
-                        fontSize: "10px",
-                        fontWeight: 800,
-                        padding: "2px 7px",
-                        borderRadius: "10px",
-                        backgroundColor: "rgba(16, 185, 129, 0.2)",
-                        color: "#10b981",
-                      }}
-                    >
-                      H2 2026 ROADMAP
-                    </span>
-                  </div>
+                  <h3 style={{ fontSize: "17px", fontWeight: 700, margin: 0, color: "var(--text-primary)" }}>
+                    Skill Verification &amp; Diagnostic Protocol (Roadmap)
+                  </h3>
                   <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "2px" }}>
-                    Automated trust, diagnostic assessment, and tamper-proof verification blueprint.
+                    Automated assessment, sandbox evaluation, and credential verification blueprint.
                   </div>
                 </div>
               </div>

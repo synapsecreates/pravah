@@ -306,64 +306,8 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
           )}
         </div>
 
-        {/* Right Section: Offline Engine Pill, Global Theme Selector, and Actions */}
-        <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
-          {/* Deterministic Offline Math Engine Badge */}
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              fontSize: "11px",
-              fontWeight: 600,
-              color: "#16a34a",
-              backgroundColor: "rgba(22, 163, 74, 0.08)",
-              padding: "4px 10px",
-              borderRadius: "16px",
-              border: "1px solid rgba(22, 163, 74, 0.25)",
-            }}
-            title="Pravah executes all matching, gap calculations, and heatmaps locally with zero cloud API dependency."
-          >
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                backgroundColor: "#16a34a",
-                display: "inline-block",
-              }}
-            />
-            <span>Offline Math Engine</span>
-          </div>
-
-          {/* If on landing, show Explore Portals Quick Action Button */}
-          {showLanding && (
-            <button
-              type="button"
-              onClick={() => {
-                onNavigateToSection && onNavigateToSection("portals");
-              }}
-              className="interactive-btn"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "6px 14px",
-                borderRadius: "8px",
-                backgroundColor: "var(--brand-50)",
-                border: "1px solid var(--border-strong)",
-                color: "var(--brand-600)",
-                fontSize: "12px",
-                fontWeight: 700,
-                boxShadow: "var(--shadow-elevation)",
-                cursor: "pointer",
-              }}
-            >
-              <span>Explore Portals ↓</span>
-            </button>
-          )}
-
-          {/* TOP-RIGHT THEME TOGGLE BUTTON - AVAILABLE ON EVERY PAGE */}
+        {/* Right Section: Theme Toggle Button */}
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
           <ThemeToggleButton />
         </div>
       </div>
