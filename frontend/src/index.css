@@ -1,6 +1,6 @@
 /* FILE: src/index.css */
-/* PURPOSE: Unified design tokens, 3-theme CSS variables, 3D perspective stage, and Barba transition classes. */
-/* PHASE: 4 | DEPENDS ON: Design tokens (§6) | LAST TOUCHED: Phase 4 */
+/* PURPOSE: Unified design tokens, 3-theme CSS variables, 3D perspective stage, and Framer Motion transition styles. */
+/* PHASE: 8 | DEPENDS ON: Design tokens (§6), motion/react | LAST TOUCHED: Phase 8 */
 
 /* 1. Theme Variables Definition */
 :root,
@@ -157,30 +157,8 @@ code, pre, .font-mono {
   transform: scale(0.98);
 }
 
-/* 5. Barba.js Page Transition Classes */
-/* Outgoing view: 220ms ease-in */
-.barba-leave {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 220ms ease-in, transform 220ms ease-in;
-}
-
-.barba-leave-active {
-  opacity: 0;
-  transform: translateY(-12px);
-}
-
-/* Incoming view: 280ms ease-out */
-.barba-enter {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 280ms ease-out, transform 280ms ease-out;
-}
-
-.barba-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* 5. Framer Motion Transition Classes (orchestrated by RouteTransition.tsx) */
+/* Outgoing view: 220ms ease-in | Incoming view: 280ms ease-out | Stagger: 40ms */
 
 /* Stagger cascade children: 40ms stagger reveal */
 .stagger-item {

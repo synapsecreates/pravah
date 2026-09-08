@@ -1,8 +1,9 @@
 // FILE: src/components/GlobalHeader.tsx
 // PURPOSE: Unified global application header with branding, global theme switcher, offline indicator, and strict hub-and-spoke portal navigation.
-// PHASE: 8 | DEPENDS ON: ThemeSelector.tsx, ThemeContext.tsx, lucide-react | LAST TOUCHED: Phase 8
+// PHASE: 8 | DEPENDS ON: ThemeSelector.tsx, ThemeContext.tsx, lucide-react, motion/react | LAST TOUCHED: Phase 8
 
 import React from "react";
+import { motion } from "motion/react";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import type { PersonaType } from "./PersonaSwitcher";
 import {
@@ -172,9 +173,12 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
             <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
               <span style={{ color: "var(--border-strong)", fontSize: "18px" }}>|</span>
               {/* PRIMARY RETURN TO HUB BUTTON */}
-              <button
+              <motion.button
                 type="button"
                 onClick={onReturnToHub}
+                whileHover={{ y: -3, rotateX: 1 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.16 }}
                 className="interactive-btn"
                 style={{
                   display: "inline-flex",
@@ -193,7 +197,7 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
               >
                 <ArrowLeft size={14} />
                 <span>Return to Portals Hub</span>
-              </button>
+              </motion.button>
 
               {/* Active Portal Badge */}
               <div

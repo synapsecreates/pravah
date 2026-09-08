@@ -1,8 +1,9 @@
 // FILE: src/pages/LandingPage.tsx
 // PURPOSE: Enhanced public landing page featuring national problem statement, 4-stakeholder portal hub, live KPI metrics, deterministic math engine showcase, and DPDP compliance.
-// PHASE: 8 | DEPENDS ON: ThemeContext.tsx, PerspectiveCard.tsx, ThemeSelector.tsx, lucide-react | LAST TOUCHED: Phase 8
+// PHASE: 8 | DEPENDS ON: ThemeContext.tsx, PerspectiveCard.tsx, ThemeSelector.tsx, lucide-react, motion/react | LAST TOUCHED: Phase 8
 
 import React, { useState } from "react";
+import { motion } from "motion/react";
 import { useTheme } from "../context/ThemeContext";
 import { PerspectiveCard } from "../components/PerspectiveCard";
 import type { PersonaType } from "../components/PersonaSwitcher";
@@ -195,9 +196,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             marginBottom: "48px",
           }}
         >
-          <a
+          <motion.a
             href="#portals"
             className="interactive-btn"
+            whileHover={{ y: -3, rotateX: 1 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.16 }}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -215,13 +219,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           >
             <span>Explore 4 Stakeholder Portals</span>
             <ArrowRight size={18} />
-          </a>
+          </motion.a>
 
           {onInstantDemoStudent && (
-            <button
+            <motion.button
               type="button"
               className="interactive-btn"
               onClick={onInstantDemoStudent}
+              whileHover={{ y: -3, rotateX: 1 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.16 }}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -239,7 +246,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             >
               <Sparkles size={16} color="var(--brand-600)" />
               <span>1-Click Student Instant Demo</span>
-            </button>
+            </motion.button>
           )}
         </div>
 
@@ -410,9 +417,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
             </div>
 
-            <button
+            <motion.button
               type="button"
               className="interactive-btn"
+              whileHover={{ y: -3, rotateX: 1 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.16 }}
               style={{
                 width: "100%",
                 padding: "10px 16px",
@@ -431,7 +441,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             >
               <span>Enter Student Portal</span>
               <ArrowRight size={15} />
-            </button>
+            </motion.button>
           </PerspectiveCard>
 
           {/* Card 2: Academic Institution Portal */}
@@ -497,9 +507,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
             </div>
 
-            <button
+            <motion.button
               type="button"
               className="interactive-btn"
+              whileHover={{ y: -3, rotateX: 1 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.16 }}
               style={{
                 width: "100%",
                 padding: "10px 16px",
@@ -518,7 +531,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             >
               <span>Enter Institution Portal</span>
               <ArrowRight size={15} />
-            </button>
+            </motion.button>
           </PerspectiveCard>
 
           {/* Card 3: District Planning Portal (DSDO) */}
@@ -584,9 +597,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
             </div>
 
-            <button
+            <motion.button
               type="button"
               className="interactive-btn"
+              whileHover={{ y: -3, rotateX: 1 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.16 }}
               style={{
                 width: "100%",
                 padding: "10px 16px",
@@ -605,7 +621,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             >
               <span>Enter District Portal</span>
               <ArrowRight size={15} />
-            </button>
+            </motion.button>
           </PerspectiveCard>
 
           {/* Card 4: Industry Hiring Portal */}
@@ -671,9 +687,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
             </div>
 
-            <button
+            <motion.button
               type="button"
               className="interactive-btn"
+              whileHover={{ y: -3, rotateX: 1 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.16 }}
               style={{
                 width: "100%",
                 padding: "10px 16px",
@@ -692,7 +711,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             >
               <span>Enter Employer Portal</span>
               <ArrowRight size={15} />
-            </button>
+            </motion.button>
           </PerspectiveCard>
         </div>
       </section>

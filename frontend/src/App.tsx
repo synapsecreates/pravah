@@ -1,6 +1,6 @@
 // FILE: src/App.tsx
-// PURPOSE: Root application entry wiring ThemeProvider, top judge persona switcher, Barba transitions, LandingPage, OnboardingPage, and AnalysisPortal.
-// PHASE: 5 | DEPENDS ON: ThemeContext.tsx, PersonaSwitcher.tsx, BarbaContainer.tsx, LandingPage.tsx, OnboardingPage.tsx, AnalysisPortal.tsx | LAST TOUCHED: Phase 5
+// PURPOSE: Root application entry wiring ThemeProvider, top judge persona switcher, Framer Motion RouteTransition, LandingPage, OnboardingPage, and AnalysisPortal.
+// PHASE: 8 | DEPENDS ON: ThemeContext.tsx, PersonaSwitcher.tsx, RouteTransition.tsx, LandingPage.tsx, OnboardingPage.tsx, AnalysisPortal.tsx | LAST TOUCHED: Phase 8
 
 import { useState } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -9,7 +9,7 @@ import type { PersonaType } from "./components/PersonaSwitcher";
 import { GlobalHeader } from "./components/GlobalHeader";
 import { GlobalFooter } from "./components/GlobalFooter";
 import { BackendFallbackBanner } from "./components/BackendFallbackBanner";
-import { BarbaContainer } from "./components/BarbaContainer";
+import { RouteTransition } from "./components/RouteTransition";
 import { LandingPage } from "./pages/LandingPage";
 import { OnboardingPage } from "./pages/OnboardingPage";
 import { AnalysisPortal } from "./pages/AnalysisPortal";
@@ -120,9 +120,9 @@ function App() {
           {/* Persistent, Dismissible Backend Unreachable Notification Banner */}
           <BackendFallbackBanner />
 
-          {/* Main Barba Transition Stage */}
+          {/* Main Framer Motion Transition Stage */}
           <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <BarbaContainer transitionKey={showLanding ? "landing" : `persona-${currentPersona}-${studentScreen}`}>
+          <RouteTransition transitionKey={showLanding ? "landing" : `persona-${currentPersona}-${studentScreen}`}>
             {showLanding ? (
               <LandingPage
                 onSelectPersona={(persona) => {
@@ -238,7 +238,7 @@ function App() {
                   >
                     Security principal authenticated with scoped JWT token.
                     <br />
-                    All design tokens, 3D elevation perspectives, and Barba transitions are fully operational.
+                    All design tokens, 3D elevation perspectives, and Framer Motion transitions are fully operational.
                   </p>
 
                   <button
@@ -260,7 +260,7 @@ function App() {
                 </PerspectiveCard>
               </div>
             )}
-          </BarbaContainer>
+          </RouteTransition>
         </main>
 
         {/* Global National-Grade Platform Footer */}

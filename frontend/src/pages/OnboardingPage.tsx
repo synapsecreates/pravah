@@ -1,8 +1,9 @@
 // FILE: src/pages/OnboardingPage.tsx
 // PURPOSE: 3-step student onboarding wizard with interactive SVG Skill Radar, Holographic Archetype Decks, Tactile 4-Stage Mastery Pods, AI Skill Synergies, and Proctored Verification Roadmap.
-// PHASE: 8 | DEPENDS ON: src/api/client.ts, src/types/student.ts, lucide-react | LAST TOUCHED: Phase 8
+// PHASE: 8 | DEPENDS ON: src/api/client.ts, src/types/student.ts, lucide-react, motion/react | LAST TOUCHED: Phase 8
 
 import React, { useState, useEffect, useMemo } from "react";
+import { motion } from "motion/react";
 import {
   User,
   Sparkles,
@@ -774,12 +775,15 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                 <span>Autofill Sample Profile</span>
               </button>
 
-              <button
+              <motion.button
                 type="button"
                 disabled={!isAboutYouComplete}
                 onClick={() => {
                   if (isAboutYouComplete) setStep(2);
                 }}
+                whileHover={isAboutYouComplete ? { y: -3, rotateX: 1 } : undefined}
+                whileTap={isAboutYouComplete ? { scale: 0.98 } : undefined}
+                transition={{ duration: 0.16 }}
                 className="interactive-btn"
                 style={{
                   display: "inline-flex",
@@ -799,7 +803,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
               >
                 <span>Enter Skill Studio</span>
                 <ArrowRight size={16} />
-              </button>
+              </motion.button>
             </div>
           </div>
         )}
@@ -1047,9 +1051,12 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                     {ARCHETYPE_DECKS.map((deck) => {
                       const isActive = activeArchetypeId === deck.id;
                       return (
-                        <div
+                        <motion.div
                           key={deck.id}
                           onClick={() => handleApplyArchetype(deck)}
+                          whileHover={{ y: -3, rotateX: 1 }}
+                          whileTap={{ scale: 0.98 }}
+                          transition={{ duration: 0.16 }}
                           className="interactive-btn"
                           style={{
                             padding: "12px 14px",
@@ -1057,7 +1064,6 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                             backgroundColor: isActive ? "var(--brand-50)" : "var(--bg-sunken)",
                             border: isActive ? `1.5px solid ${deck.color}` : "1px solid var(--border-subtle)",
                             cursor: "pointer",
-                            transition: "all 0.15s ease",
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "space-between",
@@ -1087,7 +1093,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                               {isActive ? "Equipped ✓" : "Equip preset →"}
                             </span>
                           </div>
-                        </div>
+                        </motion.div>
                       );
                     })}
                   </div>
@@ -1638,12 +1644,15 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                   ← Back to Bio
                 </button>
 
-                <button
+                <motion.button
                   type="button"
                   disabled={skills.length < 3}
                   onClick={() => {
                     if (skills.length >= 3) setStep(3);
                   }}
+                  whileHover={skills.length >= 3 ? { y: -3, rotateX: 1 } : undefined}
+                  whileTap={skills.length >= 3 ? { scale: 0.98 } : undefined}
+                  transition={{ duration: 0.16 }}
                   className="interactive-btn"
                   style={{
                     display: "inline-flex",
@@ -1662,7 +1671,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                 >
                   <span>Predict Top Roles</span>
                   <ArrowRight size={15} />
-                </button>
+                </motion.button>
               </div>
             </div>
           </div>
@@ -1743,9 +1752,12 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                       : "var(--warning)";
 
                   return (
-                    <div
+                    <motion.div
                       key={role.slug}
                       onClick={() => setSelectedRoleSlug(role.slug)}
+                      whileHover={{ y: -3, rotateX: 1 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.16 }}
                       className="interactive-btn"
                       style={{
                         padding: "16px",
@@ -1823,7 +1835,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                       <div style={{ fontSize: "11px", color: "var(--text-secondary)", lineHeight: "1.4" }}>
                         {role.why_match_rationale}
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -1856,9 +1868,12 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
                 ← Edit Skills
               </button>
 
-              <button
+              <motion.button
                 type="button"
                 onClick={handleFinalSubmit}
+                whileHover={{ y: -3, rotateX: 1 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.16 }}
                 className="interactive-btn"
                 style={{
                   display: "inline-flex",
@@ -1877,7 +1892,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete, onIn
               >
                 <span>Complete Onboarding &amp; Enter Dashboard</span>
                 <ArrowRight size={16} />
-              </button>
+              </motion.button>
             </div>
           </div>
         )}

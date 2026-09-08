@@ -1,40 +1,45 @@
 // FILE: src/components/PerspectiveCard.tsx
-// PURPOSE: Reusable 3D perspective container component implementing tactile hover elevation and anti-box depth.
-// PHASE: 4 | DEPENDS ON: index.css 3D stage classes | LAST TOUCHED: Phase 4
+// PURPOSE: Reusable 3D perspective container component implementing Framer Motion tactile hover elevation (y: -3, rotateX: 1) and tap feel (scale: 0.98).
+// PHASE: 8 | DEPENDS ON: motion/react, index.css | LAST TOUCHED: Phase 8
 
-import React, { useState } from "react";
+import React from "react";
+import { motion, type HTMLMotionProps } from "motion/react";
 
-interface Props {
+interface Props extends Omit<HTMLMotionProps<"div">, "children" | "style"> {
   children: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
   onClick?: () => void;
 }
 
-// Renders an open-stage card with gentle 3D tilt and floating elevation.
-// Replaces rigid nested boxes with tactile physical depth and ambient drop shadows.
-export const PerspectiveCard: React.FC<Props> = ({ children, style, className = "", onClick }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
+// Renders an open-stage card with gentle 3D tilt and floating elevation via Framer Motion.
+export const PerspectiveCard: React.FC<Props> = ({
+  children,
+  style,
+  className = "",
+  onClick,
+  ...rest
+}) => {
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <motion.div
       onClick={onClick}
+      whileHover={{ y: -3, rotateX: 1 }}
+      whileTap={onClick ? { scale: 0.98 } : undefined}
+      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
       className={`perspective-card ${className}`}
       style={{
         padding: "28px",
         backgroundColor: "var(--bg-surface)",
-        border: `1px solid ${isHovered ? "var(--border-strong)" : "var(--border-subtle)"}`,
+        border: "1px solid var(--border-subtle)",
         borderRadius: "16px",
-        boxShadow: isHovered ? "var(--shadow-hover)" : "var(--shadow-elevation)",
-        transform: isHovered ? "translateY(-4px) rotateX(1.2deg) rotateY(-0.4deg)" : "translateY(0) rotateX(0) rotateY(0)",
-        transition: "transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease",
+        boxShadow: "var(--shadow-elevation)",
+        transformStyle: "preserve-3d",
         cursor: onClick ? "pointer" : "default",
         ...style,
       }}
+      {...rest}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
