@@ -20,6 +20,7 @@ interface GlobalHeaderProps {
   currentPersona: PersonaType;
   onReturnToHub: () => void;
   onNavigateToSection?: (sectionId: string) => void;
+  onSwitchPersona?: (persona: PersonaType) => void;
 }
 
 export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
@@ -27,6 +28,7 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
   currentPersona,
   onReturnToHub,
   onNavigateToSection,
+  onSwitchPersona,
 }) => {
   const getPersonaBadge = () => {
     switch (currentPersona) {
@@ -217,6 +219,33 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
                 {personaInfo.icon}
                 <span>{personaInfo.title}</span>
               </div>
+
+              {/* Quick Persona Switcher for Evaluators & Judges */}
+              {onSwitchPersona && (
+                <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                  <select
+                    value={currentPersona}
+                    onChange={(e) => onSwitchPersona(e.target.value as PersonaType)}
+                    aria-label="Switch stakeholder portal"
+                    style={{
+                      padding: "4px 8px",
+                      borderRadius: "6px",
+                      backgroundColor: "var(--bg-sunken)",
+                      border: "1px solid var(--border-strong)",
+                      color: "var(--text-primary)",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      outline: "none",
+                    }}
+                  >
+                    <option value="student">Student Portal</option>
+                    <option value="institution">Institution Portal</option>
+                    <option value="government">District Portal</option>
+                    <option value="employer">Employer Portal</option>
+                  </select>
+                </div>
+              )}
             </div>
           ) : (
             /* Navigation Anchor Links on Landing Page */

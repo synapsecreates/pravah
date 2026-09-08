@@ -1,8 +1,16 @@
 // FILE: src/App.tsx
-// PURPOSE: Root application entry wiring ThemeProvider, top judge persona switcher, Framer Motion RouteTransition, LandingPage, OnboardingPage, and AnalysisPortal.
-// PHASE: 8 | DEPENDS ON: ThemeContext.tsx, PersonaSwitcher.tsx, RouteTransition.tsx, LandingPage.tsx, OnboardingPage.tsx, AnalysisPortal.tsx | LAST TOUCHED: Phase 8
+// PURPOSE: Root application entry wiring React Router DOM client routing (/ landing, /onboarding, /analysis, /college, /district, /employer), Framer Motion RouteTransition, ThemeProvider, and BackendStatusProvider.
+// PHASE: 8 | DEPENDS ON: react-router-dom, ThemeContext.tsx, BackendStatusContext.tsx, RouteTransition.tsx, LandingPage.tsx, OnboardingPage.tsx, AnalysisPortal.tsx, CollegePortal.tsx, DistrictPortal.tsx, EmployerPortal.tsx | LAST TOUCHED: Phase 8
 
 import { useState } from "react";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { BackendStatusProvider } from "./context/BackendStatusContext";
 import type { PersonaType } from "./components/PersonaSwitcher";
@@ -16,8 +24,6 @@ import { AnalysisPortal } from "./pages/AnalysisPortal";
 import { CollegePortal } from "./pages/CollegePortal";
 import { DistrictPortal } from "./pages/DistrictPortal";
 import { EmployerPortal } from "./pages/EmployerPortal";
-import { PerspectiveCard } from "./components/PerspectiveCard";
-import { Sparkles } from "lucide-react";
 import type { RoleMatchSummary, StudentProfileData } from "./types/student";
 import { ALL_106_ROLES } from "./data/roles_taxonomy";
 import { ANCHOR_ROLES_DATA } from "./api/client";
@@ -60,31 +66,124 @@ const DEFAULT_TARGET_ROLE: RoleMatchSummary = {
   why_match_rationale: "Strong foundation in Python and SQL with high market demand.",
 };
 
-// Root application component managing active persona, view routing, and student state.
-// Coordinates smooth transition between Landing Page, Student Onboarding, and the Analysis Portal.
+const getStoredProfile = (): StudentProfileData => {
+  try {
+    const saved = sessionStorage.getItem("pravah_active_profile");
+    if (saved) return JSON.parse(saved);
+  } catch (_) {}
+  return DEFAULT_DEMO_PROFILE;
+};
+
+const getStoredTargetRole = (): RoleMatchSummary => {
+  try {
+    const saved = sessionStorage.getItem("pravah_active_target_role");
+    if (saved) return JSON.parse(saved);
+  } catch (_) {}
+  return DEFAULT_TARGET_ROLE;
+};
+
+// Persona route redirect handler for /portal/:persona
+const PersonaRedirect = () => {
+  const { persona } = useParams<{ persona: string }>();
+  if (persona === "institution") return <Navigate to="/college" replace />;
+  if (persona === "government") return <Navigate to="/district" replace />;
+  if (persona === "employer") return <Navigate to="/employer" replace />;
+  if (persona === "student") return <Navigate to="/onboarding" replace />;
+  return <Navigate to="/" replace />;
+};
+
 function App() {
-  const [currentPersona, setCurrentPersona] = useState<PersonaType>("student");
-  const [showLanding, setShowLanding] = useState<boolean>(true);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // Student journey screen state: 'onboarding' | 'analysis'
-  const [studentScreen, setStudentScreen] = useState<"onboarding" | "analysis">("onboarding");
-  const [activeProfile, setActiveProfile] = useState<StudentProfileData>(DEFAULT_DEMO_PROFILE);
-  const [activeTargetRole, setActiveTargetRole] = useState<RoleMatchSummary>(DEFAULT_TARGET_ROLE);
+  const [activeProfile, setActiveProfile] = useState<StudentProfileData>(getStoredProfile);
+  const [activeTargetRole, setActiveTargetRole] = useState<RoleMatchSummary>(getStoredTargetRole);
 
-  // Handles wizard completion by persisting student profile and transitioning directly to the Analysis Portal.
+  // Derive persona and landing view directly from active URL route path
+  const getPersonaFromPath = (path: string): PersonaType => {
+    if (path.startsWith("/college") || path.startsWith("/institution")) return "institution";
+    if (path.startsWith("/district") || path.startsWith("/government")) return "government";
+    if (path.startsWith("/employer")) return "employer";
+    return "student";
+  };
+
+  const currentPersona = getPersonaFromPath(location.pathname);
+  const showLanding = location.pathname === "/";
+
+  // Handles persona selection across landing page, header, and footer
+  const handleSelectPersona = (persona: PersonaType) => {
+    switch (persona) {
+      case "student":
+        navigate("/onboarding");
+        break;
+      case "institution":
+        navigate("/college");
+        break;
+      case "government":
+        navigate("/district");
+        break;
+      case "employer":
+        navigate("/employer");
+        break;
+      default:
+        navigate("/");
+        break;
+    }
+  };
+
+  // Handles wizard completion by persisting student profile and transitioning directly to the Analysis Portal
   const handleCompleteOnboarding = (profile: StudentProfileData, role: RoleMatchSummary) => {
     setActiveProfile(profile);
     setActiveTargetRole(role);
-    setStudentScreen("analysis");
+    try {
+      sessionStorage.setItem("pravah_active_profile", JSON.stringify(profile));
+      sessionStorage.setItem("pravah_active_target_role", JSON.stringify(role));
+    } catch (_) {}
+    navigate("/analysis");
   };
 
-  // 1-Click Instant Demo shortcut initializing Demo Student's benchmark dataset and jumping directly to live analysis.
+  // 1-Click Instant Demo shortcut initializing Demo Student's benchmark dataset and jumping directly to live analysis
   const handleInstantDemo = () => {
     setActiveProfile(DEFAULT_DEMO_PROFILE);
     setActiveTargetRole(DEFAULT_TARGET_ROLE);
-    setStudentScreen("analysis");
+    try {
+      sessionStorage.setItem("pravah_active_profile", JSON.stringify(DEFAULT_DEMO_PROFILE));
+      sessionStorage.setItem("pravah_active_target_role", JSON.stringify(DEFAULT_TARGET_ROLE));
+    } catch (_) {}
+    navigate("/analysis");
   };
 
+  const handleSwitchTargetRole = (newRoleSlug: string) => {
+    const foundRole =
+      ALL_106_ROLES.find((r) => r.slug === newRoleSlug) ||
+      ANCHOR_ROLES_DATA.find((r) => r.slug === newRoleSlug);
+    let updatedRole: RoleMatchSummary;
+    if (foundRole) {
+      updatedRole = {
+        role_id: (foundRole as any).id || (foundRole as any).role_id || foundRole.slug,
+        slug: foundRole.slug,
+        title: foundRole.title,
+        domain: foundRole.domain,
+        match_percentage: 0,
+        industry_demand: foundRole.industry_demand,
+        primary_focus: foundRole.primary_focus || (foundRole as any).description || "",
+        why_match_rationale: "Selected benchmark target from national catalog",
+      };
+    } else {
+      updatedRole = {
+        ...activeTargetRole,
+        slug: newRoleSlug,
+        title: newRoleSlug
+          .split("-")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(" "),
+      };
+    }
+    setActiveTargetRole(updatedRole);
+    try {
+      sessionStorage.setItem("pravah_active_target_role", JSON.stringify(updatedRole));
+    } catch (_) {}
+  };
 
   return (
     <ThemeProvider>
@@ -103,10 +202,11 @@ function App() {
           <GlobalHeader
             showLanding={showLanding}
             currentPersona={currentPersona}
-            onReturnToHub={() => setShowLanding(true)}
+            onReturnToHub={() => navigate("/")}
+            onSwitchPersona={handleSelectPersona}
             onNavigateToSection={(sectionId) => {
-              if (!showLanding) {
-                setShowLanding(true);
+              if (location.pathname !== "/") {
+                navigate("/");
               }
               setTimeout(() => {
                 const el = document.getElementById(sectionId);
@@ -120,165 +220,93 @@ function App() {
           {/* Persistent, Dismissible Backend Unreachable Notification Banner */}
           <BackendFallbackBanner />
 
-          {/* Main Framer Motion Transition Stage */}
+          {/* Main Framer Motion Transition Stage wrapping React Router DOM Routes */}
           <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <RouteTransition transitionKey={showLanding ? "landing" : `persona-${currentPersona}-${studentScreen}`}>
-            {showLanding ? (
-              <LandingPage
-                onSelectPersona={(persona) => {
-                  setCurrentPersona(persona);
-                  setShowLanding(false);
-                }}
-                onInstantDemoStudent={() => {
-                  setCurrentPersona("student");
-                  handleInstantDemo();
-                  setShowLanding(false);
-                }}
-              />
-            ) : currentPersona === "student" ? (
-              studentScreen === "onboarding" ? (
-                /* Screen 1: Dedicated Student Onboarding Wizard */
-                <OnboardingPage
-                  onComplete={handleCompleteOnboarding}
-                  onInstantDemo={handleInstantDemo}
+            <RouteTransition transitionKey={location.pathname}>
+              <Routes location={location} key={location.pathname}>
+                {/* 1. Public National Landing Page */}
+                <Route
+                  path="/"
+                  element={
+                    <LandingPage
+                      onSelectPersona={handleSelectPersona}
+                      onInstantDemoStudent={handleInstantDemo}
+                    />
+                  }
                 />
-              ) : (
-                /* Screen 2: Dedicated Separate Analysis Portal Screen */
-                <AnalysisPortal
-                  studentProfile={activeProfile}
-                  targetRole={activeTargetRole}
-                  onBackToOnboarding={() => setStudentScreen("onboarding")}
-                  onSwitchTargetRole={(newRoleSlug) => {
-                    const foundRole =
-                      ALL_106_ROLES.find((r) => r.slug === newRoleSlug) ||
-                      ANCHOR_ROLES_DATA.find((r) => r.slug === newRoleSlug);
-                    if (foundRole) {
-                      setActiveTargetRole({
-                        role_id: (foundRole as any).id || (foundRole as any).role_id || foundRole.slug,
-                        slug: foundRole.slug,
-                        title: foundRole.title,
-                        domain: foundRole.domain,
-                        match_percentage: 0,
-                        industry_demand: foundRole.industry_demand,
-                        primary_focus: foundRole.primary_focus || (foundRole as any).description || "",
-                        why_match_rationale: "Selected benchmark target from national catalog",
-                      });
-                    } else {
-                      setActiveTargetRole((prev) => ({
-                        ...prev,
-                        slug: newRoleSlug,
-                        title: newRoleSlug
-                          .split("-")
-                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                          .join(" "),
-                      }));
-                    }
-                  }}
+
+                {/* 2. Student Persona Routes */}
+                <Route
+                  path="/onboarding"
+                  element={
+                    <OnboardingPage
+                      onComplete={handleCompleteOnboarding}
+                      onInstantDemo={handleInstantDemo}
+                    />
+                  }
                 />
-              )
-            ) : currentPersona === "institution" ? (
-              /* Phase 6: College Portal for University Deans, HODs, and Faculty */
-              <CollegePortal onBackToLanding={() => setShowLanding(true)} />
-            ) : currentPersona === "government" ? (
-              /* Phase 7: District Planning Portal for DSDO */
-              <DistrictPortal onBackToLanding={() => setShowLanding(true)} />
-            ) : currentPersona === "employer" ? (
-              /* Phase 7: Employer Portal for Talent Acquisition & Gemini JD Parsing */
-              <EmployerPortal onBackToLanding={() => setShowLanding(true)} />
-            ) : (
-              /* Other Personas Evaluator Context Card (Phase 7) */
-              <div
-                className="stage-perspective"
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "48px 20px",
-                }}
-              >
-                <PerspectiveCard style={{ maxWidth: "680px", width: "100%", textAlign: "center" }}>
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      padding: "6px 14px",
-                      borderRadius: "20px",
-                      backgroundColor: "var(--brand-50)",
-                      color: "var(--brand-600)",
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      marginBottom: "16px",
-                    }}
-                  >
-                    <Sparkles size={14} />
-                    <span>AUTHENTICATED EVALUATOR CONTEXT</span>
-                  </div>
+                <Route
+                  path="/analysis"
+                  element={
+                    <AnalysisPortal
+                      studentProfile={activeProfile}
+                      targetRole={activeTargetRole}
+                      onBackToOnboarding={() => navigate("/onboarding")}
+                      onSwitchTargetRole={handleSwitchTargetRole}
+                    />
+                  }
+                />
 
-                  <h2
-                    style={{
-                      fontSize: "26px",
-                      fontWeight: 700,
-                      margin: "0 0 12px 0",
-                      color: "var(--text-primary)",
-                      letterSpacing: "-0.5px",
-                    }}
-                  >
-                    {String(currentPersona).toUpperCase()} Context Loaded
-                  </h2>
+                {/* 3. Academic Institution Portal Routes */}
+                <Route
+                  path="/college"
+                  element={<CollegePortal onBackToLanding={() => navigate("/")} />}
+                />
+                <Route
+                  path="/institution"
+                  element={<Navigate to="/college" replace />}
+                />
 
-                  <p
-                    style={{
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.6,
-                      fontSize: "15px",
-                      margin: "0 0 24px 0",
-                    }}
-                  >
-                    Security principal authenticated with scoped JWT token.
-                    <br />
-                    All design tokens, 3D elevation perspectives, and Framer Motion transitions are fully operational.
-                  </p>
+                {/* 4. District Planning Portal Routes */}
+                <Route
+                  path="/district"
+                  element={<DistrictPortal onBackToLanding={() => navigate("/")} />}
+                />
+                <Route
+                  path="/government"
+                  element={<Navigate to="/district" replace />}
+                />
 
-                  <button
-                    type="button"
-                    onClick={() => setShowLanding(true)}
-                    className="interactive-btn"
-                    style={{
-                      padding: "10px 20px",
-                      borderRadius: "10px",
-                      backgroundColor: "var(--brand-600)",
-                      color: "var(--bg-base)",
-                      fontWeight: 700,
-                      fontSize: "14px",
-                      border: "none",
-                    }}
-                  >
-                    Back to Public Landing
-                  </button>
-                </PerspectiveCard>
-              </div>
-            )}
-          </RouteTransition>
-        </main>
+                {/* 5. Industry Employer Portal Routes */}
+                <Route
+                  path="/employer"
+                  element={<EmployerPortal onBackToLanding={() => navigate("/")} />}
+                />
 
-        {/* Global National-Grade Platform Footer */}
-        <GlobalFooter
-          onNavigateToPersona={(persona) => {
-            setCurrentPersona(persona);
-            setShowLanding(false);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-          onReturnToHub={() => {
-            setShowLanding(true);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        />
-      </div>
-    </BackendStatusProvider>
-  </ThemeProvider>
-);
+                {/* 6. Persona Route Segment Aliases */}
+                <Route path="/portal/:persona" element={<PersonaRedirect />} />
+
+                {/* 7. Fallback Catch-All */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </RouteTransition>
+          </main>
+
+          {/* Global National-Grade Platform Footer */}
+          <GlobalFooter
+            onNavigateToPersona={(persona) => {
+              handleSelectPersona(persona);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            onReturnToHub={() => {
+              navigate("/");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
+        </div>
+      </BackendStatusProvider>
+    </ThemeProvider>
+  );
 }
 
 export default App;
