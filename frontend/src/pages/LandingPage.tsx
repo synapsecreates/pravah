@@ -8,6 +8,8 @@ import { useTheme } from "../context/ThemeContext";
 import { PerspectiveCard } from "../components/PerspectiveCard";
 import type { PersonaType } from "../components/PersonaSwitcher";
 import {
+  ChevronDown,
+  ChevronUp,
   GraduationCap,
   Building2,
   MapPin,
@@ -44,6 +46,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   const [interactiveRating, setInteractiveRating] = useState<number>(75);
   const [selectedDiscipline, setSelectedDiscipline] = useState<string>("Computer Science");
   const [hasCriticalSkill, setHasCriticalSkill] = useState<boolean>(true);
+  const [showEquation, setShowEquation] = useState<boolean>(false);
 
   // Compute live sandbox score based on exact formula
   const benchmarkReq = 85;
@@ -62,25 +65,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   const mathInvariants = [
     {
-      index: "01",
+      badge: "Invariance 1",
       title: "Overqualification Capping",
       formula: "min(R_i, B_i)",
       desc: "Excess points in auxiliary or over-practiced skills cannot artificially mask critical gaps in fundamental prerequisites.",
     },
     {
-      index: "02",
+      badge: "Invariance 2",
       title: "Critical Prerequisite Penalty Floor",
       formula: "P_crit = 0.50 (if missing)",
       desc: "Lacking non-negotiable core competencies (e.g. Docker for DevOps) immediately halves overall readiness, preventing misleading high scores.",
     },
     {
-      index: "03",
+      badge: "Invariance 3",
       title: "4-Tier Semantic Weights",
       formula: "W = {1.00, 0.75, 0.45, 0.20}",
       desc: "Critical (1.00), Core (0.75), Supporting (0.45), and Peripheral (0.20) competency tiers prevent soft skills from outweighing technical rigor.",
     },
     {
-      index: "04",
+      badge: "Invariance 4",
       title: "Pedagogical Study Hours Formula",
       formula: "H_i = round(Gap_i × 1.5 × μ_i)",
       desc: "Realistic remedial hours calibrated against AICTE credit frameworks, giving students realistic sprint horizons instead of arbitrary guesses.",
@@ -95,22 +98,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       icon: <Layers size={20} color="#3b82f6" />,
     },
     {
-      value: "0.0%",
-      label: "Hallucination Variance",
-      desc: "Closed-form deterministic linear algebraic scoring",
-      icon: <CheckCircle2 size={20} color="#10b981" />,
+      value: "50",
+      label: "Canonical Competencies",
+      desc: "Industry-calibrated micro-skills with alias resolution",
+      icon: <Cpu size={20} color="#8b5cf6" />,
     },
     {
-      value: "N ≥ 20",
-      label: "DPDP Privacy Floor",
-      desc: "Small cohorts automatically blended with regional baselines",
-      icon: <ShieldCheck size={20} color="#8b5cf6" />,
+      value: "4",
+      label: "Unified Stakeholder Portals",
+      desc: "Students, Colleges, District DSDOs, and Employers",
+      icon: <Building2 size={20} color="#10b981" />,
     },
     {
-      value: "4-Way",
-      label: "Stakeholder Alignment",
-      desc: "Students, Academic Colleges, State DSDOs, and Employers",
-      icon: <TrendingUp size={20} color="#f59e0b" />,
+      value: "0%",
+      label: "Generative Hallucination",
+      desc: "Pure closed-form deterministic mathematics",
+      icon: <Calculator size={20} color="#f59e0b" />,
+    },
+    {
+      value: "100%",
+      label: "Offline Edge Execution",
+      desc: "Runs locally on standalone institutional infrastructure",
+      icon: <ShieldCheck size={20} color="#06b6d4" />,
     },
   ];
 
@@ -812,105 +821,137 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         }}
       >
         <PerspectiveCard style={{ padding: "36px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", marginBottom: "20px" }}>
-            <div>
-              <div
+          <div style={{ display: "flex", alignItems: "center", justifyContent: showEquation ? "space-between" : "flex-end", flexWrap: "wrap", gap: "12px", marginBottom: "20px" }}>
+            {showEquation && (
+              <div>
+                <div
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    color: "var(--brand-600)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px",
+                    marginBottom: "4px",
+                  }}
+                >
+                  Mathematical Integrity
+                </div>
+                <h2 style={{ fontSize: "28px", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
+                  The Deterministic Scoring Equation
+                </h2>
+              </div>
+            )}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+              <button
+                type="button"
+                onClick={() => setShowEquation(!showEquation)}
                 style={{
-                  fontSize: "11px",
-                  fontWeight: 700,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 14px",
+                  borderRadius: "20px",
+                  backgroundColor: "var(--brand-50)",
+                  border: "1px solid var(--border-strong)",
                   color: "var(--brand-600)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
-                  marginBottom: "4px",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
                 }}
               >
-                Mathematical Integrity
-              </div>
-              <h2 style={{ fontSize: "28px", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
-                The Deterministic Scoring Equation
-              </h2>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                color: "var(--brand-600)",
-                fontSize: "13px",
-                fontWeight: 600,
-              }}
-            >
-              <Calculator size={15} />
-              <span>Pure Closed-Form Linear Algebra</span>
-            </div>
-          </div>
+                <Calculator size={15} />
+                <span>{showEquation ? "Hide Math Formula" : "Show Math Formula"}</span>
+                {showEquation ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              </button>
 
-          <p style={{ color: "var(--text-secondary)", fontSize: "15px", lineHeight: 1.65, margin: "0 0 24px 0" }}>
-            Every score in Pravah is calculated through rigorous closed-form equations calibrated against National Occupational
-            Standards (NOS-2015) and AICTE Model Curricula.
-          </p>
-
-          {/* LaTeX Formula Highlight Card */}
-          <div
-            style={{
-              padding: "24px",
-              borderRadius: "12px",
-              backgroundColor: "var(--bg-sunken)",
-              border: "1px solid var(--border-strong)",
-              textAlign: "center",
-              marginBottom: "32px",
-              overflowX: "auto",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "var(--font-mono, monospace)",
-                fontSize: "20px",
-                fontWeight: 700,
-                color: "var(--brand-600)",
-                letterSpacing: "0.5px",
-                marginBottom: "8px",
-              }}
-            >
-              S_readiness = [ Σ (w_i × min(R_i, B_i)) / Σ (w_i × B_i) ] × P_critical × E_degree
-            </div>
-            <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
-              Where w_i = Tier Weight, R_i = Student Rating, B_i = Benchmark Level, P_critical = Prerequisite Penalty, E_degree = Degree Alignment
-            </div>
-          </div>
-
-          {/* The 4 Invariants Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "16px",
-              marginBottom: "32px",
-            }}
-          >
-            {mathInvariants.map((inv, idx) => (
               <div
-                key={idx}
                 style={{
-                  padding: "16px",
-                  borderRadius: "10px",
-                  backgroundColor: "var(--bg-surface)",
-                  border: "1px solid var(--border-subtle)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "6px 14px",
+                  borderRadius: "20px",
+                  backgroundColor: "var(--brand-50)",
+                  color: "var(--brand-600)",
+                  fontSize: "12px",
+                  fontWeight: 700,
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
-                  <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--brand-600)", letterSpacing: "0.05em" }}>
-                    INVARIANT {inv.index}
-                  </span>
-                  <code style={{ fontSize: "12px", color: "var(--text-primary)", fontWeight: 600 }}>{inv.formula}</code>
-                </div>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "4px" }}>
-                  {inv.title}
-                </div>
-                <div style={{ fontSize: "12px", color: "var(--text-secondary)", lineHeight: 1.45 }}>{inv.desc}</div>
+                <Calculator size={15} />
+                <span>Zero LLM Randomness · 100% Deterministic</span>
               </div>
-            ))}
+            </div>
           </div>
+
+          {/* Collapsible Mathematical Breakdown (Subtitle, LaTeX Equation, 4 Invariants Grid) */}
+          {showEquation && (
+            <>
+              <p style={{ color: "var(--text-secondary)", fontSize: "15px", lineHeight: 1.65, margin: "0 0 24px 0" }}>
+                Every score in Pravah is calculated through rigorous closed-form equations calibrated against National Occupational
+                Standards (NOS-2015) and AICTE Model Curricula.
+              </p>
+
+              {/* LaTeX Formula Highlight Card */}
+              <div
+                style={{
+                  padding: "24px",
+                  borderRadius: "12px",
+                  backgroundColor: "var(--bg-sunken)",
+                  border: "1px solid var(--border-strong)",
+                  textAlign: "center",
+                  marginBottom: "32px",
+                  overflowX: "auto",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "20px",
+                    fontWeight: 700,
+                    color: "var(--brand-600)",
+                    letterSpacing: "0.5px",
+                    marginBottom: "8px",
+                  }}
+                >
+                  S_readiness = [ ∑ (w_i · min(R_i, B_i)) / ∑ (w_i · B_i) ] · P_critical · E_degree
+                </div>
+                <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
+                  Where w_i = Tier Weight, R_i = Student Rating, B_i = Benchmark Level, P_critical = Prerequisite Penalty, E_degree = Degree Alignment
+                </div>
+              </div>
+
+              {/* The 4 Invariants Grid */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                  gap: "16px",
+                  marginBottom: "32px",
+                }}
+              >
+                {mathInvariants.map((inv, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "16px",
+                      borderRadius: "10px",
+                      backgroundColor: "var(--bg-surface)",
+                      border: "1px solid var(--border-subtle)",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--brand-600)" }}>{inv.badge}</span>
+                      <code style={{ fontSize: "12px", color: "var(--text-primary)", fontWeight: 700 }}>{inv.formula}</code>
+                    </div>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "4px" }}>
+                      {inv.title}
+                    </div>
+                    <div style={{ fontSize: "12px", color: "var(--text-secondary)", lineHeight: 1.45 }}>{inv.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
 
           {/* Interactive Calculation Sandbox */}
           <div

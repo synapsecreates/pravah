@@ -38,6 +38,95 @@ export const GlobalFooter: React.FC<GlobalFooterProps> = ({
         transition: "background-color 0.25s ease, border-color 0.25s ease",
       }}
     >
+      {/* 1. NATIONAL STANDARDS & COMPLIANCE BANNER */}
+      <div
+        style={{
+          borderBottom: "1px solid var(--border-subtle)",
+          padding: "16px 24px",
+          backgroundColor: "rgba(96, 165, 250, 0.04)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "16px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span style={{ fontSize: "18px" }}>🇮🇳</span>
+            <div>
+              <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-primary)" }}>
+                National Occupational &amp; Curriculum Governance Calibration
+              </div>
+              <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>
+                Benchmarked against AICTE Model Curricula, NCO-2015 &amp; NSDC National Occupational Standards.
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+            <span
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                padding: "3px 9px",
+                borderRadius: "12px",
+                backgroundColor: "var(--bg-surface)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text-secondary)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
+              <ShieldCheck size={12} color="#10b981" />
+              DPDP Act 2023 Compliant (N &lt; 20 Floor)
+            </span>
+
+            <span
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                padding: "3px 9px",
+                borderRadius: "12px",
+                backgroundColor: "var(--bg-surface)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text-secondary)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
+              <Cpu size={12} color="var(--brand-600)" />
+              Zero-Hallucination Math Standard
+            </span>
+
+            <span
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                padding: "3px 9px",
+                borderRadius: "12px",
+                backgroundColor: "var(--bg-surface)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text-secondary)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
+              <Lock size={12} color="#a78bfa" />
+              100% Offline Edge Resilient
+            </span>
+          </div>
+        </div>
+      </div>
+
 
       {/* 2. MAIN DIRECTORY GRID */}
       <div

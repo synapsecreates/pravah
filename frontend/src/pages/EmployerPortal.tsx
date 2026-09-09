@@ -173,9 +173,23 @@ export const EmployerPortal: React.FC<EmployerPortalProps> = ({ onBackToLanding 
       >
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", fontWeight: 700, color: "var(--brand-600)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-              <Briefcase size={14} />
-              Industry Hiring Portal
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "4px 10px",
+                borderRadius: "14px",
+                backgroundColor: "var(--brand-50)",
+                color: "var(--brand-600)",
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+              }}
+            >
+              <Briefcase size={13} />
+              Employer &amp; Industry Hiring Terminal
             </span>
             <span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
               National Skill Registry · Verified Talent Gateway
@@ -287,6 +301,18 @@ export const EmployerPortal: React.FC<EmployerPortalProps> = ({ onBackToLanding 
                 Vetted Candidate Registry (MVP Seed Baseline Active)
               </span>
               
+                          <span
+                style={{
+                  padding: "2px 8px",
+                  borderRadius: "10px",
+                  backgroundColor: "rgba(59, 130, 246, 0.15)",
+                  color: "var(--brand-600)",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                }}
+              >
+                MVP Baseline Mode
+              </span>
             </div>
             <p style={{ margin: 0, fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5 }}>
               Candidate profiles displayed below represent <strong>calibrated benchmark student cohorts</strong> (from NIT Raipur, GGV Bilaspur, IIIT Bangalore, COEP Pune, and IIIT Hyderabad). In production deployment, candidates are <strong>formulated from direct student onboarding inputs, coding submissions, and proctored technical diagnostic assessments</strong>. All student data adheres to DPDP blind anonymity standards.
@@ -809,6 +835,18 @@ export const EmployerPortal: React.FC<EmployerPortalProps> = ({ onBackToLanding 
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
               <div>
+                <span
+                  style={{
+                    padding: "3px 8px",
+                    borderRadius: "6px",
+                    backgroundColor: "var(--brand-50)",
+                    color: "var(--brand-600)",
+                    fontSize: "11px",
+                    fontWeight: 800,
+                  }}
+                >
+                  Active Shortlist Queue
+                </span>
                 <h3 style={{ margin: "4px 0 0 0", fontSize: "20px", fontWeight: 800, color: "var(--text-primary)" }}>
                   Recruitment Drive Cohort ({shortlistedCandidates.length} Selected)
                 </h3>
@@ -951,6 +989,19 @@ export const EmployerPortal: React.FC<EmployerPortalProps> = ({ onBackToLanding 
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
               <div>
+                <span
+                  style={{
+                    padding: "3px 8px",
+                    borderRadius: "6px",
+                    backgroundColor: "var(--brand-50)",
+                    color: "var(--brand-600)",
+                    fontSize: "11px",
+                    fontWeight: 800,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Deterministic Scoring Framework
+                </span>
                 <h3 style={{ margin: "4px 0 0 0", fontSize: "22px", fontWeight: 800, color: "var(--text-primary)" }}>
                   Pravah Candidate Matching Arithmetic
                 </h3>
